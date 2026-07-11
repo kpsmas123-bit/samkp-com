@@ -12,7 +12,7 @@
   "nav": [
     { "id": "home",       "label": "Home",                  "href": "/" },
     { "id": "consulting", "label": "Consulting",            "href": "/consulting/" },
-    { "id": "labor",      "label": "Labor Terrain research","href": "TODO" },
+    { "id": "labor",      "label": "Labor Terrain research","href": "https://laborterrain.org" },
     { "id": "projects",   "label": "Other projects",        "href": "TODO" },
     { "id": "jobs",       "label": "Jobs Board",            "href": "TODO" }
   ],
