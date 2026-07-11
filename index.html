@@ -44,6 +44,8 @@
   .skip:focus { left: 8px; top: 8px; z-index: 20; background: #fff; padding: 8px 12px; }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
              overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  html { scroll-snap-type: y proximity; scroll-padding-top: 50px; }
+  .snap-anchor { position: absolute; left: 0; width: 1px; height: 1px; scroll-snap-align: start; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -57,6 +59,8 @@
 </header>
 <main id="main">
   <section class="panel" id="home">
+    <span class="snap-anchor" style="top:0"></span>
+    <span class="snap-anchor" style="top:60.3%"></span>
     <h1 class="sr-only">Sam Kaplan Pettus</h1>
     <img src="/assets/page-1.png" alt="Warm collage landing panel. The name &#x27;Sam Kaplan Pettus&#x27; with tape-label buttons for Political consulting, Other projects, Jobs Board, and Labor Terrain research, beside a short about-me introduction." loading="eager" decoding="async">
       <a class="hotspot" style="left:51.5%;top:38.5%;width:19.5%;height:4.5%" href="/consulting/" aria-label="Political consulting"></a>

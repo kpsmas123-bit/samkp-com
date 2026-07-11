@@ -94,6 +94,21 @@ def render_page(page, site, nav, hotspots_map):
         "description": site["meta_description"],
     }, indent=0)
 
+    # Optional scroll-snap: a snap point at the top and at snap.at_pct (% down the art).
+    snap = page.get("snap")
+    snap_css = ""
+    snap_anchors = ""
+    if snap:
+        snap_css = (
+            "\n  html { scroll-snap-type: y proximity; scroll-padding-top: 50px; }"
+            "\n  .snap-anchor { position: absolute; left: 0; width: 1px; height: 1px;"
+            " scroll-snap-align: start; pointer-events: none; }"
+        )
+        snap_anchors = (
+            '    <span class="snap-anchor" style="top:0"></span>\n'
+            f'    <span class="snap-anchor" style="top:{snap.get("at_pct", 50)}%"></span>\n'
+        )
+
     return f"""<!doctype html>
 <html lang="{esc(site.get('lang','en'))}">
 <head>
@@ -132,7 +147,7 @@ def render_page(page, site, nav, hotspots_map):
   .skip {{ position: absolute; left: -9999px; top: 0; }}
   .skip:focus {{ left: 8px; top: 8px; z-index: 20; background: #fff; padding: 8px 12px; }}
   .sr-only {{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-             overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }}
+             overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }}{snap_css}
 </style>
 </head>
 <body>
@@ -145,7 +160,7 @@ def render_page(page, site, nav, hotspots_map):
 </header>
 <main id="main">
   <section class="panel" id="{esc(pid)}">
-    <h1 class="sr-only">{esc(heading)}</h1>
+{snap_anchors}    <h1 class="sr-only">{esc(heading)}</h1>
     <img src="{esc(asset_url(asset))}" alt="{esc(page.get('alt',''))}" loading="eager" decoding="async">
 {hotspots}
 {sr_block}  </section>
