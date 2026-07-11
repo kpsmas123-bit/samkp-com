@@ -48,16 +48,6 @@
           "Digital advertising: design, targeting, strategy."
         ]
       }
-    },
-    {
-      "index": 3,
-      "id": "contact",
-      "asset": "assets/page-3.png",
-      "alt": "Closing panel signed with the name Sam Kaplan Pettus.",
-      "sr_only": {
-        "heading": "Sam Kaplan Pettus",
-        "body": []
-      }
     }
   ]
 }

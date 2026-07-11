@@ -126,10 +126,10 @@ def main():
 <style>
   :root {{ color-scheme: light dark; }}
   * {{ box-sizing: border-box; }}
-  body {{ margin: 0; background: #f4efe6; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }}
-  main {{ max-width: 900px; margin: 0 auto; }}
-  .panel {{ position: relative; }}
-  .panel img {{ display: block; width: 100%; height: auto; }}
+  body {{ margin: 0; background: #e8823a; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }}
+  main {{ width: 100%; }}
+  .panel {{ position: relative; font-size: 0; }}          /* font-size:0 kills the gap under inline images */
+  .panel img {{ display: block; width: 100%; height: auto; }}   /* full-bleed: art spans the viewport, no side whitespace */
   .hotspot {{ position: absolute; display: block; z-index: 2;
              /* transparent by default; uncomment to debug placement:
              background: rgba(255,0,0,.25); outline: 1px solid red; */ }}

@@ -141,12 +141,21 @@ def unwrap(obj, *keys):
     return None
 
 
-def export_all_pages(token):
-    """Export the whole design as PNG; return the list of page image URLs in order."""
+def wanted_page_indices():
+    """The Canva page numbers we actually render, per content.json (single source of truth).
+    Removing a page from content.json also stops it being exported/downloaded."""
+    with open(os.path.join(ROOT, "content.json")) as f:
+        pages = json.load(f)["pages"]
+    return sorted({int(p["index"]) for p in pages})
+
+
+def export_pages(token, indices):
+    """Export the given 1-based page numbers as PNG; return image URLs in page order."""
     job = api_post("/exports", token,
-                   {"design_id": DESIGN_ID, "format": {"type": "png"}})
+                   {"design_id": DESIGN_ID,
+                    "format": {"type": "png", "pages": indices}})
     job_id = unwrap(job, "id")
-    print(f"[export] job {job_id} started; polling...")
+    print(f"[export] job {job_id} started for pages {indices}; polling...")
     for _ in range(60):  # up to ~2 min
         time.sleep(2)
         res = api_get(f"/exports/{job_id}", token)
@@ -160,13 +169,13 @@ def export_all_pages(token):
     die("export did not finish in time")
 
 
-def download(urls):
+def download(urls, indices):
     os.makedirs(ASSETS_DIR, exist_ok=True)
-    for i, url in enumerate(urls, start=1):
-        out = os.path.join(ASSETS_DIR, f"page-{i}.png")
+    for idx, url in zip(indices, urls):
+        out = os.path.join(ASSETS_DIR, f"page-{idx}.png")
         urllib.request.urlretrieve(url, out)
         kb = round(os.path.getsize(out) / 1024, 1)
-        print(f"[download] assets/page-{i}.png ({kb} KB)")
+        print(f"[download] assets/page-{idx}.png ({kb} KB)")
 
 
 def main():
@@ -182,9 +191,10 @@ def main():
             "rotated token isn't lost. Add a GH_PAT secret that can write Actions "
             "secrets, then re-run.")
     token = refresh_access_token()
-    urls = export_all_pages(token)
-    download(urls)
-    print("[done] all pages exported to assets/.")
+    indices = wanted_page_indices()
+    urls = export_pages(token, indices)
+    download(urls, indices)
+    print(f"[done] exported pages {indices} to assets/.")
 
 
 if __name__ == "__main__":
