@@ -1,0 +1,11 @@
+{
+  "_comment": "Clickable link zones over the art, as PERCENTAGES of each page image so they scale responsively. Origin top-left; x/y = top-left corner, w/h = size, all in % of image width/height. Boxes below are calibrated against assets/page-1.png (1366x1841). To visually check placement, uncomment the .hotspot background rule in build_site.py and rebuild. URLs marked TODO are skipped by the build until you set them.",
+  "home": [
+    { "label": "Political consulting",  "url": "#consulting", "x": 51.5, "y": 38.5, "w": 19.5, "h": 4.5 },
+    { "label": "Labor Terrain research","url": "TODO",        "x": 80.5, "y": 36.5, "w": 18.5, "h": 6.0 },
+    { "label": "Other projects",        "url": "TODO",        "x": 77.5, "y": 45.5, "w": 17.5, "h": 4.0 },
+    { "label": "Jobs Board",            "url": "TODO",        "x": 54.5, "y": 49.5, "w": 13.0, "h": 4.0 }
+  ],
+  "consulting": [],
+  "contact": []
+}
