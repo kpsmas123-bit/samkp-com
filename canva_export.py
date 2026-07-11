@@ -174,6 +174,13 @@ def main():
         die("set CANVA_CLIENT_ID and CANVA_CLIENT_SECRET")
     if not DESIGN_ID:
         die("set CANVA_DESIGN_ID")
+    # Fail BEFORE refreshing if we can't persist the rotated token — otherwise the
+    # refresh would rotate the token server-side, we'd fail to save it, and the next
+    # run would die with invalid_grant (silent token death).
+    if IN_CI and not (os.environ.get("GH_PAT") and os.environ.get("GITHUB_REPOSITORY")):
+        die("in CI without GH_PAT/GITHUB_REPOSITORY — refusing to refresh so the "
+            "rotated token isn't lost. Add a GH_PAT secret that can write Actions "
+            "secrets, then re-run.")
     token = refresh_access_token()
     urls = export_all_pages(token)
     download(urls)
