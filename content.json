@@ -9,15 +9,24 @@
     "og_image": "assets/page-1.png",
     "lang": "en"
   },
+  "nav": [
+    { "id": "home",       "label": "Home",                  "href": "/" },
+    { "id": "consulting", "label": "Consulting",            "href": "/consulting/" },
+    { "id": "labor",      "label": "Labor Terrain research","href": "TODO" },
+    { "id": "projects",   "label": "Other projects",        "href": "TODO" },
+    { "id": "jobs",       "label": "Jobs Board",            "href": "TODO" }
+  ],
   "pages": [
     {
       "index": 1,
       "id": "home",
+      "route": "/",
+      "output": "index.html",
       "asset": "assets/page-1.png",
+      "title": "Sam Kaplan Pettus — Political Organizer & Strategist",
       "alt": "Warm collage landing panel. The name 'Sam Kaplan Pettus' with tape-label buttons for Political consulting, Other projects, Jobs Board, and Labor Terrain research, beside a short about-me introduction.",
       "sr_only": {
         "heading": "Sam Kaplan Pettus",
-        "nav_label": "Sections",
         "body": [
           "About me.",
           "I am a political organizer, communicator, and strategist born, raised, and trained in the East Bay area — and very proud of it.",
@@ -29,8 +38,12 @@
     {
       "index": 2,
       "id": "consulting",
+      "route": "/consulting/",
+      "output": "consulting/index.html",
       "asset": "assets/page-2.png",
-      "alt": "Consulting panel describing services: digital tool development, political strategy, messaging strategy, and graphic & digital design, with a note on grassroots organizing.",
+      "title": "Consulting — Sam Kaplan Pettus",
+      "meta_description": "Consulting for grassroots organizers and campaigns: digital tool development, political strategy, messaging strategy, and graphic & digital design.",
+      "alt": "Consulting page describing services: digital tool development, political strategy, messaging strategy, and graphic & digital design, with a portfolio of past campaign work.",
       "sr_only": {
         "heading": "Consulting",
         "body": [

@@ -56,8 +56,12 @@ jobs:
       - name: Assemble _site
         run: |
           mkdir -p _site
-          cp index.html CNAME _site/
           cp -r assets _site/assets
+          cp CNAME index.html _site/
+          # copy every generated page directory (e.g. consulting/) alongside index.html
+          for d in */; do
+            [ -f "$d/index.html" ] && [ "$d" != "assets/" ] && [ "$d" != "_site/" ] && cp -r "$d" "_site/$d" || true
+          done
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
