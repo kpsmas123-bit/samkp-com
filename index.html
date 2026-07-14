@@ -44,8 +44,18 @@
   .skip:focus { left: 8px; top: 8px; z-index: 20; background: #fff; padding: 8px 12px; }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
              overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-  html { scroll-snap-type: y proximity; scroll-padding-top: 50px; }
-  .snap-anchor { position: absolute; left: 0; width: 1px; height: 1px; scroll-snap-align: start; pointer-events: none; }
+  html { scroll-snap-type: y mandatory; scroll-padding-top: 50px; overscroll-behavior-y: contain; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-snap-type: y proximity; } }
+  .snap-zone { position: absolute; left: 0; width: 100%; pointer-events: none; scroll-snap-align: start; scroll-snap-stop: always; }
+  .tw { position: absolute; z-index: 3; pointer-events: none; }
+  .tw-cover { position: absolute; inset: 0; background: rgb(232,117,41); clip-path: inset(0 0 0 100%); }
+  .tw-caret { position: absolute; top: 4%; bottom: 4%; width: 0.6%; background: #1a5036; opacity: 0; }
+  .tw.run .tw-cover { animation: tw-reveal 1.7s steps(15) both; }
+  .tw.run .tw-caret { opacity: 1; animation: tw-move 1.7s steps(15) forwards, tw-blink .7s step-end 1.7s infinite; }
+  @keyframes tw-reveal { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(0 0 0 100%); } }
+  @keyframes tw-move { from { left: 0; } to { left: 99%; } }
+  @keyframes tw-blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .tw { display: none; } }
 </style>
 </head>
 <body>
@@ -60,12 +70,16 @@
 </header>
 <main id="main">
   <section class="panel" id="home">
-    <span class="snap-anchor" style="top:0"></span>
-    <span class="snap-anchor" style="top:58.0%"></span>
+    <span class="snap-zone" style="top:0;height:58.0%"></span>
+    <span class="snap-zone" style="top:58.0%;height:42.0%"></span>
     <h1 class="sr-only">Sam Kaplan Pettus</h1>
     <img src="/assets/page-1.png" alt="Warm collage landing panel. The name &#x27;Sam Kaplan Pettus&#x27; with tape-label buttons for Political consulting, Other projects, Jobs Board, and Labor Terrain research, beside a short about-me introduction." loading="eager" decoding="async">
       <a class="hotspot" style="left:3.5%;top:2.6%;width:15.5%;height:3.2%" href="/consulting/" aria-label="Political consulting"></a>
       <a class="hotspot" style="left:65.5%;top:2.6%;width:21.0%;height:3.8%" href="https://laborterrain.org" aria-label="Labor Terrain research" target="_blank" rel="noopener"></a>
+    <div class="tw" style="left:37.5%;top:63.3%;width:50.5%;height:5.0%" aria-hidden="true">
+      <div class="tw-cover"></div>
+      <div class="tw-caret"></div>
+    </div>
     <div class="sr-only">
       <p>About me.</p>
       <p>I am a political organizer, communicator, and strategist born, raised, and trained in the East Bay area — and very proud of it.</p>
@@ -74,5 +88,6 @@
     </div>
   </section>
 </main>
+<script>(function(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;var t=document.querySelector('.tw');if(!t)return;var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){t.classList.add('run');io.disconnect();}});},{threshold:0.6});io.observe(t);})();</script>
 </body>
 </html>

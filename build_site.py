@@ -94,19 +94,61 @@ def render_page(page, site, nav, hotspots_map):
         "description": site["meta_description"],
     }, indent=0)
 
-    # Optional scroll-snap: a snap point at the top and at snap.at_pct (% down the art).
+    # Optional scroll-snap: two "windows" — top (0..at_pct) and about (at_pct..100).
+    # Real, full-width zones are reliable snap targets; mandatory for a definite snap,
+    # softened to proximity under reduced-motion (per MDN guidance).
     snap = page.get("snap")
     snap_css = ""
     snap_anchors = ""
     if snap:
+        at = snap.get("at_pct", 50)
         snap_css = (
-            "\n  html { scroll-snap-type: y proximity; scroll-padding-top: 50px; }"
-            "\n  .snap-anchor { position: absolute; left: 0; width: 1px; height: 1px;"
-            " scroll-snap-align: start; pointer-events: none; }"
+            "\n  html { scroll-snap-type: y mandatory; scroll-padding-top: 50px; overscroll-behavior-y: contain; }"
+            "\n  @media (prefers-reduced-motion: reduce) { html { scroll-snap-type: y proximity; } }"
+            "\n  .snap-zone { position: absolute; left: 0; width: 100%; pointer-events: none;"
+            " scroll-snap-align: start; scroll-snap-stop: always; }"
         )
         snap_anchors = (
-            '    <span class="snap-anchor" style="top:0"></span>\n'
-            f'    <span class="snap-anchor" style="top:{snap.get("at_pct", 50)}%"></span>\n'
+            f'    <span class="snap-zone" style="top:0;height:{at}%"></span>\n'
+            f'    <span class="snap-zone" style="top:{at}%;height:{100 - at}%"></span>\n'
+        )
+
+    # Optional typewriter reveal over the baked-in art headline: a matched-color cover
+    # wipes left->right in steps() (character-like), with a blinking caret. Triggered
+    # when scrolled into view; hidden entirely under reduced-motion.
+    tw = page.get("typewriter")
+    tw_css = ""
+    tw_html = ""
+    tw_script = ""
+    if tw:
+        dur = tw.get("duration_s", 1.6)
+        steps = tw.get("steps", 15)
+        cover = tw.get("cover", "#e87529")
+        caret = tw.get("caret", "#1a5036")
+        tw_css = (
+            "\n  .tw { position: absolute; z-index: 3; pointer-events: none; }"
+            f"\n  .tw-cover {{ position: absolute; inset: 0; background: {cover}; clip-path: inset(0 0 0 100%); }}"
+            f"\n  .tw-caret {{ position: absolute; top: 4%; bottom: 4%; width: 0.6%; background: {caret}; opacity: 0; }}"
+            f"\n  .tw.run .tw-cover {{ animation: tw-reveal {dur}s steps({steps}) both; }}"
+            f"\n  .tw.run .tw-caret {{ opacity: 1; animation: tw-move {dur}s steps({steps}) forwards, tw-blink .7s step-end {dur}s infinite; }}"
+            "\n  @keyframes tw-reveal { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(0 0 0 100%); } }"
+            "\n  @keyframes tw-move { from { left: 0; } to { left: 99%; } }"
+            "\n  @keyframes tw-blink { 50% { opacity: 0; } }"
+            "\n  @media (prefers-reduced-motion: reduce) { .tw { display: none; } }"
+        )
+        tw_html = (
+            f'    <div class="tw" style="left:{tw["x"]}%;top:{tw["y"]}%;width:{tw["w"]}%;height:{tw["h"]}%" aria-hidden="true">\n'
+            '      <div class="tw-cover"></div>\n'
+            '      <div class="tw-caret"></div>\n'
+            '    </div>\n'
+        )
+        tw_script = (
+            "\n<script>(function(){"
+            "if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;"
+            "var t=document.querySelector('.tw');if(!t)return;"
+            "var io=new IntersectionObserver(function(es){es.forEach(function(e){"
+            "if(e.isIntersecting){t.classList.add('run');io.disconnect();}});},{threshold:0.6});"
+            "io.observe(t);})();</script>"
         )
 
     return f"""<!doctype html>
@@ -147,7 +189,7 @@ def render_page(page, site, nav, hotspots_map):
   .skip {{ position: absolute; left: -9999px; top: 0; }}
   .skip:focus {{ left: 8px; top: 8px; z-index: 20; background: #fff; padding: 8px 12px; }}
   .sr-only {{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-             overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }}{snap_css}
+             overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }}{snap_css}{tw_css}
 </style>
 </head>
 <body>
@@ -163,8 +205,8 @@ def render_page(page, site, nav, hotspots_map):
 {snap_anchors}    <h1 class="sr-only">{esc(heading)}</h1>
     <img src="{esc(asset_url(asset))}" alt="{esc(page.get('alt',''))}" loading="eager" decoding="async">
 {hotspots}
-{sr_block}  </section>
-</main>
+{tw_html}{sr_block}  </section>
+</main>{tw_script}
 </body>
 </html>
 """

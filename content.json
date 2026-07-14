@@ -24,6 +24,7 @@
       "output": "index.html",
       "asset": "assets/page-1.png",
       "snap": { "at_pct": 58.0 },
+      "typewriter": { "x": 37.5, "y": 63.3, "w": 50.5, "h": 5.0, "cover": "rgb(232,117,41)", "caret": "#1a5036", "steps": 15, "duration_s": 1.7 },
       "title": "Sam Kaplan Pettus — Political Organizer & Strategist",
       "alt": "Warm collage landing panel. The name 'Sam Kaplan Pettus' with tape-label buttons for Political consulting, Other projects, Jobs Board, and Labor Terrain research, beside a short about-me introduction.",
       "sr_only": {
