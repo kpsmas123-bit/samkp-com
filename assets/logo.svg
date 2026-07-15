@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 400" role="img" aria-label="Sam Kaplan Pettus">
+  <style>
+    .wm{font-family:'Anton','Impact','Haettenschweiler','Arial Narrow',sans-serif;font-weight:400;
+        fill:#1F3A2E;stroke:#F2B417;stroke-width:5;paint-order:stroke fill;letter-spacing:1px;}
+  </style>
+  <text class="wm" x="20" y="120" font-size="128" textLength="520" lengthAdjust="spacingAndGlyphs">SAM</text>
+  <text class="wm" x="20" y="255" font-size="128" textLength="520" lengthAdjust="spacingAndGlyphs">KAPLAN</text>
+  <text class="wm" x="20" y="390" font-size="128" textLength="520" lengthAdjust="spacingAndGlyphs">PETTUS</text>
+</svg>
