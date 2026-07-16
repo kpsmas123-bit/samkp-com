@@ -67,7 +67,8 @@ nav a:hover{color:var(--accent);opacity:1}
 .sec .kick{font-family:Poppins;font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-top:26px}
 .sec h2{font-size:clamp(34px,6vw,64px);line-height:.9;color:var(--cream);margin:8px 0 24px;text-shadow:var(--sh) var(--sh) 0 var(--sh-color)}
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.card{background:var(--card-bg);border:var(--card-border);border-radius:var(--radius);padding:26px 28px;color:var(--ink);box-shadow:0 12px 26px rgba(10,20,40,.2)}
+.card{background:var(--card-bg);border:var(--card-border);border-radius:var(--radius);padding:26px 28px;color:var(--ink);box-shadow:0 12px 26px rgba(10,20,40,.2);display:block;text-decoration:none;transition:transform .15s,box-shadow .15s}
+a.card:hover{transform:translateY(-3px);box-shadow:0 18px 32px rgba(10,20,40,.28)}
 .card .chead{display:flex;align-items:flex-start;gap:14px}
 .card .no{font-family:var(--h-font),sans-serif;font-size:15px;color:var(--accent);padding-top:4px;transform:rotate(var(--tilt))}
 .card h3{font-size:clamp(20px,3vw,28px);line-height:.98;flex:1;color:var(--ink)}
@@ -90,7 +91,7 @@ nav a:hover{color:var(--accent);opacity:1}
 }
 </style></head>
 <body>
-<nav><a class="brand" href="#top">SKP</a><ul><li><a href="#consulting">Consulting</a></li><li><a href="work.html">Work</a></li><li><a href="#contact">Contact</a></li></ul></nav>
+<nav><a class="brand" href="index.html">SKP</a><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li><li><a href="#contact">Contact</a></li></ul></nav>
 
 <section class="hero" id="top">
   <div class="inner">
@@ -98,29 +99,19 @@ nav a:hover{color:var(--accent);opacity:1}
     <img class="logo" src="assets/logo.svg" alt="Sam Kaplan Pettus">
   </div>
   <div class="portrait"><img src="assets/portrait.png" alt="Sam Kaplan Pettus" fetchpriority="high"></div>
-  <a class="scrollcue" href="#consulting" aria-label="Scroll to content">scroll &darr;</a>
+  <a class="scrollcue" href="#latest" aria-label="Scroll to content">scroll &darr;</a>
 </section>
 
 <main class="content">
   <div class="wrap">
-    <section class="sec" id="consulting">
+    <section class="sec" id="latest">
       <p class="stand reveal-el">Organizer, communicator, and strategist &mdash; born, raised, and trained in the East Bay, and very proud of it.</p>
       <p class="aside reveal-el">These days I run local campaigns, research political and labor data, and build the tools progressive work usually can't afford.</p>
-      <div class="kick reveal-el">Consulting</div>
-      <h2 class="hf reveal-el">What I do</h2>
+      <h2 class="hf reveal-el">Latest Projects</h2>
       <div class="cards">
-        <div class="card reveal-el"><div class="chead"><div class="no">01</div><h3 class="hf">Graphic &amp; Digital Design</h3><div class="kicon">&#9634; icon</div></div><p>Branding, websites, mailers, and merch &mdash; from union print shops, not templates.</p></div>
-        <div class="card reveal-el"><div class="chead"><div class="no">02</div><h3 class="hf">Digital Tool Development</h3><div class="kicon">&#9634; icon</div></div><p>Custom software so your team spends more time in the field, where it counts.</p></div>
-        <div class="card reveal-el"><div class="chead"><div class="no">03</div><h3 class="hf">Messaging Strategy</h3><div class="kicon">&#9634; icon</div></div><p>Turning lived experience into clear, concise communication that cuts through.</p></div>
-        <div class="card reveal-el"><div class="chead"><div class="no">04</div><h3 class="hf">Coalition &amp; Political Strategy</h3><div class="kicon">&#9634; icon</div></div><p>Building the relationships and power that actually win campaigns.</p></div>
+        <a class="card reveal-el" href="consulting.html"><div class="chead"><div class="no">01</div><h3 class="hf">Consulting</h3><div class="kicon">&#9634; icon</div></div><p>Branding, digital tools, messaging, and political strategy &mdash; plus the campaigns we've built.</p></a>
+        <a class="card reveal-el" href="https://laborterrain.org" target="_blank" rel="noopener"><div class="chead"><div class="no">02</div><h3 class="hf">Labor Terrain</h3><div class="kicon">&#9634; icon</div></div><p>Research on political and labor data across the East Bay and beyond.</p></a>
       </div>
-    </section>
-
-    <div class="divider"><div class="rule"></div></div>
-
-    <section class="workcta">
-      <h2 class="hf reveal-el">See the campaigns</h2>
-      <a class="cta reveal-el" href="work.html">The work &rarr;</a>
     </section>
   </div>
 

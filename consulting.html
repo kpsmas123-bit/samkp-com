@@ -1,0 +1,193 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Consulting &amp; Work — Sam Kaplan Pettus</title>
+<meta name="description" content="Consulting for grassroots organizers and campaigns — branding, digital tools, messaging and political strategy — plus the East Bay campaigns Sam Kaplan Pettus has built.">
+<link rel="canonical" href="https://samkp.com/consulting.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Consulting &amp; Work — Sam Kaplan Pettus">
+<meta property="og:description" content="Branding, digital tools, messaging and political strategy — plus the labor-backed East Bay campaigns we've built.">
+<meta property="og:url" content="https://samkp.com/consulting.html">
+<meta property="og:image" content="https://samkp.com/assets/page-1.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231F3A2E'/%3E%3Ctext x='16' y='24' font-family='Anton,Impact,sans-serif' font-size='22' fill='%23F2B417' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@500;600;700;800&family=Archivo:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
+<style>
+:root{ --cream:#EAE1C6; --ink:#26312a; --card-bg:#EAE1C6; --h-font:'Anton'; }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+@media(prefers-reduced-motion:reduce){html{scroll-snap-type:none;scroll-behavior:auto}}
+body{-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.hf{font-family:var(--h-font),sans-serif;font-weight:400;text-transform:uppercase}
+.wrap{max-width:1080px;margin:0 auto;padding:0 34px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* ---- two snap panels ---- */
+.panel{position:relative;min-height:100vh;scroll-snap-align:start}
+.panel > *{position:relative;z-index:1}
+
+/* ORANGE — consulting recipe */
+.panel-consult{--field:#C6572A;--accent:#1F3A2E;--on-accent:#EAE1C6;--sh:1px;--sh-color:#F2B417;--radius:4px;--tilt:1.4deg;
+  background:var(--field);color:var(--cream);font-family:'Lora',Georgia,serif;display:flex;flex-direction:column}
+.panel-consult::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.55;mix-blend-mode:soft-light;background:url("assets/texture.jpg") center/cover fixed}
+
+/* BLUE — work recipe */
+.panel-work{--field:#3C69AC;--accent:#F2B417;--sh:2px;--sh-color:transparent;--radius:3px;--grain:.14;--tilt:1.9deg;
+  background:var(--field);color:var(--ink);font-family:Poppins,system-ui,sans-serif;padding-bottom:10px}
+.panel-work::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:var(--grain);mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ---- nav ---- */
+nav{display:flex;justify-content:space-between;align-items:center;gap:20px;max-width:1080px;margin:0 auto;padding:22px 34px;color:var(--cream)}
+nav .brand{font-weight:800;font-size:20px;text-decoration:none;font-family:Poppins;color:var(--cream)}
+nav ul{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
+nav a{text-decoration:none;font-weight:600;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;font-family:Poppins;color:var(--cream);transition:color .2s,opacity .2s}
+nav a:hover{color:var(--accent);opacity:1}
+
+/* ---- ORANGE: what I do ---- */
+.panel-consult .wrap{flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:10px;padding-bottom:60px}
+.panel-consult .kick{font-family:Poppins;font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.panel-consult h2{font-size:clamp(34px,6vw,64px);line-height:.9;color:var(--cream);margin:8px 0 24px;text-shadow:var(--sh) var(--sh) 0 var(--sh-color)}
+.panel-consult .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel-consult .card{background:var(--card-bg);border-radius:var(--radius);padding:26px 28px;color:var(--ink);box-shadow:0 12px 26px rgba(10,20,40,.2)}
+.panel-consult .card .chead{display:flex;align-items:flex-start;gap:14px}
+.panel-consult .card .no{font-family:var(--h-font),sans-serif;font-size:15px;color:var(--accent);padding-top:4px;transform:rotate(var(--tilt))}
+.panel-consult .card h3{font-size:clamp(20px,3vw,28px);line-height:.98;flex:1;color:var(--ink)}
+.panel-consult .card .kicon{width:44px;height:44px;border-radius:10px;border:2px dashed rgba(38,49,42,.3);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:600;color:rgba(38,49,42,.5);text-align:center;padding:3px;flex-shrink:0;font-family:Poppins;transform:rotate(calc(var(--tilt)*-1))}
+.panel-consult .card p{font-size:15.5px;line-height:1.45;margin:12px 0 2px;color:#33422f}
+
+/* ---- BLUE: work history ---- */
+.panel-work .head{max-width:960px;margin:0 auto;padding:18px 30px 4px;color:var(--cream)}
+.panel-work .head h2{font-family:var(--h-font),sans-serif;font-weight:400;text-transform:uppercase;
+  font-size:clamp(44px,8vw,86px);line-height:.9;color:var(--accent);text-shadow:calc(var(--sh)*1.4) calc(var(--sh)*1.4) 0 var(--sh-color);letter-spacing:.005em}
+.panel-work .head p{font-family:Lora,serif;font-size:17px;max-width:50ch;margin-top:12px;opacity:.92;color:var(--cream)}
+.panel-work .hint{font-weight:600;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-top:12px;color:var(--cream)}
+.panel-work .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:960px;margin:0 auto;padding:14px 30px 26px}
+.panel-work .card{background:var(--card-bg);border-radius:var(--radius);padding:24px 26px;cursor:pointer;color:var(--ink);
+  transition:background-color .3s,border-radius .3s;box-shadow:0 12px 26px rgba(20,12,5,.22);will-change:transform}
+.panel-work .card.is-featured{grid-column:1 / -1;order:-1;cursor:default;padding:32px 36px}
+.panel-work .chead{display:flex;align-items:flex-start;gap:15px}
+.panel-work .chead .no{font-family:var(--h-font),sans-serif;font-size:17px;color:var(--accent);padding-top:4px;transform:rotate(var(--tilt))}
+.panel-work .chead .htext{flex:1}
+.panel-work .chead h3{font-family:var(--h-font),sans-serif;font-weight:400;text-transform:uppercase;
+  font-size:clamp(21px,3.2vw,32px);line-height:.98;color:var(--ink);text-shadow:var(--sh) var(--sh) 0 var(--sh-color)}
+.panel-work .card.is-featured .chead h3{font-size:clamp(30px,4.6vw,46px)}
+.panel-work .chead .office{font-weight:600;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);opacity:.65;margin-top:6px}
+.panel-work .chead .kicon{width:46px;height:46px;border-radius:11px;border:2px dashed rgba(38,49,42,.3);display:flex;align-items:center;justify-content:center;text-align:center;font-size:8px;font-weight:600;color:rgba(38,49,42,.5);flex-shrink:0;padding:3px;transform:rotate(calc(var(--tilt)*-1))}
+.panel-work .more{max-height:0;opacity:0;overflow:hidden}
+.panel-work .card.is-featured .more{max-height:1000px;opacity:1;margin-top:8px}
+.panel-work .blurb{font-family:Lora,serif;font-size:17.5px;line-height:1.5;margin:13px 0 18px;max-width:56ch;color:#33422f}
+.panel-work .work{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:20px}
+.panel-work .cut{aspect-ratio:1/1;border:2px dashed rgba(38,49,42,.28);border-radius:calc(var(--radius) - 2px);background:rgba(46,90,60,.06);display:flex;align-items:center;justify-content:center;text-align:center;padding:9px;font-size:10.5px;font-weight:600;color:rgba(38,49,42,.55)}
+.panel-work .deliv{list-style:none}
+.panel-work .deliv li{display:flex;align-items:center;gap:11px;padding:10px 2px;border-top:1px solid rgba(38,49,42,.16);font-weight:600;font-size:14.5px}
+.panel-work .deliv li:first-child{border-top:0}
+.panel-work .deliv .dicon{width:24px;height:24px;flex-shrink:0;border-radius:6px;border:1.5px dashed rgba(38,49,42,.35);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(38,49,42,.45);transform:rotate(var(--tilt))}
+.panel-work .roster{margin-top:14px;font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);opacity:.6}
+.panel-work .tapline{font-weight:600;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);opacity:.85;margin-top:12px}
+.panel-work .card.is-featured .tapline{display:none}
+.panel-work .foot{text-align:center;padding:22px 30px 90px;color:var(--cream)}
+.panel-work .foot a{color:var(--cream);font-weight:700;text-decoration:none;font-size:18px;border-bottom:3px solid var(--accent)}
+
+@media(max-width:640px){nav ul{display:none}.panel-consult .cards{grid-template-columns:1fr}}
+@media(max-width:560px){.panel-work .grid{grid-template-columns:1fr}.panel-work .work{grid-template-columns:1fr 1fr}}
+</style></head>
+<body>
+<h1 class="sr-only">Consulting and campaign work — Sam Kaplan Pettus</h1>
+
+<section class="panel panel-consult" id="consulting">
+  <nav><a class="brand" href="index.html">SKP</a><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li><li><a href="#contact">Contact</a></li></ul></nav>
+  <div class="wrap">
+    <div class="kick reveal-el">Consulting</div>
+    <h2 class="hf reveal-el">What I do</h2>
+    <div class="cards">
+      <div class="card reveal-el"><div class="chead"><div class="no">01</div><h3 class="hf">Graphic &amp; Digital Design</h3><div class="kicon">&#9634; icon</div></div><p>Branding, websites, mailers, and merch &mdash; from union print shops, not templates.</p></div>
+      <div class="card reveal-el"><div class="chead"><div class="no">02</div><h3 class="hf">Digital Tool Development</h3><div class="kicon">&#9634; icon</div></div><p>Custom software so your team spends more time in the field, where it counts.</p></div>
+      <div class="card reveal-el"><div class="chead"><div class="no">03</div><h3 class="hf">Messaging Strategy</h3><div class="kicon">&#9634; icon</div></div><p>Turning lived experience into clear, concise communication that cuts through.</p></div>
+      <div class="card reveal-el"><div class="chead"><div class="no">04</div><h3 class="hf">Coalition &amp; Political Strategy</h3><div class="kicon">&#9634; icon</div></div><p>Building the relationships and power that actually win campaigns.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel panel-work" id="work">
+  <div class="head">
+    <h2>Campaigns we've built</h2>
+    <p>Identity, message, money, and field for labor-backed East Bay candidates.</p>
+    <div class="hint">Tap a card to open it &#8599;</div>
+  </div>
+
+  <div class="grid" id="grid">
+    <article class="card is-featured">
+      <div class="chead"><div class="no">01</div><div class="htext"><h3>Cecilia Lunaparra</h3><div class="office">Berkeley City Council &middot; D7 &middot; 2024</div></div><div class="kicon">&#9634; icon</div></div>
+      <div class="more"><p class="blurb">Berkeley's toughest turnout district. On staff, I ran the money and the student field program &mdash; and we won.</p>
+        <div class="work"><div class="cut">&#9634; election night</div><div class="cut">&#9634; on the doors</div><div class="cut">&#9634; field team</div></div>
+        <ul class="deliv"><li><span class="dicon">&#9634;</span> Fundraising &amp; a citywide donor network</li><li><span class="dicon">&#9634;</span> Student field &amp; turnout program</li><li><span class="dicon">&#9634;</span> Policy &amp; senior campaign strategy</li></ul>
+        <div class="roster">SEIU &middot; Alameda Labor Council</div></div>
+      <div class="tapline">Open &#8599;</div>
+    </article>
+    <article class="card">
+      <div class="chead"><div class="no">02</div><div class="htext"><h3>Kara Murray-Badal</h3><div class="office">Oakland City Council &middot; D2 &middot; 2025</div></div><div class="kicon">&#9634; icon</div></div>
+      <div class="more"><p class="blurb">Full identity and comms for a first-time candidate in a crowded six-way special.</p>
+        <div class="work"><div class="cut">&#9634; logo</div><div class="cut">&#9634; Chinatown door hanger</div><div class="cut">&#9634; jumbo mailer</div></div>
+        <ul class="deliv"><li><span class="dicon">&#9634;</span> Logo &amp; full visual identity</li><li><span class="dicon">&#9634;</span> Door hangers &mdash; incl. bilingual Chinatown</li><li><span class="dicon">&#9634;</span> Digital ad program</li><li><span class="dicon">&#9634;</span> Mail, yard signs &amp; AAPI materials</li></ul>
+        <div class="roster">SEIU 1021 &middot; IFPTE 21 &middot; AG Bonta</div></div>
+      <div class="tapline">Open &#8599;</div>
+    </article>
+    <article class="card">
+      <div class="chead"><div class="no">03</div><div class="htext"><h3>Sam Gould</h3><div class="office">Emeryville City Council &middot; 2024</div></div><div class="kicon">&#9634; icon</div></div>
+      <div class="more"><p class="blurb">Messaging built from zero, then the print program to carry it.</p>
+        <div class="work"><div class="cut">&#9634; logo</div><div class="cut">&#9634; door hangers</div><div class="cut">&#9634; mailer</div></div>
+        <ul class="deliv"><li><span class="dicon">&#9634;</span> Messaging strategy from scratch</li><li><span class="dicon">&#9634;</span> Logo &amp; wordmark</li><li><span class="dicon">&#9634;</span> Door hangers, mailers &amp; signage</li></ul>
+        <div class="roster">Alameda Labor Council &middot; UNITE HERE 2</div></div>
+      <div class="tapline">Open &#8599;</div>
+    </article>
+    <article class="card">
+      <div class="chead"><div class="no">04</div><div class="htext"><h3>Daria Wrubel</h3><div class="office">Berkeley City Council &middot; D1 &middot; 2026</div></div><div class="kicon">&#9634; icon</div></div>
+      <div class="more"><p class="blurb">Logo and campaign website &mdash; the live one, building right now.</p>
+        <div class="work"><div class="cut">&#9634; logo</div><div class="cut">&#9634; campaign site</div><div class="cut">&#9634; yard sign</div></div>
+        <ul class="deliv"><li><span class="dicon">&#9634;</span> Logo &amp; visual identity</li><li><span class="dicon">&#9634;</span> Website + matching-funds tool</li><li><span class="dicon">&#9634;</span> Launch collateral</li></ul>
+        <div class="roster">Current</div></div>
+      <div class="tapline">Open &#8599;</div>
+    </article>
+    <article class="card">
+      <div class="chead"><div class="no">05</div><div class="htext"><h3>Other work</h3><div class="office">One-offs &middot; East Bay</div></div><div class="kicon">&#9634; icon</div></div>
+      <div class="more"><p class="blurb">Odds and ends &mdash; mailers, marks, and print across the East Bay.</p>
+        <div class="work"><div class="cut">&#9634; Sheng Thao mailer</div><div class="cut">&#9634; DEM mailer</div><div class="cut">&#9634; assorted</div></div>
+        <ul class="deliv"><li><span class="dicon">&#9634;</span> Sheng Thao mailer</li><li><span class="dicon">&#9634;</span> Assorted logos &amp; print</li></ul></div>
+      <div class="tapline">Open &#8599;</div>
+    </article>
+  </div>
+
+  <footer class="foot" id="contact"><a href="mailto:sam@civicvoicepartners.com">sam@civicvoicepartners.com</a></footer>
+</section>
+
+<script>
+gsap.registerPlugin(ScrollTrigger,Flip);
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* scroll-reveal — consulting cards only */
+if(reduce){gsap.set('.reveal-el',{opacity:1,y:0});}
+else{
+  gsap.utils.toArray('.reveal-el').forEach(function(el){
+    gsap.fromTo(el,{opacity:0,y:26},{opacity:1,y:0,duration:.7,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 90%'}});
+  });
+}
+
+/* click-to-feature — work cards only */
+var cards=gsap.utils.toArray('.panel-work .card');
+function feature(card){
+  if(card.classList.contains('is-featured'))return;
+  var state=Flip.getState(cards,{props:'padding,borderRadius'});
+  cards.forEach(function(c){c.classList.remove('is-featured')});
+  card.classList.add('is-featured');
+  Flip.from(state,{duration:reduce?0:0.62,ease:'power2.inOut',absolute:true,nested:true,onComplete:function(){
+    if(!reduce)gsap.fromTo(card.querySelector('.more'),{opacity:0,y:10},{opacity:1,y:0,duration:.32});
+  }});
+}
+cards.forEach(function(c){c.addEventListener('click',function(){feature(c)})});
+</script>
+</body></html>
