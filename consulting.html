@@ -41,7 +41,7 @@ a{color:inherit}
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
 /* ---- nav ---- */
-nav{display:flex;justify-content:space-between;align-items:center;gap:20px;max-width:1080px;margin:0 auto;padding:22px 34px;color:var(--cream);width:100%}
+nav{display:flex;justify-content:center;align-items:center;gap:20px;max-width:1080px;margin:0 auto;padding:22px 34px;color:var(--cream);width:100%}
 nav .brand{font-weight:800;font-size:20px;text-decoration:none;font-family:Poppins;color:var(--cream)}
 nav ul{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
 nav a{text-decoration:none;font-weight:600;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;font-family:Poppins;color:var(--cream);transition:color .2s,opacity .2s}
@@ -300,8 +300,6 @@ nav a:hover{color:var(--accent);opacity:1}
       <div class="more"><p class="blurb">Odds and ends &mdash; mailers, marks, and print across the East Bay.</p>
         <div class="work-strip">
           <div class="work-item"><div class="f-flip" tabindex="0" role="button" aria-label="Sheng Thao anti-recall mailer, click to flip"><div class="flip-inner"><div class="flip-front"><img src="assets/work-samples/17.png" alt="Sheng Thao anti-recall mailer front" loading="lazy"></div><div class="flip-back"><img src="assets/work-samples/18.png" alt="Sheng Thao anti-recall mailer back" loading="lazy"></div></div><div class="flip-tag">Flip &#8635;</div></div><div class="caption">Sheng Thao mailer</div></div>
-          <div class="cut">&#9634; DEM mailer</div>
-          <div class="cut">&#9634; assorted</div>
         </div>
         <ul class="deliv"><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M224 48H32a8 8 0 0 0-8 8v136a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8M98.71 128L40 181.81V74.19Zm11.84 10.85l12 11.05a8 8 0 0 0 10.82 0l12-11.05l58 53.15H52.57ZM157.29 128L216 74.18v107.64Z"/></svg></span> Sheng Thao mailer</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="m243.31 81.36l-68.68-68.68a16 16 0 0 0-22.63 0l-28.44 28.44l-58 21.76a16 16 0 0 0-10.2 12.35l-20.77 124.6a4 4 0 0 0 6.77 3.49l57-57a23.85 23.85 0 0 1-2.29-12.08a24 24 0 1 1 13.6 23.4l-57 57a4 4 0 0 0 3.49 6.77l124.61-20.77a16 16 0 0 0 12.35-10.16l21.77-58.07L243.31 104a16 16 0 0 0 0-22.63ZM208 116.68L139.32 48l24-24L232 92.68Z"/></svg></span> Assorted logos &amp; print</li></ul></div>
       <div class="tapline">Open &#8599;</div>
@@ -438,11 +436,11 @@ document.querySelectorAll('.coalition').forEach(function(coal){
   coal.classList.add('is-clamped');
   var btn=document.createElement('button');
   btn.className='coal-toggle';
-  btn.textContent='See all '+chips.length+' endorsements ▸';
+  btn.textContent='See more ▸';
   btn.addEventListener('click',function(e){
     e.stopPropagation();
     coal.classList.toggle('is-clamped');
-    btn.textContent=coal.classList.contains('is-clamped')?'See all '+chips.length+' endorsements ▸':'Show less ▴';
+    btn.textContent=coal.classList.contains('is-clamped')?'See more ▸':'Show less ▴';
   });
   coal.appendChild(btn);
 });
