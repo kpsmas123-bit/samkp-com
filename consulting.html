@@ -41,7 +41,7 @@ a{color:inherit}
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
 /* ---- nav ---- */
-nav{display:flex;justify-content:space-between;align-items:center;gap:20px;max-width:1080px;margin:0 auto;padding:22px 34px;color:var(--cream)}
+nav{display:flex;justify-content:space-between;align-items:center;gap:20px;max-width:1080px;margin:0 auto;padding:22px 34px;color:var(--cream);width:100%}
 nav .brand{font-weight:800;font-size:20px;text-decoration:none;font-family:Poppins;color:var(--cream)}
 nav ul{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
 nav a{text-decoration:none;font-weight:600;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;font-family:Poppins;color:var(--cream);transition:color .2s,opacity .2s}
@@ -184,6 +184,9 @@ nav a:hover{color:var(--accent);opacity:1}
 .coalition .chip{display:inline-block;padding:4px 12px;border-radius:20px;background:rgba(38,49,42,.09);font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:11.5px;color:var(--ink);white-space:nowrap}
 .coal-group{margin-bottom:10px}
 .coal-sub{display:block;font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);opacity:.4;margin-bottom:5px;margin-top:8px}
+.coalition.is-clamped .chips{max-height:62px;overflow:hidden}
+.coal-toggle{display:inline-block;margin-top:6px;font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.04em;color:var(--accent);cursor:pointer;border:none;background:none;padding:0;text-transform:uppercase;opacity:.7;transition:opacity .15s}
+.coal-toggle:hover{opacity:1}
 
 @media(prefers-reduced-motion:reduce){.f-flip .flip-inner{transition:none}.lb-overlay{transition:none}}
 @media(max-width:640px){nav ul{display:none}.panel-consult .cards{grid-template-columns:1fr}}
@@ -212,7 +215,7 @@ nav a:hover{color:var(--accent);opacity:1}
   <nav><a class="brand" href="index.html">SKP</a><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li></ul></nav>
   <div class="wrap">
     <div class="kick reveal-el">Consulting</div>
-    <h2 class="hf reveal-el">What I do</h2>
+    <h2 class="hf reveal-el">Services I Provide</h2>
     <div class="cards">
       <div class="card reveal-el"><div class="chead"><div class="no">01</div><h3 class="hf">Graphic &amp; Digital Design</h3><div class="kicon"><svg viewBox="0 0 256 256"><path fill="#1F3A2E" d="m243.31 81.36l-68.68-68.68a16 16 0 0 0-22.63 0l-28.44 28.44l-58 21.76a16 16 0 0 0-10.2 12.35l-20.77 124.6a4 4 0 0 0 6.77 3.49l57-57a23.85 23.85 0 0 1-2.29-12.08a24 24 0 1 1 13.6 23.4l-57 57a4 4 0 0 0 3.49 6.77l124.61-20.77a16 16 0 0 0 12.35-10.16l21.77-58.07L243.31 104a16 16 0 0 0 0-22.63ZM208 116.68L139.32 48l24-24L232 92.68Z"/></svg></div></div><p>Branding, websites, mailers, and merch &mdash; from union print shops, not templates.</p></div>
       <div class="card reveal-el"><div class="chead"><div class="no">02</div><h3 class="hf">Digital Tool Development</h3><div class="kicon"><svg viewBox="0 0 256 256"><path fill="#1F3A2E" d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16M92.8 145.6a8 8 0 1 1-9.6 12.8l-32-24a8 8 0 0 1 0-12.8l32-24a8 8 0 0 1 9.6 12.8L69.33 128Zm58.89-71.4l-32 112a8 8 0 1 1-15.38-4.4l32-112a8 8 0 0 1 15.38 4.4m53.11 60.2l-32 24a8 8 0 0 1-9.6-12.8l23.47-17.6l-23.47-17.6a8 8 0 1 1 9.6-12.8l32 24a8 8 0 0 1 0 12.8"/></svg></div></div><p>Custom software so your team spends more time in the field, where it counts.</p></div>
@@ -224,7 +227,7 @@ nav a:hover{color:var(--accent);opacity:1}
 
 <section class="panel panel-work" id="work">
   <div class="head">
-    <h2>Campaigns we've built</h2>
+    <h2>My work so far</h2>
     <p>Identity, message, money, and field for labor-backed East Bay candidates.</p>
     <div class="hint">Tap a card to open it &#8599;</div>
   </div>
@@ -427,6 +430,21 @@ document.querySelectorAll('.work-item').forEach(function(item){
       e.preventDefault();expandItem(item);
     }
   });
+});
+
+document.querySelectorAll('.coalition').forEach(function(coal){
+  var chips=coal.querySelectorAll('.chip');
+  if(chips.length<=8)return;
+  coal.classList.add('is-clamped');
+  var btn=document.createElement('button');
+  btn.className='coal-toggle';
+  btn.textContent='See all '+chips.length+' endorsements ▸';
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    coal.classList.toggle('is-clamped');
+    btn.textContent=coal.classList.contains('is-clamped')?'See all '+chips.length+' endorsements ▸':'Show less ▴';
+  });
+  coal.appendChild(btn);
 });
 </script>
 </body></html>
