@@ -142,12 +142,49 @@ nav a:hover{color:var(--accent);opacity:1}
 .panel-work .foot{text-align:center;padding:22px 30px 90px;color:var(--cream)}
 .panel-work .foot a{color:var(--cream);font-weight:700;text-decoration:none;font-size:18px;border-bottom:3px solid var(--accent)}
 
-@media(prefers-reduced-motion:reduce){.f-flip .flip-inner{transition:none}}
+/* video gallery */
+.vid-gallery{max-width:960px;margin:0 auto;padding:10px 30px 20px}
+.vid-gallery h3{font-family:var(--h-font),sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(24px,4vw,36px);color:var(--accent);letter-spacing:.005em}
+.vid-credit{font-family:Lora,serif;font-size:14px;color:var(--cream);opacity:.85;margin:8px 0 14px;max-width:60ch}
+.vid-credit a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+.vid-thumb{position:relative;cursor:pointer;height:calc(var(--strip-h) - 18px - 12px - 20px);aspect-ratio:16/9;overflow:hidden}
+.vid-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.vid-thumb .play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);transition:background .2s}
+.vid-thumb:hover .play-btn{background:rgba(0,0,0,.5)}
+.play-btn::after{content:'';width:0;height:0;border-style:solid;border-width:16px 0 16px 28px;border-color:transparent transparent transparent #F4EAD2;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+.f-device iframe{height:calc(var(--strip-h) - 18px - 12px - 20px);aspect-ratio:16/9;display:block;border:0}
+
+/* lightbox */
+.lb-overlay{position:fixed;inset:0;z-index:100;background:rgba(8,16,44,.82);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .25s}
+.lb-overlay.is-open{opacity:1;pointer-events:auto}
+.lb-close{position:absolute;top:16px;right:20px;background:none;border:none;color:#F4EAD2;font-size:32px;cursor:pointer;z-index:102;line-height:1;padding:4px 10px;font-family:sans-serif;opacity:.85;transition:opacity .15s}
+.lb-close:hover{opacity:1}
+.lb-body{position:relative;max-width:90vw;max-height:88vh;display:flex;flex-direction:column;align-items:center;gap:12px}
+.lb-body img{max-width:90vw;max-height:80vh;width:auto;height:auto;border:8px solid #F4EAD2;border-radius:8px;box-shadow:0 16px 36px rgba(8,16,44,.5);display:block}
+.lb-body iframe{width:min(90vw,960px);aspect-ratio:16/9;border:8px solid #F4EAD2;border-radius:8px;box-shadow:0 16px 36px rgba(8,16,44,.5)}
+.lb-caption{font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#F4EAD2;opacity:.8}
+.lb-flip-stack{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:start}
+.lb-flip-stack img{max-height:70vh;max-width:44vw}
+.lb-flip-label{font-family:Poppins,system-ui,sans-serif;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#F4EAD2;opacity:.6;text-align:center;margin-top:4px}
+.work-item{position:relative;cursor:pointer}
+.work-item .expand-ico{position:absolute;top:8px;right:8px;z-index:5;width:26px;height:26px;border-radius:50%;background:rgba(15,25,45,.72);color:#F4EAD2;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.work-item:hover .expand-ico{opacity:1}
+
+/* coalition block */
+.coalition{margin-top:16px;padding-top:14px;border-top:1px solid rgba(38,49,42,.16)}
+.coalition h4{font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);opacity:.55;margin-bottom:8px}
+.coalition .chips{display:flex;flex-wrap:wrap;gap:6px}
+.coalition .chip{display:inline-block;padding:4px 12px;border-radius:20px;background:rgba(38,49,42,.09);font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:11.5px;color:var(--ink);white-space:nowrap}
+
+@media(prefers-reduced-motion:reduce){.f-flip .flip-inner{transition:none}.lb-overlay{transition:none}}
 @media(max-width:640px){nav ul{display:none}.panel-consult .cards{grid-template-columns:1fr}}
 @media(max-width:560px){
   .panel-work .grid{grid-template-columns:1fr}
   :root{--strip-h:130px}
+  .lb-flip-stack{flex-direction:column}
+  .lb-flip-stack img{max-width:90vw;max-height:40vh}
 }
+@media(hover:none){.work-item .expand-ico{opacity:.7}}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs>
@@ -192,7 +229,7 @@ nav a:hover{color:var(--accent);opacity:1}
           <div class="cut">&#9634; field team</div>
         </div>
         <ul class="deliv"><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M224 48H32a8 8 0 0 0-8 8v136a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8M98.71 128L40 181.81V74.19Zm11.84 10.85l12 11.05a8 8 0 0 0 10.82 0l12-11.05l58 53.15H52.57ZM157.29 128L216 74.18v107.64Z"/></svg></span> Fundraising &amp; a citywide donor network</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M128 16a88.1 88.1 0 0 0-88 88c0 75.3 80 132.17 83.41 134.55a8 8 0 0 0 9.18 0C136 236.17 216 179.3 216 104a88.1 88.1 0 0 0-88-88m0 56a32 32 0 1 1-32 32a32 32 0 0 1 32-32"/></svg></span> Student field &amp; turnout program</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M221.87 83.16A104.1 104.1 0 1 1 195.67 49l22.67-22.68a8 8 0 0 1 11.32 11.32L167.6 99.71l-37.71 37.71l-23.95 23.95a40 40 0 0 0 62-35.67a8 8 0 1 1 16-.9a56 56 0 0 1-95.5 42.79a56 56 0 0 1 73.13-84.43l22.73-22.77a87.88 87.88 0 1 0 23.13 29.67a8 8 0 0 1 14.44-6.9"/></svg></span> Policy &amp; senior campaign strategy</li></ul>
-        <div class="roster">SEIU &middot; Alameda Labor Council</div></div>
+        <div class="coalition"><h4>The coalition we built:</h4><div class="chips"><span class="chip">SEIU</span><span class="chip">Alameda Labor Council</span></div></div></div>
       <div class="tapline">Open &#8599;</div>
     </article>
     <article class="card">
@@ -209,7 +246,7 @@ nav a:hover{color:var(--accent);opacity:1}
           <div class="work-item"><div class="f-flat"><img src="assets/work-samples/14.png" alt="Community mailer" loading="lazy"></div><div class="caption">Community mailer</div></div>
         </div>
         <ul class="deliv"><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="m243.31 81.36l-68.68-68.68a16 16 0 0 0-22.63 0l-28.44 28.44l-58 21.76a16 16 0 0 0-10.2 12.35l-20.77 124.6a4 4 0 0 0 6.77 3.49l57-57a23.85 23.85 0 0 1-2.29-12.08a24 24 0 1 1 13.6 23.4l-57 57a4 4 0 0 0 3.49 6.77l124.61-20.77a16 16 0 0 0 12.35-10.16l21.77-58.07L243.31 104a16 16 0 0 0 0-22.63ZM208 116.68L139.32 48l24-24L232 92.68Z"/></svg></span> Logo &amp; full visual identity</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M240 96v80a8 8 0 0 1-8 8h-32v32a8 8 0 0 1-8 8H64a8 8 0 0 1-8-8v-32H24a8 8 0 0 1-8-8V96c0-13.23 11.36-24 25.33-24H56V40a8 8 0 0 1 8-8h128a8 8 0 0 1 8 8v32h14.67C228.64 72 240 82.77 240 96M72 72h112V48H72Zm112 88H72v48h112Zm16-44a12 12 0 1 0-12 12a12 12 0 0 0 12-12"/></svg></span> Door hangers &mdash; incl. bilingual Chinatown</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M220.49 190.83a12 12 0 0 1 0 17l-12.69 12.66a12 12 0 0 1-17 0l-56.56-56.57L115 214.09c0 .1-.08.21-.13.32a15.83 15.83 0 0 1-14.6 9.59h-.79a15.83 15.83 0 0 1-14.41-11L32.8 52.92A16 16 0 0 1 52.92 32.8L213 85.07a16 16 0 0 1 1.41 29.8l-.32.13l-50.17 19.27ZM96 32a8 8 0 0 0 8-8v-8a8 8 0 0 0-16 0v8a8 8 0 0 0 8 8m-80 72h8a8 8 0 0 0 0-16h-8a8 8 0 0 0 0 16m108.42-64.84a8 8 0 0 0 10.74-3.58l8-16a8 8 0 0 0-14.31-7.16l-8 16a8 8 0 0 0 3.57 10.74m-96 81.69l-16 8a8 8 0 0 0 7.16 14.31l16-8a8 8 0 1 0-7.16-14.31"/></svg></span> Digital ad program</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M224 48H32a8 8 0 0 0-8 8v136a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8M98.71 128L40 181.81V74.19Zm11.84 10.85l12 11.05a8 8 0 0 0 10.82 0l12-11.05l58 53.15H52.57ZM157.29 128L216 74.18v107.64Z"/></svg></span> Mail, yard signs &amp; AAPI materials</li></ul>
-        <div class="roster">SEIU 1021 &middot; IFPTE 21 &middot; AG Bonta</div></div>
+        <div class="coalition"><h4>The coalition we built:</h4><div class="chips"><span class="chip">SEIU 1021</span><span class="chip">IFPTE 21</span><span class="chip">AG Bonta</span></div></div></div>
       <div class="tapline">Open &#8599;</div>
     </article>
     <article class="card">
@@ -221,7 +258,7 @@ nav a:hover{color:var(--accent);opacity:1}
           <div class="work-item"><div class="f-flat"><img src="assets/work-samples/16.png" alt="Sam Gould yard sign" loading="lazy"></div><div class="caption">Yard sign</div></div>
         </div>
         <ul class="deliv"><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M221.87 83.16A104.1 104.1 0 1 1 195.67 49l22.67-22.68a8 8 0 0 1 11.32 11.32L167.6 99.71l-37.71 37.71l-23.95 23.95a40 40 0 0 0 62-35.67a8 8 0 1 1 16-.9a56 56 0 0 1-95.5 42.79a56 56 0 0 1 73.13-84.43l22.73-22.77a87.88 87.88 0 1 0 23.13 29.67a8 8 0 0 1 14.44-6.9"/></svg></span> Messaging strategy from scratch</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="m243.31 81.36l-68.68-68.68a16 16 0 0 0-22.63 0l-28.44 28.44l-58 21.76a16 16 0 0 0-10.2 12.35l-20.77 124.6a4 4 0 0 0 6.77 3.49l57-57a23.85 23.85 0 0 1-2.29-12.08a24 24 0 1 1 13.6 23.4l-57 57a4 4 0 0 0 3.49 6.77l124.61-20.77a16 16 0 0 0 12.35-10.16l21.77-58.07L243.31 104a16 16 0 0 0 0-22.63ZM208 116.68L139.32 48l24-24L232 92.68Z"/></svg></span> Logo &amp; wordmark</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M240 96v80a8 8 0 0 1-8 8h-32v32a8 8 0 0 1-8 8H64a8 8 0 0 1-8-8v-32H24a8 8 0 0 1-8-8V96c0-13.23 11.36-24 25.33-24H56V40a8 8 0 0 1 8-8h128a8 8 0 0 1 8 8v32h14.67C228.64 72 240 82.77 240 96M72 72h112V48H72Zm112 88H72v48h112Zm16-44a12 12 0 1 0-12 12a12 12 0 0 0 12-12"/></svg></span> Door hangers, mailers &amp; signage</li></ul>
-        <div class="roster">Alameda Labor Council &middot; UNITE HERE 2</div></div>
+        <div class="coalition"><h4>The coalition we built:</h4><div class="chips"><span class="chip">Alameda Labor Council</span><span class="chip">UNITE HERE 2</span></div></div></div>
       <div class="tapline">Open &#8599;</div>
     </article>
     <article class="card">
@@ -235,7 +272,7 @@ nav a:hover{color:var(--accent);opacity:1}
           <div class="work-item"><div class="f-flat"><img src="assets/work-samples/22.png" alt="Daria for Berkeley brand guide" loading="lazy"></div><div class="caption">Brand guide</div></div>
         </div>
         <ul class="deliv"><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="m243.31 81.36l-68.68-68.68a16 16 0 0 0-22.63 0l-28.44 28.44l-58 21.76a16 16 0 0 0-10.2 12.35l-20.77 124.6a4 4 0 0 0 6.77 3.49l57-57a23.85 23.85 0 0 1-2.29-12.08a24 24 0 1 1 13.6 23.4l-57 57a4 4 0 0 0 3.49 6.77l124.61-20.77a16 16 0 0 0 12.35-10.16l21.77-58.07L243.31 104a16 16 0 0 0 0-22.63ZM208 116.68L139.32 48l24-24L232 92.68Z"/></svg></span> Logo &amp; visual identity</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M232 64v112a24 24 0 0 1-24 24H48a24 24 0 0 1-24-24V64a24 24 0 0 1 24-24h160a24 24 0 0 1 24 24m-72 152H96a8 8 0 0 0 0 16h64a8 8 0 0 0 0-16"/></svg></span> Website + matching-funds tool</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M240 96v80a8 8 0 0 1-8 8h-32v32a8 8 0 0 1-8 8H64a8 8 0 0 1-8-8v-32H24a8 8 0 0 1-8-8V96c0-13.23 11.36-24 25.33-24H56V40a8 8 0 0 1 8-8h128a8 8 0 0 1 8 8v32h14.67C228.64 72 240 82.77 240 96M72 72h112V48H72Zm112 88H72v48h112Zm16-44a12 12 0 1 0-12 12a12 12 0 0 0 12-12"/></svg></span> Launch collateral</li></ul>
-        <div class="roster">Current</div></div>
+        <div class="coalition"><h4>The coalition we built:</h4><div class="chips"><span class="chip">Coalition in progress</span></div></div></div>
       <div class="tapline">Open &#8599;</div>
     </article>
     <article class="card">
@@ -251,8 +288,23 @@ nav a:hover{color:var(--accent);opacity:1}
     </article>
   </div>
 
+  <div class="vid-gallery">
+    <h3>Video</h3>
+    <p class="vid-credit">Produced, written &amp; coordinated by Sam Kaplan Pettus. Videography by <a href="https://www.davesuchanek.com/" target="_blank" rel="noopener">Dave Suchanek</a> &mdash; frequent Bay Area collaborator.</p>
+    <div class="work-strip">
+      <div class="work-item" data-vid="LD3Ols5PFXg"><div class="f-device"><div class="chrome"><div class="bar"><i></i><i></i><i></i></div><div class="vid-thumb"><img src="https://img.youtube.com/vi/LD3Ols5PFXg/hqdefault.jpg" alt="Campaign video" loading="lazy"><div class="play-btn" aria-hidden="true"></div></div></div><div class="stand"><div class="stand-neck"></div><div class="stand-base"></div></div></div><div class="caption">Campaign video</div></div>
+      <div class="work-item" data-vid="iKwJpISDKNo"><div class="f-device"><div class="chrome"><div class="bar"><i></i><i></i><i></i></div><div class="vid-thumb"><img src="https://img.youtube.com/vi/iKwJpISDKNo/hqdefault.jpg" alt="Campaign video" loading="lazy"><div class="play-btn" aria-hidden="true"></div></div></div><div class="stand"><div class="stand-neck"></div><div class="stand-base"></div></div></div><div class="caption">Campaign video</div></div>
+      <div class="work-item" data-vid="KsRctf88LmQ"><div class="f-device"><div class="chrome"><div class="bar"><i></i><i></i><i></i></div><div class="vid-thumb"><img src="https://img.youtube.com/vi/KsRctf88LmQ/hqdefault.jpg" alt="Campaign video" loading="lazy"><div class="play-btn" aria-hidden="true"></div></div></div><div class="stand"><div class="stand-neck"></div><div class="stand-base"></div></div></div><div class="caption">Campaign video</div></div>
+    </div>
+  </div>
+
   <footer class="foot" id="contact"><a href="mailto:sam@civicvoicepartners.com">sam@civicvoicepartners.com</a></footer>
 </section>
+
+<div class="lb-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Expanded view">
+  <button class="lb-close" aria-label="Close">&times;</button>
+  <div class="lb-body"></div>
+</div>
 
 <script>
 /* flip card interaction */
@@ -286,5 +338,78 @@ function feature(card){
   card.scrollIntoView({behavior:reduce?'instant':'smooth',block:'start'});
 }
 cards.forEach(function(c){c.addEventListener('click',function(){feature(c)})});
+
+/* lightbox */
+var lb=document.getElementById('lightbox');
+var lbBody=lb.querySelector('.lb-body');
+var lbCloseBtn=lb.querySelector('.lb-close');
+var lbTrigger=null;
+function openLightbox(html,caption){
+  lbBody.innerHTML=html;
+  if(caption)lbBody.insertAdjacentHTML('beforeend','<div class="lb-caption">'+caption+'</div>');
+  lb.classList.add('is-open');
+  document.body.style.overflow='hidden';
+  lbTrigger=document.activeElement;
+  lbCloseBtn.focus();
+}
+function closeLightbox(){
+  lb.classList.remove('is-open');
+  document.body.style.overflow='';
+  lbBody.innerHTML='';
+  if(lbTrigger){lbTrigger.focus();lbTrigger=null;}
+}
+lbCloseBtn.addEventListener('click',closeLightbox);
+lb.addEventListener('click',function(e){if(e.target===lb)closeLightbox();});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&lb.classList.contains('is-open'))closeLightbox();
+});
+lb.addEventListener('keydown',function(e){
+  if(e.key!=='Tab'||!lb.classList.contains('is-open'))return;
+  var foc=lb.querySelectorAll('button,[href],iframe,[tabindex]:not([tabindex="-1"])');
+  if(!foc.length)return;
+  var first=foc[0],last=foc[foc.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+});
+
+function expandItem(item){
+  var caption=(item.querySelector('.caption')||{}).textContent||'';
+  var vid=item.getAttribute('data-vid');
+  var flip=item.querySelector('.f-flip');
+  if(vid){
+    openLightbox('<iframe src="https://www.youtube-nocookie.com/embed/'+vid+'?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>',caption);
+  }else if(flip){
+    var front=flip.querySelector('.flip-front img');
+    var back=flip.querySelector('.flip-back img');
+    var h='<div class="lb-flip-stack">';
+    if(front)h+='<div><img src="'+front.src+'" alt="'+(front.alt||'Front')+'"><div class="lb-flip-label">Front</div></div>';
+    if(back)h+='<div><img src="'+back.src+'" alt="'+(back.alt||'Back')+'"><div class="lb-flip-label">Back</div></div>';
+    h+='</div>';
+    openLightbox(h,caption);
+  }else{
+    var img=item.querySelector('img');
+    if(img)openLightbox('<img src="'+img.src+'" alt="'+(img.alt||'')+'">',caption);
+  }
+}
+
+document.querySelectorAll('.work-item').forEach(function(item){
+  var ico=document.createElement('span');
+  ico.className='expand-ico';
+  ico.setAttribute('aria-hidden','true');
+  ico.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>';
+  item.appendChild(ico);
+  item.setAttribute('tabindex','0');
+  item.setAttribute('role','button');
+  item.setAttribute('aria-label','Expand '+(item.querySelector('.caption')||{textContent:''}).textContent);
+  item.addEventListener('click',function(e){
+    if(e.target.closest('.f-flip'))return;
+    expandItem(item);
+  });
+  item.addEventListener('keydown',function(e){
+    if((e.key==='Enter'||e.key===' ')&&!e.target.closest('.f-flip')){
+      e.preventDefault();expandItem(item);
+    }
+  });
+});
 </script>
 </body></html>
