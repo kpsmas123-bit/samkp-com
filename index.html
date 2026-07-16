@@ -39,7 +39,7 @@ nav{display:flex;justify-content:center;align-items:center;gap:20px;max-width:10
 nav .brand{font-weight:800;font-size:20px;text-decoration:none;font-family:Poppins;color:var(--cream)}
 nav ul{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
 nav a{text-decoration:none;font-weight:600;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;font-family:Poppins;color:var(--cream);transition:color .2s,opacity .2s}
-nav a:hover{color:var(--accent);opacity:1}
+nav a:hover{color:var(--cream);opacity:1}
 
 /* hero */
 .hero{text-align:center;padding:60px 34px 30px;position:relative;overflow:hidden}
@@ -69,15 +69,15 @@ nav a:hover{color:var(--accent);opacity:1}
 .social-btn svg{width:28px;height:28px;fill:var(--accent)}
 .email-row{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-bottom:8px}
 .email-block{text-align:center}
-.email-label{display:block;font-family:Poppins,sans-serif;font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cream);opacity:.6;margin-bottom:4px}
-.email-link{color:var(--accent);font-weight:700;text-decoration:none;font-size:clamp(15px,2.5vw,20px);border-bottom:2px solid rgba(234,225,198,.35);font-family:Poppins;transition:border-color .2s}
+.email-label{display:block;font-family:Poppins,sans-serif;font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cream);opacity:.85;margin-bottom:4px}
+.email-link{color:var(--cream);font-weight:700;text-decoration:none;font-size:clamp(15px,2.5vw,20px);border-bottom:2px solid rgba(234,225,198,.35);font-family:Poppins;transition:border-color .2s}
 .email-link:hover{border-color:var(--cream)}
 
 /* footer */
-.site-footer{text-align:center;padding:48px 34px 60px;font-size:11px;line-height:1.6;color:var(--cream);opacity:.4;max-width:60ch;margin:0 auto;font-family:Poppins,sans-serif}
+.site-footer{text-align:center;padding:48px 34px 60px;font-size:11px;line-height:1.6;color:var(--cream);opacity:.7;max-width:60ch;margin:0 auto;font-family:Poppins,sans-serif}
 
 @media(max-width:640px){
-  nav ul{display:none}
+  nav{gap:12px}nav .brand{font-size:17px}nav ul{gap:14px}nav a{font-size:11px;letter-spacing:.06em}
   .hero-row{flex-direction:column;gap:0}
   .portrait{margin-left:0;margin-top:-10px}
   .proj-row{flex-direction:column;align-items:center}
@@ -92,7 +92,7 @@ nav a:hover{color:var(--accent);opacity:1}
     <h1 class="sr-only">Sam Kaplan Pettus</h1>
     <div class="hero-row reveal-el">
       <img class="logo" src="assets/logo.svg" alt="Sam Kaplan Pettus">
-      <img class="portrait" src="assets/portrait.png" alt="Sam Kaplan Pettus" fetchpriority="high">
+      <img class="portrait" src="assets/portrait.webp" alt="Sam Kaplan Pettus" width="680" height="680" fetchpriority="high">
     </div>
     <p class="intro reveal-el">Organizer, communicator, and strategist &mdash; born, raised, and trained in the East Bay, and very proud of it. These days I run local campaigns, research political and labor data, and build the tools progressive work usually can't afford.</p>
   </section>
