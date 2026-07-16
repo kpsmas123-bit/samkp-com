@@ -40,7 +40,7 @@ nav a{text-decoration:none;font-weight:600;font-size:12.5px;letter-spacing:.08em
 nav a:hover{color:var(--accent);opacity:1}
 
 /* hero */
-.hero{display:grid;grid-template-columns:1fr;gap:36px;align-items:center;padding:26px 0 40px}
+.hero{display:grid;grid-template-columns:1.5fr .9fr;gap:36px;align-items:center;padding:26px 0 40px}
 .hero h1{font-size:clamp(58px,12vw,150px);line-height:.82;color:var(--cream);letter-spacing:.004em;text-shadow:var(--sh) var(--sh) 0 var(--sh-color)}
 body.textured-name .hero h1{color:transparent;-webkit-text-fill-color:transparent;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect width='16' height='16' fill='%23E8631C'/%3E%3Ccircle cx='4' cy='4' r='2.6' fill='%23EAE1C6'/%3E%3Ccircle cx='12' cy='12' r='2.6' fill='%23EAE1C6'/%3E%3C/svg%3E");
@@ -50,9 +50,7 @@ body.textured-name .hero h1{color:transparent;-webkit-text-fill-color:transparen
 .cta{display:inline-block;background:var(--accent);color:var(--on-accent);font-family:Poppins;font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:14px;padding:14px 24px;text-decoration:none;border-radius:var(--radius);transition:transform .15s,filter .15s}
 .cta:hover{transform:translateY(-2px);filter:brightness(1.08)}
 .portrait{position:relative}
-.portrait .sticker{border:11px solid var(--cream);border-radius:var(--radius);aspect-ratio:4/5;background:rgba(255,255,255,.09);
-  overflow:hidden;box-shadow:0 18px 40px rgba(10,20,40,.34);transform:rotate(calc(var(--tilt)*-1))}
-.portrait .sticker img{width:100%;height:100%;object-fit:cover;display:block}
+.portrait img{width:100%;height:auto;display:block;transform:rotate(calc(var(--tilt)*-1));filter:drop-shadow(0 16px 34px rgba(10,20,40,.32))}
 
 /* marquee */
 .marquee{overflow:hidden;white-space:nowrap;background:var(--accent);color:var(--on-accent);padding:11px 0;margin:6px 0 0}
@@ -101,6 +99,7 @@ body.div-star .divider .rule,body.div-none .divider{display:none}
       <p class="aside reveal-el">These days I run local campaigns, research political and labor data, and build the tools progressive work usually can't afford.</p>
       <a class="cta reveal-el" href="work.html">See the work &rarr;</a>
     </div>
+    <div class="portrait reveal-el"><img src="assets/portrait.png" alt="Sam Kaplan Pettus"></div>
   </section>
 </div>
 
