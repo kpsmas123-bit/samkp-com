@@ -42,8 +42,10 @@ nav a{text-decoration:none;font-weight:600;font-size:12.5px;letter-spacing:.08em
 nav a:hover{color:var(--accent);opacity:1}
 
 /* hero */
-.hero{text-align:center;padding:60px 34px 30px}
-.logo{width:clamp(260px,46vw,560px);height:auto;display:block;margin:0 auto 36px;transform:rotate(calc(var(--tilt)*-1));filter:drop-shadow(0 10px 22px rgba(20,10,0,.28))}
+.hero{text-align:center;padding:60px 34px 30px;position:relative;overflow:hidden}
+.hero-row{display:flex;align-items:center;justify-content:center;gap:0;max-width:900px;margin:0 auto 36px}
+.logo{width:clamp(220px,38vw,460px);height:auto;display:block;transform:rotate(calc(var(--tilt)*-1));filter:drop-shadow(0 10px 22px rgba(20,10,0,.28));flex-shrink:0}
+.portrait{width:clamp(180px,28vw,340px);height:auto;display:block;filter:drop-shadow(0 16px 34px rgba(10,20,40,.3));flex-shrink:0;margin-left:-20px}
 .intro{font-size:clamp(17px,2.4vw,22px);line-height:1.5;max-width:40ch;margin:0 auto;color:var(--cream)}
 
 /* ongoing projects */
@@ -75,6 +77,8 @@ nav a:hover{color:var(--accent);opacity:1}
 
 @media(max-width:640px){
   nav ul{display:none}
+  .hero-row{flex-direction:column;gap:0}
+  .portrait{margin-left:0;margin-top:-10px}
   .proj-row{flex-direction:column;align-items:center}
   .email-row{flex-direction:column;align-items:center;gap:18px}
 }
@@ -85,7 +89,10 @@ nav a:hover{color:var(--accent);opacity:1}
 <main>
   <section class="hero">
     <h1 class="sr-only">Sam Kaplan Pettus</h1>
-    <img class="logo reveal-el" src="assets/logo.svg" alt="Sam Kaplan Pettus">
+    <div class="hero-row reveal-el">
+      <img class="logo" src="assets/logo.svg" alt="Sam Kaplan Pettus">
+      <img class="portrait" src="assets/portrait.png" alt="Sam Kaplan Pettus" fetchpriority="high">
+    </div>
     <p class="intro reveal-el">Organizer, communicator, and strategist &mdash; born, raised, and trained in the East Bay, and very proud of it. These days I run local campaigns, research political and labor data, and build the tools progressive work usually can't afford.</p>
   </section>
 
