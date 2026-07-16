@@ -25,8 +25,8 @@
   --body-font:'Lora'; --sh:1px; --sh-color:#F2B417; --radius:4px; --tilt:1.4deg;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+@media(prefers-reduced-motion:reduce){html{scroll-snap-type:none;scroll-behavior:auto}}
 body{background:var(--field);color:var(--cream);font-family:var(--body-font),Georgia,serif;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opacity:.55;mix-blend-mode:soft-light;background:url("assets/texture.jpg") center/cover fixed}
 a{color:inherit}
@@ -42,11 +42,12 @@ nav a{text-decoration:none;font-weight:600;font-size:12.5px;letter-spacing:.08em
 nav a:hover{color:var(--cream);opacity:1}
 
 /* hero */
-.hero{text-align:center;padding:60px 34px 30px;position:relative;overflow:hidden}
-.hero-row{display:flex;align-items:center;justify-content:center;gap:0;max-width:900px;margin:0 auto 36px}
-.logo{width:clamp(220px,38vw,460px);height:auto;display:block;transform:rotate(calc(var(--tilt)*-1));filter:drop-shadow(0 10px 22px rgba(20,10,0,.28));flex-shrink:0}
-.portrait{width:clamp(180px,28vw,340px);height:auto;display:block;filter:drop-shadow(0 16px 34px rgba(10,20,40,.3));flex-shrink:0;margin-left:-20px}
-.intro{font-size:clamp(17px,2.4vw,22px);line-height:1.5;max-width:40ch;margin:0 auto;color:var(--cream)}
+.hero{height:100vh;display:flex;flex-direction:column;text-align:center;position:relative;overflow:hidden;scroll-snap-align:start}
+.hero-fill{flex:1;display:flex;align-items:flex-end;justify-content:center;padding:0 34px}
+.hero-row{display:flex;align-items:flex-end;justify-content:center;gap:0;max-width:900px}
+.logo{width:clamp(220px,38vw,460px);max-height:calc(100vh - 120px);height:auto;display:block;transform:rotate(calc(var(--tilt)*-1));filter:drop-shadow(0 10px 22px rgba(20,10,0,.28));flex-shrink:0}
+.portrait{width:clamp(180px,28vw,340px);max-height:calc(100vh - 120px);height:auto;display:block;filter:drop-shadow(0 16px 34px rgba(10,20,40,.3));flex-shrink:0;margin-left:-20px}
+.intro{font-size:clamp(17px,2.4vw,22px);line-height:1.5;max-width:40ch;margin:0 auto;padding:50px 34px 10px;text-align:center;color:var(--cream)}
 
 /* ongoing projects */
 .projects{text-align:center;padding:50px 34px 30px}
@@ -78,24 +79,26 @@ nav a:hover{color:var(--cream);opacity:1}
 
 @media(max-width:640px){
   nav{gap:12px}nav .brand{font-size:17px}nav ul{gap:14px}nav a{font-size:11px;letter-spacing:.06em}
-  .hero-row{flex-direction:column;gap:0}
+  .hero-row{flex-direction:column;align-items:center;gap:0}
   .portrait{margin-left:0;margin-top:-10px}
   .proj-row{flex-direction:column;align-items:center}
   .email-row{flex-direction:column;align-items:center;gap:18px}
 }
 </style></head>
 <body>
-<nav><a class="brand" href="index.html">SKP</a><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li></ul></nav>
-
 <main>
   <section class="hero">
+    <nav><a class="brand" href="index.html">SKP</a><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li></ul></nav>
     <h1 class="sr-only">Sam Kaplan Pettus</h1>
-    <div class="hero-row reveal-el">
-      <img class="logo" src="assets/logo.webp" alt="Sam Kaplan Pettus" width="920" height="920">
-      <img class="portrait" src="assets/portrait.webp" alt="Sam Kaplan Pettus" width="680" height="680" fetchpriority="high">
+    <div class="hero-fill">
+      <div class="hero-row reveal-el">
+        <img class="logo" src="assets/logo.webp" alt="Sam Kaplan Pettus" width="920" height="920">
+        <img class="portrait" src="assets/portrait.webp" alt="Sam Kaplan Pettus" width="680" height="680" fetchpriority="high">
+      </div>
     </div>
-    <p class="intro reveal-el">Organizer, communicator, and strategist &mdash; born, raised, and trained in the East Bay, and very proud of it. These days I run local campaigns, research political and labor data, and build the tools progressive work usually can't afford.</p>
   </section>
+
+  <p class="intro reveal-el">Organizer, communicator, and strategist &mdash; born, raised, and trained in the East Bay, and very proud of it. These days I run local campaigns, research political and labor data, and build the tools progressive work usually can't afford.</p>
 
   <section class="projects">
     <h2 class="hf reveal-el">Ongoing Projects</h2>
