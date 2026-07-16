@@ -122,9 +122,10 @@ nav a:hover{color:var(--accent);opacity:1}
   font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:8px;letter-spacing:.04em;text-transform:uppercase;
   padding:2px 7px;border-radius:12px;white-space:nowrap;pointer-events:none}
 
-/* photo frame (event/field photos, cover-cropped) */
-.f-photo{display:inline-block;height:var(--strip-h);border:6px solid #F4EAD2;border-radius:6px;overflow:hidden;box-shadow:0 10px 24px rgba(8,16,44,.35)}
-.f-photo img{height:calc(var(--strip-h) - 12px);width:auto;aspect-ratio:4/5;object-fit:cover;display:block}
+/* polaroid frame (event/field photos) */
+.f-photo{display:inline-flex;flex-direction:column;height:var(--strip-h);background:#F7EFDC;padding:8px 8px 0;border-radius:4px;box-shadow:0 12px 28px rgba(8,16,44,.4)}
+.f-photo img{height:calc(var(--strip-h) - 42px);width:auto;aspect-ratio:4/5;object-fit:cover;display:block;border-radius:2px}
+.f-photo .pol-cap{height:34px;display:flex;align-items:center;justify-content:center;font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);opacity:.55}
 
 /* placeholder cuts (for cards without images) */
 .work-strip .cut{flex:0 0 auto;width:110px;height:130px;border:2px dashed rgba(38,49,42,.28);border-radius:calc(var(--radius) - 2px);background:rgba(46,90,60,.06);display:flex;align-items:center;justify-content:center;text-align:center;padding:9px;font-size:10px;font-weight:600;color:rgba(38,49,42,.55)}
@@ -181,6 +182,8 @@ nav a:hover{color:var(--accent);opacity:1}
 .coalition h4{font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);opacity:.55;margin-bottom:8px}
 .coalition .chips{display:flex;flex-wrap:wrap;gap:6px}
 .coalition .chip{display:inline-block;padding:4px 12px;border-radius:20px;background:rgba(38,49,42,.09);font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:11.5px;color:var(--ink);white-space:nowrap}
+.coal-group{margin-bottom:10px}
+.coal-sub{display:block;font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);opacity:.4;margin-bottom:5px;margin-top:8px}
 
 @media(prefers-reduced-motion:reduce){.f-flip .flip-inner{transition:none}.lb-overlay{transition:none}}
 @media(max-width:640px){nav ul{display:none}.panel-consult .cards{grid-template-columns:1fr}}
@@ -206,7 +209,7 @@ nav a:hover{color:var(--accent);opacity:1}
 <h1 class="sr-only">Consulting and campaign work — Sam Kaplan Pettus</h1>
 
 <section class="panel panel-consult" id="consulting">
-  <nav><a class="brand" href="index.html">SKP</a><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li><li><a href="index.html#connect">Connect</a></li></ul></nav>
+  <nav><a class="brand" href="index.html">SKP</a><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li></ul></nav>
   <div class="wrap">
     <div class="kick reveal-el">Consulting</div>
     <h2 class="hf reveal-el">What I do</h2>
@@ -231,16 +234,19 @@ nav a:hover{color:var(--accent);opacity:1}
       <div class="chead"><div class="no">01</div><div class="htext"><h3>Cecilia Lunaparra</h3><div class="office">Berkeley City Council &middot; D7 &middot; 2024</div></div></div>
       <div class="more"><p class="blurb">Berkeley's toughest turnout district. On staff, I ran the money and the student field program &mdash; and we won.</p>
         <div class="work-strip">
-          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/29.png" alt="Cecilia at Berkeley City Council dais" loading="lazy"></div><div class="caption">Election night</div></div>
-          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/28.png" alt="Cecilia at candidate forum" loading="lazy"></div><div class="caption">Candidate forum</div></div>
-          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/23.png" alt="Rally with DSA and Berkeley Tenants Union" loading="lazy"></div><div class="caption">Rally</div></div>
-          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/25.png" alt="Backyard fundraiser" loading="lazy"></div><div class="caption">House party</div></div>
-          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/26.png" alt="Coalition event with Yes on H signs" loading="lazy"></div><div class="caption">Coalition event</div></div>
-          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/27.png" alt="Volunteer team with Cecilia Lunaparra sign" loading="lazy"></div><div class="caption">Field team</div></div>
-          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/24.png" alt="Campaign volunteers at campus event" loading="lazy"></div><div class="caption">On campus</div></div>
+          <div class="work-item" style="transform:rotate(-1.8deg)"><div class="f-photo"><img src="assets/work-samples/29.png" alt="Cecilia at Berkeley City Council dais" loading="lazy"><div class="pol-cap">Election night</div></div></div>
+          <div class="work-item" style="transform:rotate(2.2deg)"><div class="f-photo"><img src="assets/work-samples/28.png" alt="Cecilia at candidate forum" loading="lazy"><div class="pol-cap">Candidate forum</div></div></div>
+          <div class="work-item" style="transform:rotate(-1deg)"><div class="f-photo"><img src="assets/work-samples/23.png" alt="Rally with DSA and Berkeley Tenants Union" loading="lazy"><div class="pol-cap">Rally</div></div></div>
+          <div class="work-item" style="transform:rotate(1.6deg)"><div class="f-photo"><img src="assets/work-samples/25.png" alt="Backyard fundraiser" loading="lazy"><div class="pol-cap">House party</div></div></div>
+          <div class="work-item" style="transform:rotate(-2deg)"><div class="f-photo"><img src="assets/work-samples/26.png" alt="Coalition event with Yes on H signs" loading="lazy"><div class="pol-cap">Coalition event</div></div></div>
+          <div class="work-item" style="transform:rotate(1.2deg)"><div class="f-photo"><img src="assets/work-samples/27.png" alt="Volunteer team with Cecilia Lunaparra sign" loading="lazy"><div class="pol-cap">Field team</div></div></div>
+          <div class="work-item" style="transform:rotate(-1.5deg)"><div class="f-photo"><img src="assets/work-samples/24.png" alt="Campaign volunteers at campus event" loading="lazy"><div class="pol-cap">On campus</div></div></div>
         </div>
         <ul class="deliv"><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M224 48H32a8 8 0 0 0-8 8v136a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8M98.71 128L40 181.81V74.19Zm11.84 10.85l12 11.05a8 8 0 0 0 10.82 0l12-11.05l58 53.15H52.57ZM157.29 128L216 74.18v107.64Z"/></svg></span> Fundraising &amp; a citywide donor network</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M128 16a88.1 88.1 0 0 0-88 88c0 75.3 80 132.17 83.41 134.55a8 8 0 0 0 9.18 0C136 236.17 216 179.3 216 104a88.1 88.1 0 0 0-88-88m0 56a32 32 0 1 1-32 32a32 32 0 0 1 32-32"/></svg></span> Student field &amp; turnout program</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M221.87 83.16A104.1 104.1 0 1 1 195.67 49l22.67-22.68a8 8 0 0 1 11.32 11.32L167.6 99.71l-37.71 37.71l-23.95 23.95a40 40 0 0 0 62-35.67a8 8 0 1 1 16-.9a56 56 0 0 1-95.5 42.79a56 56 0 0 1 73.13-84.43l22.73-22.77a87.88 87.88 0 1 0 23.13 29.67a8 8 0 0 1 14.44-6.9"/></svg></span> Policy &amp; senior campaign strategy</li></ul>
-        <div class="coalition"><h4>The coalition we built:</h4><div class="chips"><span class="chip">SEIU</span><span class="chip">Alameda Labor Council</span></div></div></div>
+        <div class="coalition"><h4>The coalition we built:</h4>
+          <div class="coal-group"><span class="coal-sub">Organizations &amp; Unions</span><div class="chips"><span class="chip">SEIU 1021</span><span class="chip">UAW Region 6</span><span class="chip">California Working Families Party</span><span class="chip">Alameda County Green Party</span><span class="chip">Cal Young Democratic Socialists of America</span><span class="chip">East Bay Democratic Socialists of America</span><span class="chip">Our Revolution East Bay</span><span class="chip">Wellstone Democratic Renewal Club</span><span class="chip">Cal Berkeley Democrats</span><span class="chip">Berkeley People's Alliance</span><span class="chip">Berkeley Tenants Union</span><span class="chip">Telegraph for People</span><span class="chip">ACCE Action</span><span class="chip">350 Bay Area Action</span><span class="chip">REAL Action</span><span class="chip">Gen-Z for Change</span><span class="chip">Evolve California</span><span class="chip">LPAC</span><span class="chip">LGBTQ+ Victory Fund</span><span class="chip">Daily Californian Editorial Board</span></div></div>
+          <div class="coal-group"><span class="coal-sub">Elected &amp; Appointed Officials</span><div class="chips"><span class="chip">Pamela Y. Price</span><span class="chip">Nikki Fortunato Bas</span><span class="chip">Kate Harrison</span><span class="chip">Jovanka Beckles</span><span class="chip">Noelia Corzo</span><span class="chip">Ana Vasudeo</span><span class="chip">Leah Simon-Weisberg</span><span class="chip">Soli Alpert</span><span class="chip">Robin D. L&oacute;pez</span><span class="chip">Victor Aguilar Jr.</span><span class="chip">George Syrop</span><span class="chip">Alfred Twu</span></div></div>
+        </div></div>
       <div class="tapline">Open &#8599;</div>
     </article>
     <article class="card is-featured">
