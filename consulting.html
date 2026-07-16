@@ -92,34 +92,32 @@ nav a:hover{color:var(--accent);opacity:1}
 .f-device .chrome{display:inline-block;height:calc(var(--strip-h) - 18px);border:6px solid #F4EAD2;border-radius:8px;overflow:hidden;box-shadow:0 10px 24px rgba(8,16,44,.35);vertical-align:bottom}
 .f-device .bar{height:20px;background:#1F3A2E;display:flex;align-items:center;gap:4px;padding:0 8px}
 .f-device .bar i{width:7px;height:7px;border-radius:50%;background:#F2B417;opacity:.85;display:block}
-.f-device .chrome img{height:calc(var(--strip-h) - 18px - 12px - 20px);width:auto;display:block}
+.f-device .chrome img{height:calc(var(--strip-h) - 18px - 12px - 20px);width:auto;display:block;object-fit:contain}
 .f-device .stand-neck{width:12px;height:7px;background:#F4EAD2;margin:0 auto}
 .f-device .stand-base{width:48px;height:6px;border-radius:3px;background:#F4EAD2;margin-top:1px;box-shadow:0 3px 6px rgba(8,16,44,.25)}
 
-/* phone frame */
-.f-phone{display:inline-block;height:var(--strip-h);position:relative;border:6px solid #F4EAD2;border-radius:20px;overflow:hidden;box-shadow:0 10px 24px rgba(8,16,44,.35)}
-.f-phone .notch{position:absolute;top:6px;left:50%;transform:translateX(-50%);width:40px;height:10px;border-radius:6px;background:#1F3A2E;z-index:2}
-.f-phone img{height:calc(var(--strip-h) - 12px);width:auto;display:block}
+/* phone frame — notch is its own row above the screen */
+.f-phone{display:inline-flex;flex-direction:column;height:var(--strip-h);border:6px solid #F4EAD2;border-radius:20px;overflow:hidden;box-shadow:0 10px 24px rgba(8,16,44,.35)}
+.f-phone .notch{flex-shrink:0;height:14px;background:#1F3A2E;display:flex;align-items:center;justify-content:center}
+.f-phone .notch::after{content:'';width:36px;height:5px;border-radius:3px;background:#3a6050}
+.f-phone img{height:calc(var(--strip-h) - 12px - 14px);width:auto;object-fit:contain;display:block}
 
-/* hanger frame (door hanger with hole) */
-.f-hanger{display:inline-block;height:var(--strip-h);position:relative;border:6px solid #F4EAD2;border-radius:12px;overflow:hidden;box-shadow:0 10px 24px rgba(8,16,44,.35)}
-.f-hanger .hole{position:absolute;top:6px;left:50%;transform:translateX(-50%);z-index:2}
-.f-hanger .hole .slot{width:8px;height:14px;background:var(--field);margin:0 auto;border-radius:4px}
-.f-hanger .hole .circ{width:26px;height:26px;background:var(--field);border-radius:50%;margin:-3px auto 0;border:2px solid #F4EAD2}
-.f-hanger img{height:calc(var(--strip-h) - 12px);width:auto;display:block}
+/* hanger frame (tall sticker — no keyhole over art) */
+.f-hanger{display:inline-block;height:var(--strip-h);border:6px solid #F4EAD2;border-radius:12px;overflow:hidden;box-shadow:0 10px 24px rgba(8,16,44,.35)}
+.f-hanger img{height:calc(var(--strip-h) - 12px);width:auto;object-fit:contain;display:block}
 
 /* flat frame (print, no chrome) */
 .f-flat{display:inline-block;height:var(--strip-h);border:6px solid #F4EAD2;border-radius:6px;overflow:hidden;box-shadow:0 10px 24px rgba(8,16,44,.35)}
-.f-flat img{height:calc(var(--strip-h) - 12px);width:auto;display:block}
+.f-flat img{height:calc(var(--strip-h) - 12px);width:auto;object-fit:contain;display:block}
 
 /* flip frame (two-sided) */
 .f-flip{display:inline-block;height:var(--strip-h);perspective:900px;cursor:pointer}
 .f-flip .flip-inner{position:relative;display:inline-block;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.3,.7,.3,1)}
 .f-flip.is-flipped .flip-inner{transform:rotateY(180deg)}
 .f-flip .flip-front{display:inline-block;height:100%;backface-visibility:hidden;border:6px solid #F4EAD2;border-radius:6px;overflow:hidden;box-shadow:0 10px 24px rgba(8,16,44,.35)}
-.f-flip .flip-front img{height:calc(var(--strip-h) - 12px);width:auto;display:block}
+.f-flip .flip-front img{height:calc(var(--strip-h) - 12px);width:auto;object-fit:contain;display:block}
 .f-flip .flip-back{position:absolute;inset:0;backface-visibility:hidden;transform:rotateY(180deg);border:6px solid #F4EAD2;border-radius:6px;overflow:hidden;box-shadow:0 10px 24px rgba(8,16,44,.35);display:flex;align-items:center;justify-content:center}
-.f-flip .flip-back img{height:calc(var(--strip-h) - 12px);width:auto;display:block}
+.f-flip .flip-back img{height:calc(var(--strip-h) - 12px);width:auto;object-fit:contain;display:block}
 .f-flip .flip-tag{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);z-index:3;background:rgba(15,25,45,.72);color:#F4EAD2;
   font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:8px;letter-spacing:.04em;text-transform:uppercase;
   padding:2px 7px;border-radius:12px;white-space:nowrap;pointer-events:none}
@@ -142,17 +140,22 @@ nav a:hover{color:var(--accent);opacity:1}
 .panel-work .foot{text-align:center;padding:22px 30px 90px;color:var(--cream)}
 .panel-work .foot a{color:var(--cream);font-weight:700;text-decoration:none;font-size:18px;border-bottom:3px solid var(--accent)}
 
-/* video gallery */
+/* video gallery — full-width 3-up grid */
 .vid-gallery{max-width:960px;margin:0 auto;padding:10px 30px 20px}
 .vid-gallery h3{font-family:var(--h-font),sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(24px,4vw,36px);color:var(--accent);letter-spacing:.005em}
 .vid-credit{font-family:Lora,serif;font-size:14px;color:var(--cream);opacity:.85;margin:8px 0 14px;max-width:60ch}
 .vid-credit a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:2px}
-.vid-thumb{position:relative;cursor:pointer;height:calc(var(--strip-h) - 18px - 12px - 20px);aspect-ratio:16/9;overflow:hidden}
+.vid-gallery .work-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;overflow:visible;padding:6px 0 14px;scroll-snap-type:none}
+.vid-gallery .work-item{flex:unset}
+.vid-gallery .f-device{display:block}
+.vid-gallery .f-device .chrome{display:block;width:100%;height:auto;vertical-align:unset}
+.vid-gallery .f-device .stand{display:none}
+.vid-thumb{position:relative;cursor:pointer;width:100%;aspect-ratio:16/9;overflow:hidden}
 .vid-thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .vid-thumb .play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);transition:background .2s}
 .vid-thumb:hover .play-btn{background:rgba(0,0,0,.5)}
 .play-btn::after{content:'';width:0;height:0;border-style:solid;border-width:16px 0 16px 28px;border-color:transparent transparent transparent #F4EAD2;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
-.f-device iframe{height:calc(var(--strip-h) - 18px - 12px - 20px);aspect-ratio:16/9;display:block;border:0}
+.f-device iframe{width:100%;aspect-ratio:16/9;display:block;border:0}
 
 /* lightbox */
 .lb-overlay{position:fixed;inset:0;z-index:100;background:rgba(8,16,44,.82);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .25s}
@@ -181,6 +184,7 @@ nav a:hover{color:var(--accent);opacity:1}
 @media(max-width:560px){
   .panel-work .grid{grid-template-columns:1fr}
   :root{--strip-h:130px}
+  .vid-gallery .work-strip{grid-template-columns:1fr}
   .lb-flip-stack{flex-direction:column}
   .lb-flip-stack img{max-width:90vw;max-height:40vh}
 }
@@ -238,7 +242,7 @@ nav a:hover{color:var(--accent);opacity:1}
         <div class="work-strip">
           <div class="work-item"><div class="f-device"><div class="chrome"><div class="bar"><i></i><i></i><i></i></div><img src="assets/work-samples/1.png" alt="Campaign website" loading="lazy"></div><div class="stand"><div class="stand-neck"></div><div class="stand-base"></div></div></div><div class="caption">Website</div></div>
           <div class="work-item"><div class="f-phone"><div class="notch"></div><img src="assets/work-samples/3.png" alt="Mobile site in Chinese" loading="lazy"></div><div class="caption">Mobile (Chinese)</div></div>
-          <div class="work-item"><div class="f-hanger"><div class="hole"><div class="slot"></div><div class="circ"></div></div><img src="assets/work-samples/4.png" alt="Door hanger" loading="lazy"></div><div class="caption">Door hanger</div></div>
+          <div class="work-item"><div class="f-hanger"><img src="assets/work-samples/4.png" alt="Door hanger" loading="lazy"></div><div class="caption">Door hanger</div></div>
           <div class="work-item"><div class="f-flip" tabindex="0" role="button" aria-label="Endorsement mailer, click to flip"><div class="flip-inner"><div class="flip-front"><img src="assets/work-samples/9.png" alt="Endorsement mailer front" loading="lazy"></div><div class="flip-back"><img src="assets/work-samples/10.png" alt="Endorsement mailer back" loading="lazy"></div></div><div class="flip-tag">Flip &#8635;</div></div><div class="caption">AG Bonta mailer</div></div>
           <div class="work-item"><div class="f-flat"><img src="assets/work-samples/8.png" alt="Coalition mailer" loading="lazy"></div><div class="caption">Coalition mailer</div></div>
           <div class="work-item"><div class="f-flat"><img src="assets/work-samples/11.png" alt="Yard sign" loading="lazy"></div><div class="caption">Yard sign</div></div>
