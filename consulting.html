@@ -15,6 +15,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <style>
 :root{ --cream:#EAE1C6; --ink:#26312a; --card-bg:#EAE1C6; --h-font:'Anton'; }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -98,8 +100,65 @@ nav a:hover{color:var(--accent);opacity:1}
 .panel-work .foot{text-align:center;padding:22px 30px 90px;color:var(--cream)}
 .panel-work .foot a{color:var(--cream);font-weight:700;text-decoration:none;font-size:18px;border-bottom:3px solid var(--accent)}
 
+/* ---- work gallery (Cover Flow) ---- */
+.work-gallery{max-width:1080px;margin:10px auto 0;padding:0 0 8px}
+.work-swiper{--slide-h:340px;padding:36px 6px 46px;overflow:visible}
+.work-swiper .swiper-wrapper{align-items:flex-end}
+.work-slide{width:auto;height:var(--slide-h);display:flex;flex-direction:column;align-items:center}
+.work-piece{height:calc(100% - 30px);display:flex;align-items:flex-end;justify-content:center}
+.work-caption{flex:0 0 auto;margin-top:8px;max-width:220px;text-align:center;font-family:Poppins,system-ui,sans-serif;font-weight:700;
+  font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--cream);opacity:.6;transition:color .25s,opacity .25s}
+.swiper-slide-active .work-caption{color:var(--accent);opacity:1}
+
+/* device */
+.work-piece.device{flex-direction:column}
+.device-frame{display:inline-block;height:calc(100% - 22px);border:8px solid #F4EAD2;border-radius:6px;overflow:hidden;box-shadow:0 16px 30px rgba(15,25,45,.4)}
+.device-bar{height:30px;background:#1F3A2E;display:flex;align-items:center;gap:6px;padding:0 10px}
+.device-bar span{width:9px;height:9px;border-radius:50%;background:#F2B417;display:inline-block}
+.device-frame img{height:calc(100% - 30px);width:auto;display:block}
+.device-stand{flex:0 0 auto;width:64px;margin:0 auto}
+.device-stand-neck{width:16px;height:10px;background:#F4EAD2;margin:0 auto}
+.device-stand-base{width:64px;height:8px;border-radius:4px;background:#F4EAD2;margin-top:2px;box-shadow:0 4px 8px rgba(15,25,45,.3)}
+
+/* phone */
+.phone-frame{display:inline-block;position:relative;height:100%;border:8px solid #F4EAD2;border-radius:26px;overflow:hidden;box-shadow:0 16px 30px rgba(15,25,45,.4)}
+.phone-frame img{height:100%;width:auto;display:block}
+.phone-notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:64px;height:16px;border-radius:10px;background:#1F3A2E;z-index:2}
+
+/* flat (print, no chrome) */
+.flat-frame{display:inline-block;position:relative;height:100%;border:8px solid #F4EAD2;border-radius:6px;overflow:hidden;box-shadow:0 16px 30px rgba(15,25,45,.4)}
+.flat-frame img{height:100%;width:auto;display:block}
+.flat-frame .hole{display:none}
+
+/* flip (two-sided) */
+.flip-card{display:inline-block;position:relative;height:100%;perspective:1200px;cursor:pointer}
+.flip-inner{position:relative;display:inline-block;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,.2,.2,1)}
+.flip-card.is-flipped .flip-inner{transform:rotateY(180deg)}
+.flip-front,.flip-back{height:100%;border:8px solid #F4EAD2;border-radius:6px;overflow:hidden;box-shadow:0 16px 30px rgba(15,25,45,.4);backface-visibility:hidden}
+.flip-front{display:inline-block}
+.flip-front img{height:100%;width:auto;display:block}
+.flip-back{position:absolute;inset:0;transform:rotateY(180deg);display:flex;align-items:center;justify-content:center;background:#F4EAD2}
+.flip-back img{height:100%;width:auto;display:block;margin:0 auto}
+.flip-hint{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);z-index:3;background:rgba(15,25,45,.75);color:#F4EAD2;
+  font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;
+  padding:3px 9px;border-radius:20px;white-space:nowrap;pointer-events:none}
+
+/* nav + pagination */
+.work-nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:2px}
+.work-prev,.work-next{width:38px;height:38px;border-radius:50%;border:none;background:var(--card-bg);color:var(--ink);
+  font-size:16px;cursor:pointer;box-shadow:0 6px 14px rgba(15,25,45,.3);transition:transform .15s,filter .15s}
+.work-prev:hover,.work-next:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.work-pagination{display:flex}
+.work-swiper .swiper-pagination-bullet{background:var(--cream);opacity:.5}
+.work-swiper .swiper-pagination-bullet-active{background:var(--accent);opacity:1}
+
+@media(prefers-reduced-motion:reduce){.flip-inner{transition:none}}
 @media(max-width:640px){nav ul{display:none}.panel-consult .cards{grid-template-columns:1fr}}
-@media(max-width:560px){.panel-work .grid{grid-template-columns:1fr}.panel-work .work{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){
+  .panel-work .grid{grid-template-columns:1fr}
+  .panel-work .work{grid-template-columns:1fr 1fr}
+  .work-swiper{--slide-h:240px}
+}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs>
@@ -132,6 +191,17 @@ nav a:hover{color:var(--accent);opacity:1}
     <h2>Campaigns we've built</h2>
     <p>Identity, message, money, and field for labor-backed East Bay candidates.</p>
     <div class="hint">Tap a card to open it &#8599;</div>
+  </div>
+
+  <div class="work-gallery">
+    <div class="work-swiper swiper">
+      <div class="swiper-wrapper" id="workSwiperWrapper"></div>
+    </div>
+    <div class="work-nav">
+      <button type="button" class="work-prev" aria-label="Previous piece">&#8592;</button>
+      <div class="work-pagination"></div>
+      <button type="button" class="work-next" aria-label="Next piece">&#8594;</button>
+    </div>
   </div>
 
   <div class="grid" id="grid">
@@ -180,6 +250,76 @@ nav a:hover{color:var(--accent);opacity:1}
 </section>
 
 <script>
+/* ---- work gallery (Cover Flow) ---- */
+var WORK_PIECES=[
+  {type:'device',src:'assets/work-samples/1.png',alt:'Screenshot of the Kara Murray-Badal for Oakland City Council campaign website homepage',label:'Kara Murray-Badal — campaign website'},
+  {type:'device',src:'assets/work-samples/2.png',alt:'Screenshot of the Daria Wrubel for Berkeley campaign website homepage',label:'Daria Wrubel — campaign website'},
+  {type:'phone',src:'assets/work-samples/3.png',alt:'Mobile screenshot of the Kara Murray-Badal campaign site issues page, in Chinese',label:'Kara Murray-Badal — mobile site (Chinese)'},
+  {type:'flat',src:'assets/work-samples/4.png',alt:'Kara Murray-Badal door hanger',label:'Kara Murray-Badal — door hanger'},
+  {type:'flip',src:'assets/work-samples/5.png',back:'assets/work-samples/6.png',alt:'Sam Gould for Emeryville City Council campaign mailer, front side',label:'Sam Gould — campaign mailer'},
+  {type:'device',src:'assets/work-samples/7.png',alt:'Screenshot of the Daria Wrubel matching-funds receipt tool',label:'Daria Wrubel — matching-funds tool'},
+  {type:'flat',src:'assets/work-samples/8.png',alt:'Kara Murray-Badal mailer featuring coalition endorsement logos',label:'Kara Murray-Badal — coalition mailer'},
+  {type:'flip',src:'assets/work-samples/9.png',back:'assets/work-samples/10.png',alt:'Kara Murray-Badal campaign mailer, front side',label:'Kara Murray-Badal — AG Bonta endorsement mailer'},
+  {type:'flat',src:'assets/work-samples/11.png',alt:'Kara Murray-Badal yard sign',label:'Kara Murray-Badal — yard sign'},
+  {type:'flip',src:'assets/work-samples/12.png',back:'assets/work-samples/13.png',alt:'Kara Murray-Badal bilingual Chinatown door hanger, front side',label:'Kara Murray-Badal — Chinatown door hanger'},
+  {type:'flat',src:'assets/work-samples/14.png',alt:'Kara Murray-Badal mailer with community testimonial',label:'Kara Murray-Badal — community mailer'}
+];
+
+(function(){
+  var reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
+  function pieceMarkup(p){
+    if(p.type==='device'){
+      return '<div class="work-piece device"><div class="device-frame"><div class="device-bar"><span></span><span></span><span></span></div>'+
+        '<img src="'+p.src+'" alt="'+esc(p.alt)+'" loading="lazy"></div>'+
+        '<div class="device-stand"><div class="device-stand-neck"></div><div class="device-stand-base"></div></div></div>';
+    }
+    if(p.type==='phone'){
+      return '<div class="work-piece phone"><div class="phone-frame"><div class="phone-notch"></div>'+
+        '<img src="'+p.src+'" alt="'+esc(p.alt)+'" loading="lazy"></div></div>';
+    }
+    if(p.type==='flip'){
+      return '<div class="work-piece flip"><div class="flip-card" tabindex="0" role="button" aria-label="'+esc(p.label)+', click to flip">'+
+        '<div class="flip-inner">'+
+          '<div class="flip-front"><img src="'+p.src+'" alt="'+esc(p.alt)+'" loading="lazy"></div>'+
+          '<div class="flip-back"><img src="'+p.back+'" alt="'+esc(p.alt)+' (back)" loading="lazy"></div>'+
+        '</div>'+
+        '<div class="flip-hint">Click to flip &#8635;</div></div></div>';
+    }
+    /* flat */
+    return '<div class="work-piece flat"><div class="flat-frame"><img src="'+p.src+'" alt="'+esc(p.alt)+'" loading="lazy"><div class="hole"></div></div></div>';
+  }
+
+  var wrapper=document.getElementById('workSwiperWrapper');
+  wrapper.innerHTML=WORK_PIECES.map(function(p){
+    return '<div class="swiper-slide work-slide">'+pieceMarkup(p)+'<div class="work-caption">'+esc(p.label)+'</div></div>';
+  }).join('');
+
+  document.querySelectorAll('.flip-card').forEach(function(card){
+    function toggle(){card.classList.toggle('is-flipped');}
+    card.addEventListener('click',toggle);
+    card.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}
+    });
+  });
+
+  new Swiper('.work-swiper',{
+    effect:reduceMotion?'slide':'coverflow',
+    grabCursor:true,
+    centeredSlides:true,
+    slidesPerView:'auto',
+    loop:true,
+    speed:reduceMotion?0:300,
+    coverflowEffect:reduceMotion?{rotate:0,stretch:0,depth:0,modifier:1,slideShadows:false}:{rotate:38,stretch:-24,depth:180,modifier:1,slideShadows:true},
+    keyboard:{enabled:true},
+    navigation:{nextEl:'.work-next',prevEl:'.work-prev'},
+    pagination:{el:'.work-pagination',clickable:true},
+    a11y:{enabled:true}
+  });
+})();
+
 gsap.registerPlugin(ScrollTrigger,Flip);
 var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
