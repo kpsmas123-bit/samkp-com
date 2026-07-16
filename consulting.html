@@ -122,6 +122,10 @@ nav a:hover{color:var(--accent);opacity:1}
   font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:8px;letter-spacing:.04em;text-transform:uppercase;
   padding:2px 7px;border-radius:12px;white-space:nowrap;pointer-events:none}
 
+/* photo frame (event/field photos, cover-cropped) */
+.f-photo{display:inline-block;height:var(--strip-h);border:6px solid #F4EAD2;border-radius:6px;overflow:hidden;box-shadow:0 10px 24px rgba(8,16,44,.35)}
+.f-photo img{height:calc(var(--strip-h) - 12px);width:auto;aspect-ratio:4/5;object-fit:cover;display:block}
+
 /* placeholder cuts (for cards without images) */
 .work-strip .cut{flex:0 0 auto;width:110px;height:130px;border:2px dashed rgba(38,49,42,.28);border-radius:calc(var(--radius) - 2px);background:rgba(46,90,60,.06);display:flex;align-items:center;justify-content:center;text-align:center;padding:9px;font-size:10px;font-weight:600;color:rgba(38,49,42,.55)}
 
@@ -228,9 +232,13 @@ nav a:hover{color:var(--accent);opacity:1}
       <div class="chead"><div class="no">01</div><div class="htext"><h3>Cecilia Lunaparra</h3><div class="office">Berkeley City Council &middot; D7 &middot; 2024</div></div></div>
       <div class="more"><p class="blurb">Berkeley's toughest turnout district. On staff, I ran the money and the student field program &mdash; and we won.</p>
         <div class="work-strip">
-          <div class="cut">&#9634; election night</div>
-          <div class="cut">&#9634; on the doors</div>
-          <div class="cut">&#9634; field team</div>
+          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/29.png" alt="Cecilia at Berkeley City Council dais" loading="lazy"></div><div class="caption">Election night</div></div>
+          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/28.png" alt="Cecilia at candidate forum" loading="lazy"></div><div class="caption">Candidate forum</div></div>
+          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/23.png" alt="Rally with DSA and Berkeley Tenants Union" loading="lazy"></div><div class="caption">Rally</div></div>
+          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/25.png" alt="Backyard fundraiser" loading="lazy"></div><div class="caption">House party</div></div>
+          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/26.png" alt="Coalition event with Yes on H signs" loading="lazy"></div><div class="caption">Coalition event</div></div>
+          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/27.png" alt="Volunteer team with Cecilia Lunaparra sign" loading="lazy"></div><div class="caption">Field team</div></div>
+          <div class="work-item"><div class="f-photo"><img src="assets/work-samples/24.png" alt="Campaign volunteers at campus event" loading="lazy"></div><div class="caption">On campus</div></div>
         </div>
         <ul class="deliv"><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M224 48H32a8 8 0 0 0-8 8v136a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a8 8 0 0 0-8-8M98.71 128L40 181.81V74.19Zm11.84 10.85l12 11.05a8 8 0 0 0 10.82 0l12-11.05l58 53.15H52.57ZM157.29 128L216 74.18v107.64Z"/></svg></span> Fundraising &amp; a citywide donor network</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M128 16a88.1 88.1 0 0 0-88 88c0 75.3 80 132.17 83.41 134.55a8 8 0 0 0 9.18 0C136 236.17 216 179.3 216 104a88.1 88.1 0 0 0-88-88m0 56a32 32 0 1 1-32 32a32 32 0 0 1 32-32"/></svg></span> Student field &amp; turnout program</li><li><span class="dicon"><svg viewBox="0 0 256 256"><path fill="#F2B417" d="M221.87 83.16A104.1 104.1 0 1 1 195.67 49l22.67-22.68a8 8 0 0 1 11.32 11.32L167.6 99.71l-37.71 37.71l-23.95 23.95a40 40 0 0 0 62-35.67a8 8 0 1 1 16-.9a56 56 0 0 1-95.5 42.79a56 56 0 0 1 73.13-84.43l22.73-22.77a87.88 87.88 0 1 0 23.13 29.67a8 8 0 0 1 14.44-6.9"/></svg></span> Policy &amp; senior campaign strategy</li></ul>
         <div class="coalition"><h4>The coalition we built:</h4><div class="chips"><span class="chip">SEIU</span><span class="chip">Alameda Labor Council</span></div></div></div>
