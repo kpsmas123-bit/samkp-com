@@ -1,1 +1,12 @@
+# secrets — never commit
+.env
+canva_tokens.json
+
+# local export/test artifacts
+test_export_*.png
+
+# python
+__pycache__/
+*.pyc
+
 .DS_Store
