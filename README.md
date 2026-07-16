@@ -1,54 +1,42 @@
 # samkp.com
 
-Personal site for Sam Kaplan Pettus. Designed in Canva; published to GitHub Pages
-at **samkp.com**. You edit in Canva, run one GitHub Action, and the site rebuilds:
-the Action exports each Canva page as a PNG, renders `index.html` with real text
-(SEO + accessibility) and clickable link-hotspots over the tape-label buttons.
+Personal site for Sam Kaplan Pettus — political organizer, communicator & strategist.
+Hand-written static HTML, published to GitHub Pages at **samkp.com**.
 
 ## Layout
 
 ```
-assets/            exported page PNGs (page-1.png … page-N.png, stable names)
-content.json       all real copy: name, title, meta description, per-page alt + transcriptions
-hotspots.json      clickable zones as PERCENTAGE coords {x,y,w,h,url} so they scale
-build_site.py      renders index.html from the three inputs above
-canva_export.py    CI engine: refresh token → rotate+persist → export pages → download
-.github/workflows/publish.yml   manual (workflow_dispatch) publish pipeline
+index.html         Home — full-screen hero (logo + portrait), then "Latest Projects" tiles
+consulting.html    Two scroll-snap panels: Consulting (orange) + Work history (blue)
+assets/            logo.svg, portrait.png, texture.jpg
 CNAME              samkp.com (custom domain)
 ```
 
-## The token rotation gotcha (read this)
+## How it deploys
 
-Canva rotates the refresh token on **every** refresh. If the new one isn't saved,
-the next run dies with `invalid_grant`. `canva_export.py` persists the rotated
-token **first, before exporting**:
-- locally → `canva_tokens.json`
-- in CI → writes it back to the `CANVA_REFRESH_TOKEN` repo secret via `gh secret set`,
-  which needs a **`GH_PAT`** secret (a PAT allowed to write Actions secrets).
+GitHub Pages builds **directly from the `main` branch** (root). Push to `main` and the
+site goes live — there is no build step and nothing generates the HTML. Edit by hand.
 
-## Local run
+## Design system
 
-```bash
-cp .env.example .env      # fill in real values (gitignored)
-set -a; . ./.env; set +a
-python3 canva_export.py   # exports assets/page-*.png, rotates token into canva_tokens.json
-python3 build_site.py     # writes index.html
-open index.html
-```
+Two colour "recipes", driven by CSS variables:
 
-## GitHub setup (one time)
+| | Consulting (orange) | Work (blue) |
+|---|---|---|
+| field | `#C6572A` | `#3C69AC` |
+| accent | `#1F3A2E` green | `#F2B417` gold |
+| cards | `#EAE1C6` cream | `#EAE1C6` cream |
 
-1. Create the repo and push this directory.
-2. Add repo secrets: `CANVA_CLIENT_ID`, `CANVA_CLIENT_SECRET`, `CANVA_REFRESH_TOKEN`,
-   `CANVA_DESIGN_ID` (`DAHO2N3OqNg`), and `GH_PAT`.
-3. Settings → Pages → Source = **GitHub Actions**.
-4. Settings → Pages → Custom domain = `samkp.com`; add the DNS records GitHub shows
-   (A/AAAA to GitHub Pages IPs for the apex, or ALIAS/ANAME); keep the `CNAME` file.
-5. Actions tab → **Publish samkp.com** → Run workflow.
+On `consulting.html` both recipes live on one page, scoped to `.panel-consult` and
+`.panel-work`, so each section keeps its own look.
 
-## Editing content
+- **Fonts:** Anton (headlines, uppercase), Lora (body serif), Poppins (nav/labels).
+- **Texture:** kraft photo on `soft-light` over the orange; SVG grain on `multiply` over the blue.
+- **Motion:** GSAP ScrollTrigger (scroll-reveal) and GSAP Flip (click-to-feature on the work
+  cards). Scroll-snap is native CSS (`scroll-snap-type: y proximity`). All motion respects
+  `prefers-reduced-motion`.
 
-- Change words/photos → edit in Canva, re-run the Action.
-- Change link targets or hotspot boxes → edit `hotspots.json` (percentages of the
-  page image; uncomment the `.hotspot` background in `build_site.py` to see the boxes).
-- Change SEO copy / transcriptions → edit `content.json`.
+## Filling asset slots
+
+Placeholders are marked `▢` in the HTML. Drop real files into `assets/` and point the `▢`
+element at them. Keep exports compressed — large images slow the page down.
