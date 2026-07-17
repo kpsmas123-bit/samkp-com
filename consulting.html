@@ -18,6 +18,7 @@
 :root{ --cream:#EAE1C6; --ink:#26312a; --card-bg:#EAE1C6; --h-font:'Anton'; --strip-h:160px; }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+@supports(height:100dvh){.panel{min-height:100dvh}}
 @media(prefers-reduced-motion:reduce){html{scroll-snap-type:none;scroll-behavior:auto}}
 body{-webkit-font-smoothing:antialiased}
 a{color:inherit}
@@ -189,7 +190,19 @@ nav a:hover{color:var(--cream);opacity:1}
 .coal-toggle:hover{opacity:1}
 
 @media(prefers-reduced-motion:reduce){.f-flip .flip-inner{transition:none}.lb-overlay{transition:none}}
-@media(max-width:640px){nav{gap:12px}nav .brand{font-size:17px}nav ul{gap:14px}nav a{font-size:11px;letter-spacing:.06em}.panel-consult .cards{grid-template-columns:1fr}}
+@media(max-width:640px){
+  html{scroll-snap-type:none}
+  nav{gap:10px;padding:16px 20px}nav .brand{font-size:17px}nav ul{gap:6px}
+  nav a{font-size:11px;letter-spacing:.06em;min-height:48px;display:inline-flex;align-items:center;padding:0 8px}
+  .panel-consult .wrap{padding:0 20px;padding-bottom:40px}
+  .panel-consult .cards{grid-template-columns:1fr}
+  .panel-consult .card{padding:20px 22px}
+  .panel-work .head{padding:18px 20px 4px}
+  .panel-work .grid{padding:14px 20px 26px}
+  .panel-work .card.is-featured{padding:24px 20px}
+  .vid-gallery{padding:10px 20px 20px}
+  .site-footer{font-size:13px;padding:40px 20px 48px}
+}
 @media(max-width:560px){
   .panel-work .grid{grid-template-columns:1fr}
   :root{--strip-h:130px}
