@@ -1,0 +1,211 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resume — Sam Kaplan Pettus</title>
+<meta name="description" content="Resume of Sam Kaplan Pettus — political organizer, communicator, and strategist based in the East Bay.">
+<link rel="canonical" href="https://samkp.com/resume.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Resume — Sam Kaplan Pettus">
+<meta property="og:description" content="Political organizer, communicator, and strategist based in the East Bay.">
+<meta property="og:url" content="https://samkp.com/resume.html">
+<meta property="og:image" content="https://samkp.com/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231F3A2E'/%3E%3Ctext x='16' y='24' font-family='Anton,Impact,sans-serif' font-size='22' fill='%23F2B417' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@500;600;700;800&family=Archivo:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root{
+  --field:#C6572A;--cream:#EAE1C6;--ink:#26312a;--accent:#1F3A2E;--on-accent:#EAE1C6;
+  --gold:#F2B417;--h-font:'Anton';--h-transform:uppercase;--h-weight:400;
+  --body-font:'Lora';--sh:1px;--sh-color:#F2B417;--radius:4px;--tilt:1.4deg;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--field);color:var(--cream);font-family:var(--body-font),Georgia,serif;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opacity:.55;mix-blend-mode:soft-light;background:url("assets/texture.jpg") center/cover fixed}
+a{color:inherit}
+.hf{font-family:var(--h-font),sans-serif;font-weight:var(--h-weight);text-transform:var(--h-transform)}
+.wrap{max-width:720px;margin:0 auto;padding:0 34px;position:relative;z-index:1}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+nav{display:flex;justify-content:center;align-items:center;gap:20px;max-width:1080px;margin:0 auto;padding:22px 34px;position:relative;z-index:1}
+nav ul{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
+nav a{text-decoration:none;font-weight:600;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;font-family:Poppins;color:var(--cream);transition:color .2s,opacity .2s}
+nav a:hover{opacity:1}
+
+.cv-header{padding:48px 0 28px;position:relative;z-index:1}
+.cv-title{font-family:var(--h-font),sans-serif;font-size:clamp(42px,8vw,68px);text-transform:uppercase;line-height:.9;color:var(--cream);text-shadow:var(--sh) var(--sh) 0 var(--sh-color);transform:rotate(-0.8deg)}
+.cv-name{font-family:Poppins,sans-serif;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-top:8px}
+.cv-contact{display:flex;gap:20px;flex-wrap:wrap;font-family:Poppins,sans-serif;font-size:12px;opacity:.85;margin-top:14px}
+.cv-contact a{border-bottom:1px solid rgba(234,225,198,.35);transition:border-color .2s}
+.cv-contact a:hover{border-color:var(--cream)}
+
+.cv-section{margin-top:36px}
+.cv-section-title{font-family:var(--h-font),sans-serif;font-size:clamp(22px,4vw,28px);text-transform:uppercase;color:var(--accent);letter-spacing:.04em;margin-bottom:16px}
+
+.cv-entry{border-left:3px solid var(--accent);padding-left:18px;margin-bottom:22px}
+.cv-entry.older{border-left-color:var(--gold)}
+.cv-entry-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px}
+.cv-entry-org{font-family:var(--body-font),serif;font-weight:500;font-size:17px}
+.cv-entry-date{font-family:Poppins,sans-serif;font-size:11px;font-weight:600;opacity:.65;text-transform:uppercase;letter-spacing:.06em}
+.cv-entry-role{font-family:Poppins,sans-serif;font-size:12px;font-weight:600;opacity:.75;margin-top:2px}
+.cv-entry-desc{font-size:15px;line-height:1.55;margin-top:8px;opacity:.9}
+
+.cv-inline{font-family:Poppins,sans-serif;font-size:13px;font-weight:600;line-height:2;letter-spacing:.03em;opacity:.9}
+
+.cv-clip{border-left:3px solid var(--gold);padding-left:18px;margin-bottom:20px}
+.cv-clip-pub{font-family:Poppins,sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.cv-clip-title{font-family:var(--body-font),serif;font-weight:500;font-size:16px;margin-top:3px}
+.cv-clip-title a{text-decoration:none;border-bottom:1px solid rgba(234,225,198,.3);transition:border-color .2s}
+.cv-clip-title a:hover{border-color:var(--cream)}
+.cv-clip-quote{font-size:14px;line-height:1.5;margin-top:6px;opacity:.8;font-style:italic}
+
+.site-footer{text-align:center;padding:48px 34px 60px;font-size:11px;line-height:1.6;color:var(--cream);opacity:.7;max-width:60ch;margin:0 auto;font-family:Poppins,sans-serif;position:relative;z-index:1}
+
+@media(max-width:640px){
+  nav{gap:10px;padding:12px 20px;position:fixed;top:0;left:0;right:0;z-index:80;background:transparent}
+  nav ul{gap:6px}
+  nav a{font-size:11px;letter-spacing:.06em;min-height:48px;display:inline-flex;align-items:center;padding:0 8px}
+  .wrap{padding:0 20px}
+  .cv-header{padding-top:72px}
+  .cv-contact{gap:12px;font-size:11px}
+  .cv-entry-head{flex-direction:column;gap:0}
+  .cv-entry-date{margin-top:2px}
+  .site-footer{font-size:13px;padding:40px 20px 48px}
+}
+</style></head>
+<body>
+<nav><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li><li><a href="resume.html">Resume</a></li></ul></nav>
+<h1 class="sr-only">Resume — Sam Kaplan Pettus</h1>
+<main class="wrap">
+  <div class="cv-header reveal-el">
+    <div class="cv-title">My Resume</div>
+    <div class="cv-name">Sam Kaplan Pettus</div>
+    <div class="cv-contact">
+      <span>Berkeley, CA</span>
+      <span>he/him</span>
+      <a href="mailto:sam.kp.tree@gmail.com">sam.kp.tree@gmail.com</a>
+      <span>(510) 833-0974</span>
+    </div>
+  </div>
+
+  <section class="cv-section">
+    <h2 class="cv-section-title reveal-el">Education</h2>
+    <div class="cv-entry reveal-el">
+      <div class="cv-entry-head">
+        <div class="cv-entry-org">University of California, Berkeley</div>
+        <div class="cv-entry-date">2022 &ndash; 2025</div>
+      </div>
+      <div class="cv-entry-role">BA, Political Science</div>
+      <p class="cv-entry-desc">Ongoing research: <em>Terrain: A National Labor Organizing Strategic Model</em> &mdash; an open-source tool evaluating strategic labor leverage across all 3,143 U.S. counties.</p>
+    </div>
+  </section>
+
+  <section class="cv-section">
+    <h2 class="cv-section-title reveal-el">Experience</h2>
+    <div class="cv-entry reveal-el">
+      <div class="cv-entry-head">
+        <div class="cv-entry-org">Project Super Bloom</div>
+        <div class="cv-entry-date">Feb &ndash; Aug 2025</div>
+      </div>
+      <div class="cv-entry-role">Policy and Finance Director</div>
+      <p class="cv-entry-desc">Directed four student fellows on fundraising and statewide policy research. Raised $24,000 through multiple channels and maintained relationships with 30+ California legislators.</p>
+    </div>
+    <div class="cv-entry reveal-el">
+      <div class="cv-entry-head">
+        <div class="cv-entry-org">Civic Voice Partners</div>
+        <div class="cv-entry-date">2024 &ndash; Present</div>
+      </div>
+      <div class="cv-entry-role">Political Strategy &amp; Communications Consultant</div>
+      <p class="cv-entry-desc">Backend and strategic support across five Bay Area campaigns. Coordinated 30+ events, created campaign materials, and directed communications.</p>
+    </div>
+
+    <div class="cv-entry reveal-el">
+      <div class="cv-entry-head">
+        <div class="cv-entry-org">Cecilia Lunaparra for Berkeley City Council</div>
+        <div class="cv-entry-date">Jan &ndash; Apr 2024</div>
+      </div>
+      <div class="cv-entry-role">Fundraising Director &middot; District 7</div>
+      <p class="cv-entry-desc">Executed 20+ fundraising events and raised $37,000 leveraging Berkeley&rsquo;s public financing program.</p>
+    </div>
+    <div class="cv-entry older reveal-el">
+      <div class="cv-entry-head">
+        <div class="cv-entry-org">City of Berkeley Youth Commission</div>
+        <div class="cv-entry-date">2020 &ndash; 2022</div>
+      </div>
+      <div class="cv-entry-role">Chair</div>
+      <p class="cv-entry-desc">Led commission expansion throughout the pandemic and established youth representation on environmental commission.</p>
+    </div>
+    <div class="cv-entry older reveal-el">
+      <div class="cv-entry-head">
+        <div class="cv-entry-org">YMCA Youth &amp; Government</div>
+        <div class="cv-entry-date">2018 &ndash; 2022</div>
+      </div>
+      <div class="cv-entry-role">74th California State Youth Governor</div>
+      <p class="cv-entry-desc">Presided over 3,000-delegate conference. Advocated on public health and nonprofit policy at the state level.</p>
+    </div>
+  </section>
+
+  <section class="cv-section">
+    <h2 class="cv-section-title reveal-el">Tools</h2>
+    <p class="cv-inline reveal-el">NationBuilder &nbsp;&middot;&nbsp; QGIS &nbsp;&middot;&nbsp; Canva Pro &nbsp;&middot;&nbsp; CallTime.ai &nbsp;&middot;&nbsp; ActBlue &nbsp;&middot;&nbsp; Meta Ads &nbsp;&middot;&nbsp; Squarespace &nbsp;&middot;&nbsp; Claude Code &nbsp;&middot;&nbsp; GitHub &nbsp;&middot;&nbsp; Supabase &nbsp;&middot;&nbsp; Porkbun &nbsp;&middot;&nbsp; PDI</p>
+  </section>
+
+  <section class="cv-section">
+    <h2 class="cv-section-title reveal-el">Expertise</h2>
+    <p class="cv-inline reveal-el">Coalition management &nbsp;&middot;&nbsp; Legislative advocacy &nbsp;&middot;&nbsp; Candidate coaching &nbsp;&middot;&nbsp; PAC operations &nbsp;&middot;&nbsp; Fundraising strategy</p>
+  </section>
+
+  <section class="cv-section" style="margin-bottom:20px">
+    <h2 class="cv-section-title reveal-el">Press</h2>
+    <div class="cv-clip reveal-el">
+      <div class="cv-clip-pub">Democracy Now! &nbsp;&middot;&nbsp; Apr 2025</div>
+      <div class="cv-clip-title"><a href="https://www.democracynow.org/2025/4/18/headlines/the_fight_to_win_all_fights_students_and_faculty_protest_trump_crackdown_on_schools" target="_blank" rel="noopener">&ldquo;The Fight to Win All Fights&rdquo;: Students and Faculty Protest Trump Crackdown on Schools</a></div>
+      <p class="cv-clip-quote">&ldquo;This is the fight to win all fights and we need to show up in a way that is more powerful and more abundant than in the past.&rdquo;</p>
+    </div>
+    <div class="cv-clip reveal-el">
+      <div class="cv-clip-pub">Berkeleyside &nbsp;&middot;&nbsp; Mar 2023</div>
+      <div class="cv-clip-title"><a href="https://www.berkeleyside.org/2023/03/02/berkeley-youth-permanent-seat-on-city-climate-commission" target="_blank" rel="noopener">Berkeley youth win two seats on city climate commission</a></div>
+      <p class="cv-clip-quote">&ldquo;One group of residents of our city that has really been left out of policy decisions are youth.&rdquo;</p>
+    </div>
+    <div class="cv-clip reveal-el">
+      <div class="cv-clip-pub">Berkeley Daily Planet &nbsp;&middot;&nbsp; Oct 2022</div>
+      <div class="cv-clip-title"><a href="https://www.berkeleydailyplanet.com/issue/2022-10-02/article/49992" target="_blank" rel="noopener">An Activist&rsquo;s Diary: Youth representation on the Environment and Climate Commission</a></div>
+      <p class="cv-clip-quote">&ldquo;I think a lot of the work that commissions do is symbolic, because City Council doesn&rsquo;t actually have to listen to us.&rdquo;</p>
+    </div>
+    <div class="cv-clip reveal-el">
+      <div class="cv-clip-pub">Berkeleyside &nbsp;&middot;&nbsp; Oct 2021</div>
+      <div class="cv-clip-title"><a href="https://www.berkeleyside.org/2021/10/08/students-testimony-puts-pressure-berkeley-school-board-sexual-harm-reforms" target="_blank" rel="noopener">Student&rsquo;s testimony puts pressure on school board to move faster on sexual harm reforms</a></div>
+    </div>
+    <div class="cv-clip reveal-el">
+      <div class="cv-clip-pub">Berkeleyside &nbsp;&middot;&nbsp; Sep 2021</div>
+      <div class="cv-clip-title"><a href="https://www.berkeleyside.org/2021/09/20/berkeley-unified-school-district-vaccine-or-test-requirement" target="_blank" rel="noopener">Berkeley Unified to consider vaccine-or-test rule for students</a></div>
+    </div>
+    <div class="cv-clip reveal-el">
+      <div class="cv-clip-pub">Berkeleyside &nbsp;&middot;&nbsp; Mar 2018</div>
+      <div class="cv-clip-title"><a href="https://www.berkeleyside.org/2018/03/14/went-school-never-came-home-students-across-berkeley-u-s-grieve-gun-violence-victims" target="_blank" rel="noopener">&ldquo;They went to school and never came home&rdquo;: Students across Berkeley demand end to gun violence</a></div>
+    </div>
+    <div class="cv-clip reveal-el">
+      <div class="cv-clip-pub">Berkeley High Jacket &nbsp;&middot;&nbsp; Oct 2018</div>
+      <div class="cv-clip-title"><a href="https://www.berkeleyhighjacket.com/2018/news/protesters-march-for-climate-legislation/" target="_blank" rel="noopener">Protesters March for Climate Legislation</a></div>
+      <p class="cv-clip-quote">&ldquo;Every generation has a social and political movement, and this is ours.&rdquo;</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">&copy; 2026 Sam Kaplan Pettus. All rights reserved. All campaign work shown is the property of the respective campaigns and clients, used with permission for portfolio purposes. Do not reproduce or reuse images, designs, or copy without written permission.</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function initReveal(){
+  if(reduce){gsap.set('.reveal-el',{opacity:1,y:0});return;}
+  gsap.utils.toArray('.reveal-el').forEach(function(el){
+    gsap.fromTo(el,{opacity:0,y:26},{opacity:1,y:0,duration:.7,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 90%'}});
+  });
+}
+initReveal();
+</script>
+</body></html>

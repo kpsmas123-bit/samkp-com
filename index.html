@@ -44,10 +44,10 @@ nav a:hover{color:var(--cream);opacity:1}
 
 /* hero */
 .hero{height:100vh;display:flex;flex-direction:column;text-align:center;position:relative;overflow:hidden;scroll-snap-align:start}
-.hero-fill{flex:1;display:flex;align-items:flex-end;justify-content:center;padding:0 34px}
-.hero-row{display:flex;align-items:flex-end;justify-content:center;gap:0;max-width:900px}
-.logo{width:clamp(260px,40vw,540px);max-height:calc(100vh - 100px);height:auto;display:block;transform:rotate(calc(var(--tilt)*-1));filter:drop-shadow(0 10px 22px rgba(20,10,0,.28));flex-shrink:0}
-.portrait{width:clamp(330px,48vw,630px);max-height:calc(100vh - 100px);height:auto;display:block;filter:drop-shadow(0 16px 34px rgba(10,20,40,.3));flex-shrink:0;margin-left:-30px}
+.hero-fill{flex:1;padding:0 34px}
+.hero-row{display:contents}
+.logo{width:clamp(240px,32vw,440px);height:auto;display:block;transform:rotate(calc(var(--tilt)*-1));filter:drop-shadow(0 10px 22px rgba(20,10,0,.28));position:absolute;left:clamp(24px,6vw,100px);top:clamp(80px,12vh,140px);z-index:2}
+.portrait{width:clamp(330px,52vw,680px);max-height:calc(100vh - 60px);height:auto;display:block;filter:drop-shadow(0 16px 34px rgba(10,20,40,.3));position:absolute;right:clamp(0px,4vw,60px);bottom:0;z-index:1}
 .intro{font-size:clamp(17px,2.4vw,22px);line-height:1.5;max-width:40ch;margin:0 auto;padding:50px 34px 10px;text-align:center;color:var(--cream)}
 
 /* ongoing projects */
@@ -85,9 +85,8 @@ nav a:hover{color:var(--cream);opacity:1}
   nav a{font-size:11px;letter-spacing:.06em;min-height:48px;display:inline-flex;align-items:center;padding:0 8px}
   .hero{padding-top:56px;height:80vh;height:80dvh}
   .hero-fill{padding:0 20px}
-  .hero-row{flex-direction:column;align-items:center;gap:0}
-  .logo{width:clamp(220px,65vw,320px)}
-  .portrait{width:clamp(180px,50vw,260px);margin-left:0;margin-top:-10px}
+  .logo{width:clamp(160px,48vw,220px);left:16px;top:66px}
+  .portrait{width:clamp(200px,58vw,300px);right:50%;transform:translateX(50%)}
   .intro{padding:40px 20px 10px;font-size:16px}
   .projects{padding:40px 20px 24px}
   .proj-row{flex-direction:column;align-items:stretch}
@@ -102,11 +101,11 @@ nav a:hover{color:var(--cream);opacity:1}
 <body>
 <main>
   <section class="hero">
-    <nav><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li></ul></nav>
+    <nav><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li><li><a href="resume.html">Resume</a></li></ul></nav>
     <h1 class="sr-only">Sam Kaplan Pettus</h1>
+    <img class="logo reveal-el" src="assets/logo.webp" alt="Sam Kaplan Pettus" width="920" height="920">
     <div class="hero-fill">
       <div class="hero-row reveal-el">
-        <img class="logo" src="assets/logo.webp" alt="Sam Kaplan Pettus" width="920" height="920">
         <img class="portrait" src="assets/portrait.webp" alt="Sam Kaplan Pettus" width="680" height="680" fetchpriority="high">
       </div>
     </div>
