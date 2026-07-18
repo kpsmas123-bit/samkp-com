@@ -183,8 +183,9 @@ nav a:hover{color:var(--cream);opacity:1}
 /* coalition block */
 .coalition{margin-top:16px;padding-top:14px;border-top:1px solid rgba(38,49,42,.16)}
 .coalition h4{font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);opacity:.55;margin-bottom:8px}
-.coalition .chips{display:flex;flex-wrap:wrap;gap:6px}
-.coalition .chip{display:inline-block;padding:4px 12px;border-radius:20px;background:rgba(38,49,42,.09);font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:11.5px;color:var(--ink);white-space:nowrap}
+.coalition .chips{font-family:Poppins,system-ui,sans-serif;font-weight:600;font-size:11.5px;line-height:2;color:var(--ink)}
+.coalition .chip{display:inline;white-space:nowrap}
+.coalition .chip+.chip::before{content:" | ";opacity:.35;font-weight:400}
 .coal-group{margin-bottom:10px}
 .coal-sub{display:block;font-family:Poppins,system-ui,sans-serif;font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);opacity:.4;margin-bottom:5px;margin-top:8px}
 .coalition.is-clamped .chips{max-height:62px;overflow:hidden}
