@@ -27,7 +27,7 @@ body{background:var(--field);color:var(--cream);font-family:var(--body-font),Geo
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opacity:.55;mix-blend-mode:soft-light;background:url("assets/texture.jpg") center/cover fixed}
 a{color:inherit}
 .hf{font-family:var(--h-font),sans-serif;font-weight:var(--h-weight);text-transform:var(--h-transform)}
-.wrap{max-width:720px;margin:0 auto;padding:0 34px;position:relative;z-index:1}
+.wrap{max-width:720px;margin:0 auto;padding:0 100px;position:relative;z-index:1}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
 
 nav{display:flex;justify-content:center;align-items:center;gap:20px;max-width:1080px;margin:0 auto;padding:22px 34px;position:relative;z-index:1}
@@ -45,8 +45,11 @@ nav a:hover{opacity:1}
 .cv-section{margin-top:36px}
 .cv-section-title{font-family:var(--h-font),sans-serif;font-size:clamp(22px,4vw,28px);text-transform:uppercase;color:var(--accent);letter-spacing:.04em;margin-bottom:16px}
 
-.cv-entry{border-left:3px solid var(--accent);padding-left:18px;margin-bottom:22px}
+.cv-entry{border-left:3px solid var(--accent);padding-left:18px;margin-bottom:22px;position:relative}
 .cv-entry.older{border-left-color:var(--gold)}
+.cv-sticker{position:absolute;width:56px;height:56px;object-fit:contain;filter:url(#sticker);pointer-events:none}
+.cv-sticker.right{right:-80px;top:4px;transform:rotate(5deg)}
+.cv-sticker.left{left:-80px;top:4px;transform:rotate(-6deg)}
 .cv-entry-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px}
 .cv-entry-org{font-family:var(--body-font),serif;font-weight:500;font-size:17px}
 .cv-entry-date{font-family:Poppins,sans-serif;font-size:11px;font-weight:600;opacity:.65;text-transform:uppercase;letter-spacing:.06em}
@@ -73,10 +76,20 @@ nav a:hover{opacity:1}
   .cv-contact{gap:12px;font-size:11px}
   .cv-entry-head{flex-direction:column;gap:0}
   .cv-entry-date{margin-top:2px}
+  .cv-sticker{display:none}
   .site-footer{font-size:13px;padding:40px 20px 48px}
 }
 </style></head>
 <body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <filter id="sticker" x="-40%" y="-40%" width="180%" height="180%">
+    <feMorphology in="SourceAlpha" operator="dilate" radius="2.2" result="d"/>
+    <feFlood flood-color="#F7EFDC" result="c"/>
+    <feComposite in="c" in2="d" operator="in" result="border"/>
+    <feMerge result="st"><feMergeNode in="border"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <feDropShadow in="st" dx="0" dy="2.5" stdDeviation="2" flood-color="#0f1e38" flood-opacity="0.4"/>
+  </filter>
+</defs></svg>
 <nav><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li><li><a href="resume.html">Resume</a></li></ul></nav>
 <h1 class="sr-only">Resume — Sam Kaplan Pettus</h1>
 <main class="wrap">
@@ -94,6 +107,7 @@ nav a:hover{opacity:1}
   <section class="cv-section">
     <h2 class="cv-section-title reveal-el">Education</h2>
     <div class="cv-entry reveal-el">
+      <img class="cv-sticker right" src="assets/logos/ucberkeley.svg" alt="UC Berkeley" loading="lazy">
       <div class="cv-entry-head">
         <div class="cv-entry-org">University of California, Berkeley</div>
         <div class="cv-entry-date">2022 &ndash; 2025</div>
@@ -106,6 +120,7 @@ nav a:hover{opacity:1}
   <section class="cv-section">
     <h2 class="cv-section-title reveal-el">Experience</h2>
     <div class="cv-entry reveal-el">
+      <img class="cv-sticker left" src="assets/logos/superbloom2.png" alt="Project Super Bloom" loading="lazy">
       <div class="cv-entry-head">
         <div class="cv-entry-org">Project Super Bloom</div>
         <div class="cv-entry-date">Feb &ndash; Aug 2025</div>
@@ -114,6 +129,7 @@ nav a:hover{opacity:1}
       <p class="cv-entry-desc">Directed four student fellows on fundraising and statewide policy research. Raised $24,000 through multiple channels and maintained relationships with 30+ California legislators.</p>
     </div>
     <div class="cv-entry reveal-el">
+      <img class="cv-sticker right" src="assets/logos/cvp2.png" alt="Civic Voice Partners" loading="lazy">
       <div class="cv-entry-head">
         <div class="cv-entry-org">Civic Voice Partners</div>
         <div class="cv-entry-date">2024 &ndash; Present</div>
@@ -123,6 +139,7 @@ nav a:hover{opacity:1}
     </div>
 
     <div class="cv-entry reveal-el">
+      <img class="cv-sticker left" src="assets/logos/cecilia.png" alt="Cecilia for Berkeley City Council" loading="lazy">
       <div class="cv-entry-head">
         <div class="cv-entry-org">Cecilia Lunaparra for Berkeley City Council</div>
         <div class="cv-entry-date">Jan &ndash; Apr 2024</div>
@@ -139,6 +156,7 @@ nav a:hover{opacity:1}
       <p class="cv-entry-desc">Led commission expansion throughout the pandemic and established youth representation on environmental commission.</p>
     </div>
     <div class="cv-entry older reveal-el">
+      <img class="cv-sticker right" src="assets/logos/ymca-yg.png" alt="YMCA Youth &amp; Government" loading="lazy">
       <div class="cv-entry-head">
         <div class="cv-entry-org">YMCA Youth &amp; Government</div>
         <div class="cv-entry-date">2018 &ndash; 2022</div>
