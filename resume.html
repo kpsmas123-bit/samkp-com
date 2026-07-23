@@ -23,7 +23,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{background:var(--field);color:var(--cream);font-family:var(--body-font),Georgia,serif;-webkit-font-smoothing:antialiased}
+body{background:var(--field);color:var(--cream);font-family:var(--body-font),Georgia,serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opacity:.55;mix-blend-mode:soft-light;background:url("assets/texture.jpg") center/cover fixed}
 a{color:inherit}
 .hf{font-family:var(--h-font),sans-serif;font-weight:var(--h-weight);text-transform:var(--h-transform)}
@@ -71,7 +71,7 @@ nav a:hover{opacity:1}
 .site-footer{text-align:center;padding:48px 34px 60px;font-size:11px;line-height:1.6;color:var(--cream);opacity:.7;max-width:60ch;margin:0 auto;font-family:Poppins,sans-serif;position:relative;z-index:1}
 
 @media(max-width:640px){
-  nav{gap:10px;padding:12px 20px;position:fixed;top:0;left:0;right:0;z-index:80;background:transparent}
+  nav{gap:10px;padding:12px 20px;position:fixed;top:0;left:0;right:0;z-index:80;background:#C6572A}
   nav ul{gap:6px}
   nav a{font-size:11px;letter-spacing:.06em;min-height:48px;display:inline-flex;align-items:center;padding:0 8px}
   .wrap{padding:0 20px}
