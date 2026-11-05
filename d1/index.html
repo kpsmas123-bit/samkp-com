@@ -1,0 +1,420 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>District 1 Count Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: field-desk sheet. Map left, precinct readout right, a "what it takes" calculator below. */
+:root{
+  --bg:#f6f7f5; --panel:#ffffff; --ink:#1b2422; --muted:#5d6b67; --rule:#dde3e0;
+  --wru:#17756d; --wru-soft:#cfe7e3; --bab:#a8622b; --bab-soft:#f1dcc8; --mid:#eceeea;
+  --exh:#9aa5a1; --focus:#17756d; --ontint:#ffffff; --c-ber:#5b6f9a; --c-gan:#8a6a9c; --c-kro:#7c8a3e;
+  --display:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121816; --panel:#1a2220; --ink:#e7ecea; --muted:#9aa8a4; --rule:#2c3633;
+  --wru:#4fc0b4; --wru-soft:#1f3f3b; --bab:#e0995e; --bab-soft:#46321f; --mid:#252e2c;
+  --exh:#6d7a76; --focus:#4fc0b4; --ontint:#0f1513; --c-ber:#93a6d4; --c-gan:#c0a0d2; --c-kro:#b2c06c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121816; --panel:#1a2220; --ink:#e7ecea; --muted:#9aa8a4; --rule:#2c3633;
+  --wru:#4fc0b4; --wru-soft:#1f3f3b; --bab:#e0995e; --bab-soft:#46321f; --mid:#252e2c;
+  --exh:#6d7a76; --focus:#4fc0b4; --ontint:#0f1513; --c-ber:#93a6d4; --c-gan:#c0a0d2; --c-kro:#b2c06c; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:1120px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:22px}
+header{display:grid;gap:6px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,4vw,36px);line-height:1.1;margin:0;text-wrap:balance}
+h2{font-size:17px;font-weight:700;margin:0;text-wrap:balance}
+.lede{color:var(--muted);max-width:68ch;margin:0}
+.score{display:flex;flex-wrap:wrap;gap:10px 28px;align-items:baseline;padding-block:14px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.score .who{display:flex;gap:10px;align-items:baseline}
+.score .n{font-family:var(--mono);font-size:28px;font-weight:600;font-variant-numeric:tabular-nums}
+.score .pct{font-family:var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.sw{width:12px;height:12px;border-radius:2px;display:inline-block;flex:none;transform:translateY(1px)}
+.gap{font-family:var(--mono);color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:16px;display:grid;gap:12px;min-width:0}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tabs button{font:inherit;font-size:13px;font-weight:600;padding:6px 10px;border-radius:4px;border:1px solid var(--rule);background:transparent;color:var(--muted);cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible,input:focus-visible,path:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+svg.map{width:100%;height:auto;display:block}
+svg.map path{stroke:var(--panel);stroke-width:2.5;cursor:pointer;transition:opacity .15s}
+svg.map path.sel{stroke:var(--ink);stroke-width:3}
+svg.map text{font-family:var(--mono);font-size:13px;fill:var(--ink);pointer-events:none;paint-order:stroke;stroke:var(--panel);stroke-width:3px}
+svg.map text.big{font-size:17px;font-weight:600}
+.legend{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--muted);flex-wrap:wrap}
+.ramp{height:10px;width:180px;max-width:50vw;border-radius:2px}
+.note{font-size:13px;color:var(--muted);margin:0}
+.bars{display:grid;gap:6px}
+.bar{display:grid;grid-template-columns:118px minmax(0,1fr) 74px;gap:8px;align-items:center;font-size:13px}
+.bar .track{height:12px;background:var(--mid);border-radius:2px;overflow:hidden}
+.bar .fill{height:100%}
+.bar .v{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.split{display:flex;height:22px;border-radius:3px;overflow:hidden;font-family:var(--mono);font-size:12px;font-weight:600}
+.split div{display:flex;align-items:center;padding:0 6px;white-space:nowrap;overflow:hidden;color:var(--ontint)}
+.k{font-size:12px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:6px 8px;border-bottom:1px solid var(--rule)}
+th:first-child,td:first-child{text-align:left}
+th{font-weight:600;color:var(--muted);font-size:12px}
+td{font-family:var(--mono)}
+tr.hl td{background:var(--mid)}
+.tablewrap{overflow-x:auto}
+footer{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:90ch}
+footer a{color:inherit}
+.ctl{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.ctl button{font:inherit;font-size:13px;font-weight:600;padding:6px 10px;border-radius:4px;border:1px solid var(--rule);background:transparent;color:var(--ink);cursor:pointer}
+.ctl button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ctl button:disabled{opacity:.4;cursor:default}
+.flowround{font-family:var(--mono);font-size:13px;color:var(--muted);margin-left:auto}
+.dotwrap{overflow-x:auto}
+svg#dots{width:100%;min-width:520px;height:auto;display:block}
+svg#dots circle{transition:transform .9s cubic-bezier(.65,0,.35,1),opacity .3s}
+svg#dots text{font-family:var(--mono);fill:var(--ink)}
+svg#dots .muted{fill:var(--muted)}
+.flowcap{margin:0;font-size:15px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style>
+.srcline{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:13px;color:var(--muted)}
+.badge{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:3px;border:1px solid var(--rule);color:var(--ink)}
+.badge.live{border-color:var(--wru);color:var(--wru)}
+#fExplain,#f-cap,#preOff{display:none!important}
+.secnote{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td.w{color:var(--wru);font-weight:600}
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Berkeley City Council · District 1 · Ranked-choice count</div>
+  <h1>Where the District 1 count stands</h1>
+  <div class="srcline">
+    <span class="badge" id="srcBadge">Ballot file</span>
+    <span id="srcText">November 04, 2:07 AM</span>
+  </div>
+</header>
+
+<div class="score" aria-label="Final round, districtwide">
+  <div class="who"><span class="sw" style="background:var(--bab)"></span><strong>Babitt</strong><span class="n" id="sB">—</span><span class="pct" id="sBp">—</span></div>
+  <div class="who"><span class="sw" style="background:var(--wru)"></span><strong>Wrubel</strong><span class="n" id="sW">—</span><span class="pct" id="sWp">—</span></div>
+  <div class="gap" id="sGap">—</div>
+</div>
+
+<section class="panel" aria-labelledby="flowh" id="flow">
+  <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline">
+    <h2 id="flowh">Round by round</h2>
+    <span class="note">1 dot = <span id="fUnit">10</span> ballots</span>
+  </div>
+  <p class="note" style="max-width:72ch" id="fExplain">When a candidate is eliminated, their dots move to the next candidate those voters ranked, or to Exhausted if they ranked no one left. The dashed line is a majority of continuing ballots.</p>
+  <div class="ctl">
+    <button id="f-prev" type="button">Previous round</button>
+    <button id="f-play" type="button">Play</button>
+    <button id="f-pause" type="button" hidden>Pause</button>
+    <button id="f-next" type="button">Next round</button>
+    <span class="flowround">Round <b id="f-rd">1</b> of <b id="f-of">4</b></span>
+  </div>
+  <div class="ctl" role="group" aria-label="Highlight a precinct" id="preCtl">
+    <span class="note">Highlight:</span>
+    <button class="f-pre" type="button" data-p="-1" aria-pressed="true">All precincts</button>
+    <button class="f-pre" type="button" data-p="0" aria-pressed="false">209310</button>
+    <button class="f-pre" type="button" data-p="1" aria-pressed="false">207200</button>
+    <button class="f-pre" type="button" data-p="2" aria-pressed="false">209700</button>
+  </div>
+  <p class="note" id="preOff" hidden>Precinct highlighting needs the ballot-level file. The county's live report only gives districtwide rounds; it comes back when a newer ballot file is loaded.</p>
+  <div class="dotwrap"><svg id="dots" role="img" aria-label="Ranked-choice rounds as moving dots"></svg></div>
+  <p class="flowcap" id="f-cap" aria-live="polite"></p>
+</section>
+
+<section class="panel" aria-labelledby="histh">
+  <h2 id="histh">Update by update</h2>
+  <div class="tablewrap"><table id="hist"></table></div>
+</section>
+
+<div class="grid">
+  <section class="panel" aria-labelledby="maph">
+    <div class="secnote">Precinct detail · ballot file of Nov 4, 2:07 AM</div>
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+      <h2 id="maph">Precinct map</h2>
+      <div class="tabs" role="group" aria-label="Map metric">
+        <button id="m-final" aria-pressed="true" data-m="final">Final round</button>
+        <button id="m-r1" aria-pressed="false" data-m="r1">Wrubel 1st choice</button>
+        <button id="m-ed" aria-pressed="false" data-m="ed">Election Day only</button>
+        <button id="m-n" aria-pressed="false" data-m="n">Ballots counted</button>
+      </div>
+    </div>
+    <svg class="map" id="map" viewBox="0 0 640 380" role="img" aria-label="Map of District 1's three consolidated precincts"></svg>
+    <div class="legend" id="legend"></div>
+  </section>
+  <section class="panel" aria-live="polite" id="detail"></section>
+</div>
+
+<section class="panel" aria-labelledby="tblh">
+  <div class="secnote">Ballot file of Nov 4, 2:07 AM</div>
+  <h2 id="tblh">All three precincts</h2>
+  <div class="tablewrap"><table id="tbl"></table></div>
+</section>
+
+<footer><div>Source: Alameda County Registrar of Voters. Unofficial until certified.</div></footer>
+</div>
+
+<script>
+const GEO=[{"p":"209310","t":"Polygon","c":[[[[-122.29213,37.8691],[-122.29256,37.87042],[-122.29298,37.87169],[-122.29327,37.87259],[-122.29354,37.87345],[-122.29411,37.87521],[-122.2945,37.87639],[-122.29488,37.87755],[-122.29526,37.87875],[-122.29581,37.88048],[-122.2964,37.88227],[-122.29648,37.88252],[-122.29657,37.88277],[-122.29672,37.88323],[-122.29652,37.88343],[-122.29625,37.88348],[-122.29616,37.88318],[-122.29599,37.88297],[-122.29571,37.88292],[-122.29549,37.88279],[-122.29523,37.88285],[-122.29486,37.88271],[-122.29457,37.88267],[-122.29426,37.88267],[-122.29403,37.88293],[-122.29379,37.88305],[-122.29342,37.88297],[-122.29308,37.88306],[-122.29284,37.88294],[-122.29254,37.88293],[-122.29221,37.88295],[-122.29201,37.88314],[-122.29175,37.8831],[-122.29154,37.88326],[-122.29138,37.88306],[-122.2911,37.8831],[-122.29085,37.88316],[-122.29049,37.8828],[-122.29032,37.88304],[-122.2899,37.88295],[-122.28948,37.88316],[-122.28898,37.88302],[-122.28865,37.88294],[-122.28817,37.88278],[-122.28789,37.88278],[-122.28762,37.88268],[-122.28725,37.88259],[-122.28705,37.88244],[-122.28663,37.88233],[-122.28637,37.88239],[-122.2861,37.88232],[-122.28568,37.88246],[-122.28522,37.8825],[-122.28495,37.8825],[-122.28473,37.88237],[-122.28431,37.88244],[-122.28391,37.88242],[-122.28358,37.88235],[-122.28324,37.88248],[-122.28297,37.88242],[-122.28271,37.88226],[-122.28271,37.88194],[-122.28278,37.8817],[-122.28282,37.88145],[-122.28326,37.88101],[-122.28313,37.87994],[-122.28301,37.87891],[-122.28273,37.87725],[-122.28266,37.8767],[-122.28256,37.87582],[-122.28246,37.87487],[-122.28235,37.87396],[-122.28225,37.87308],[-122.28215,37.87223],[-122.28212,37.87191],[-122.28205,37.87131],[-122.28195,37.87042],[-122.28426,37.87012],[-122.28656,37.86982],[-122.28751,37.8697],[-122.28805,37.86963],[-122.28953,37.86944],[-122.29143,37.86919],[-122.29213,37.8691],[-122.29213,37.8691]]]]},{"p":"207200","t":"Polygon","c":[[[[-122.28195,37.87042],[-122.28204,37.87118],[-122.28212,37.87191],[-122.28215,37.87223],[-122.28225,37.87308],[-122.28235,37.87396],[-122.28246,37.87487],[-122.28256,37.87582],[-122.28266,37.8767],[-122.28154,37.87683],[-122.28048,37.87695],[-122.2796,37.87707],[-122.2783,37.87724],[-122.27706,37.8774],[-122.27596,37.87754],[-122.27484,37.87769],[-122.27408,37.87779],[-122.27371,37.87783],[-122.27351,37.87602],[-122.27348,37.87575],[-122.27341,37.87511],[-122.27331,37.8742],[-122.27327,37.87386],[-122.27321,37.87331],[-122.27312,37.87254],[-122.27301,37.87156],[-122.27336,37.87152],[-122.27526,37.87127],[-122.27752,37.87098],[-122.27857,37.87085],[-122.27978,37.87069],[-122.28195,37.87042],[-122.28195,37.87042]]]]},{"p":"209700","t":"Polygon","c":[[[[-122.31111,37.86514],[-122.31128,37.86538],[-122.31151,37.86575],[-122.31165,37.86597],[-122.31181,37.8662],[-122.31202,37.86657],[-122.31226,37.86701],[-122.31245,37.86736],[-122.31274,37.86788],[-122.31331,37.86788],[-122.31378,37.86798],[-122.31405,37.86803],[-122.31449,37.86809],[-122.31467,37.86839],[-122.31482,37.86882],[-122.31493,37.86907],[-122.31519,37.86913],[-122.31553,37.86907],[-122.31586,37.86902],[-122.31636,37.86893],[-122.31687,37.86884],[-122.3172,37.86877],[-122.31749,37.86872],[-122.31777,37.86866],[-122.31799,37.86854],[-122.3182,37.86837],[-122.31849,37.86804],[-122.31849,37.86779],[-122.31848,37.86748],[-122.31841,37.86722],[-122.3182,37.86703],[-122.31899,37.86646],[-122.31924,37.86645],[-122.31947,37.86665],[-122.31963,37.86695],[-122.31973,37.86753],[-122.32083,37.86874],[-122.32172,37.86961],[-122.32271,37.87055],[-122.32293,37.87078],[-122.32314,37.87105],[-122.32334,37.87125],[-122.32399,37.8721],[-122.32485,37.87301],[-122.32571,37.87398],[-122.32585,37.8742],[-122.3259,37.87446],[-122.32586,37.87471],[-122.32571,37.87495],[-122.32546,37.87513],[-122.3252,37.87523],[-122.3248,37.87532],[-122.32401,37.87546],[-122.32371,37.87558],[-122.32346,37.87563],[-122.3232,37.87563],[-122.32266,37.87574],[-122.32243,37.87588],[-122.32217,37.87595],[-122.32185,37.87596],[-122.32113,37.87603],[-122.32026,37.87624],[-122.31965,37.87636],[-122.31927,37.87649],[-122.31886,37.87655],[-122.31856,37.87653],[-122.31831,37.87646],[-122.31808,37.87632],[-122.31788,37.87609],[-122.31768,37.87573],[-122.31744,37.87563],[-122.31721,37.87543],[-122.31708,37.87517],[-122.31707,37.87488],[-122.3169,37.87469],[-122.3167,37.8744],[-122.3164,37.87402],[-122.3162,37.87384],[-122.31605,37.87362],[-122.3158,37.87325],[-122.31535,37.87273],[-122.31488,37.87216],[-122.31454,37.87181],[-122.31413,37.87128],[-122.31389,37.87098],[-122.31329,37.87039],[-122.313,37.87032],[-122.31015,37.87081],[-122.30959,37.8709],[-122.30908,37.87099],[-122.30926,37.87151],[-122.30939,37.87201],[-122.30946,37.87241],[-122.30959,37.87287],[-122.3099,37.87382],[-122.31007,37.87404],[-122.31019,37.87426],[-122.31031,37.87459],[-122.31037,37.87484],[-122.31082,37.87604],[-122.31106,37.87667],[-122.31115,37.87691],[-122.31136,37.87708],[-122.31155,37.87731],[-122.31163,37.87757],[-122.31161,37.87783],[-122.31146,37.87809],[-122.31148,37.87834],[-122.31282,37.88003],[-122.31338,37.88088],[-122.31359,37.88118],[-122.31254,37.88139],[-122.31225,37.88145],[-122.31098,37.88171],[-122.30863,37.88219],[-122.30833,37.88226],[-122.30806,37.88232],[-122.30797,37.88183],[-122.3077,37.88183],[-122.30703,37.88188],[-122.30678,37.88192],[-122.30628,37.88198],[-122.30589,37.88202],[-122.30552,37.88205],[-122.30452,37.88215],[-122.30359,37.88225],[-122.30327,37.88229],[-122.30292,37.88232],[-122.30245,37.88237],[-122.30218,37.88242],[-122.30028,37.88286],[-122.29964,37.88289],[-122.29928,37.88287],[-122.29888,37.88289],[-122.29861,37.8829],[-122.29802,37.88308],[-122.29747,37.88327],[-122.29716,37.88336],[-122.2968,37.88347],[-122.29672,37.88323],[-122.29662,37.88293],[-122.29653,37.88265],[-122.29645,37.88241],[-122.29581,37.88048],[-122.29526,37.87876],[-122.29488,37.87755],[-122.2945,37.87639],[-122.29411,37.87521],[-122.29354,37.87345],[-122.29327,37.87259],[-122.29298,37.87169],[-122.29256,37.87042],[-122.29213,37.8691],[-122.29331,37.86887],[-122.29442,37.86865],[-122.29553,37.86843],[-122.29664,37.86821],[-122.29768,37.868],[-122.29882,37.86776],[-122.29987,37.86754],[-122.30084,37.86735],[-122.30212,37.8671],[-122.30239,37.86704],[-122.30307,37.86691],[-122.30365,37.8668],[-122.30377,37.86658],[-122.3048,37.86641],[-122.30552,37.86629],[-122.30607,37.86615],[-122.30809,37.86573],[-122.31012,37.8653],[-122.31103,37.86515],[-122.31111,37.86514]]]]}];
+const STATS={"209310":{"n":2358,"r1":{"Kromer":163,"Bernet":591,"Wrubel":477,"Babitt":602,"Gangopadhyay":352,"none":164,"Write-in":9},"fin":{"B":1077,"W":935,"X":346},"vbm":{"B":996,"W":836,"X":271},"ed":{"W":99,"B":81,"X":75}},"209700":{"n":882,"r1":{"Wrubel":186,"none":75,"Gangopadhyay":103,"Bernet":168,"Kromer":117,"Babitt":230,"Write-in":3},"fin":{"W":333,"X":140,"B":409},"vbm":{"W":281,"X":112,"B":370},"ed":{"B":39,"W":52,"X":28}},"207200":{"n":1037,"r1":{"Bernet":208,"Wrubel":264,"Babitt":222,"none":79,"Kromer":85,"Gangopadhyay":173,"Write-in":6},"fin":{"B":402,"W":476,"X":159},"vbm":{"B":366,"W":409,"X":122},"ed":{"W":67,"X":37,"B":36}}};
+const SNAP={"dots": "0411004110011100111001110011100111001110011100111001110011100111001110011100111001110011100111001110011100111001110011120111201112011120111201112011120111201112011120111201112011120111201112011120111201112011120111201112011120111201112011120111201112022220222202222022220222202222022220222202222022220222202222022220222202222022220222202222022220222202222022220222202222022220222202222022220222202222022220222202222022220222202222022220222202222022220222202222022220222202222022220222202222000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000033000330003300033000330003300033000330003300033000330003300033000330003300033000400004000040000400004000040000555505555055550555505555055550555505555055550555505555055550555505555055550555501115011150111501115011150111501115011150111501115011150111503322033220332203322033220332203322033220332203322033220332203322033222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222225555255552555525555255552555525555255552330023300233002111221112211122111221112211122111211110111101111011110111101111011110122221222212222122221222212222122221222212222122221222212222122221222212222122221222212222122221222212222122221222212222122221222211112111121111211112111121111211112111121111211112100001000010000100001000010000100001000010000100001000010000100001000010000100001000010000100001000010000100001555515555155551555515555155551555515555140001400014000133551335514300145551332213322133221332213322133221332213322143101111511115111151330013300133001330013300133122400024000240002400020000200002000020000200002000020000200002000020000200002000020000200002000020000200002000020000200002000020000200002332223322233222332223322211102111021110211102111021110242222422223310245550430003355033550411513310045550455504555141100422204222211152111521115211152335524110241102411024300243100331003310033150331204112142221422214115", "rounds": [[1059, 967, 933, 630, 366, 322], [1189, 1053, 986, 679, 0, 370], [1449, 1147, 1255, 0, 0, 426], [1888, 0, 1744, 0, 0, 645]]};
+
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt=n=>Number(n).toLocaleString('en-US');
+const pct=(x,d=1)=>(x*100).toFixed(d)+'%';
+const CANDS=['Babitt','Bernet','Wrubel','Gangopadhyay','Kromer','Exhausted'];
+const CCOL=['--bab','--c-ber','--wru','--c-gan','--c-kro','--exh'];
+const ORDER=['Babitt','Bernet','Wrubel','Gangopadhyay','Kromer','Write-in'];
+
+// ---------- state ----------
+let UPDATES=[];           // live docs from the county feed
+let CUR=null;             // {rounds:[[6]], label, rov, live, seq}
+const SNAPCUR={rounds:SNAP.rounds,label:'Night: final',rov:'Wednesday, November 04, 2026; 2:07 AM',live:false,seq:4};
+
+function lastName(c){const s=String(c).trim().split(/\s+/);return s[s.length-1];}
+function roundsFromDoc(doc){
+  if(!Array.isArray(doc.rounds)||!doc.rounds.length)return null;
+  const rs=[...new Set(doc.rounds.map(r=>+r.round))].sort((a,b)=>a-b);
+  return rs.map(rd=>{const row=[0,0,0,0,0,0];
+    doc.rounds.filter(r=>+r.round===rd).forEach(r=>{
+      const nm=lastName(r.candidate);
+      if(/^(Blanks|Exhausted|Overvotes)$/i.test(r.candidate))row[5]+=+r.votes;
+      else{const i=CANDS.findIndex(c=>c.toLowerCase()===nm.toLowerCase());if(i>=0&&i<5)row[i]+=+r.votes;}});
+    return row;});
+}
+function pickCurrent(){
+  const withR=UPDATES.filter(u=>roundsFromDoc(u)).sort((a,b)=>b.seq-a.seq)[0];
+  if(withR&&withR.seq>SNAPCUR.seq) return {rounds:roundsFromDoc(withR),label:withR.label,rov:withR.rov_updated,live:true,seq:withR.seq};
+  if(withR&&withR.seq===SNAPCUR.seq) return {...SNAPCUR,live:true};
+  return SNAPCUR;
+}
+
+// ---------- header + score ----------
+function drawScore(){
+  const F=CUR.rounds[CUR.rounds.length-1],B=F[0],W=F[2],cont=B+W,tot=F.reduce((a,b)=>a+b,0);
+  document.getElementById('sB').textContent=fmt(B);document.getElementById('sBp').textContent=pct(B/cont);
+  document.getElementById('sW').textContent=fmt(W);document.getElementById('sWp').textContent=pct(W/cont);
+  const lead=B>=W?'Babitt':'Wrubel';
+  document.getElementById('sGap').textContent=lead+' leads by '+fmt(Math.abs(B-W))+' · '+fmt(tot)+' ballots · '+fmt(F[5])+' exhausted or blank';
+  const badge=document.getElementById('srcBadge');
+  badge.textContent=CUR.live?'Live from county':'Ballot file';badge.classList.toggle('live',CUR.live);
+  document.getElementById('srcText').textContent=String(CUR.rov).replace(/^\w+day, /,'').replace(/, 2026;/,',');
+}
+
+// ---------- dot flow ----------
+const SD=SNAP.dots.match(/.{5}/g).map((s,i)=>({id:i,pre:+s[0],col:[...s.slice(1)].map(Number)}));
+const NSv='http://www.w3.org/2000/svg',UNITS=[5,10,20,25,50,100];
+const fW=720,s=9,gapC=10,fTop=40,fBottom=26,colW=(fW-gapC*5)/6,kPer=Math.max(1,Math.floor(colW/s));
+let P=null,fRound=0,fShown=null,fTimer=null,fPre=-1,circles=[],cntT=[],pctT=[],nameT=[],thr,thrL,fKey='';
+
+function allocDots(R){ // dots from round totals: exact round-to-round transfers, one elimination per round
+  const total=R[0].reduce((a,b)=>a+b,0),unit=UNITS.find(u=>total/u<=450)||200,n=Math.round(total/unit);
+  const alloc=row=>{const sum=row.reduce((a,b)=>a+b,0)||1,raw=row.map(v=>v/sum*n),b=raw.map(Math.floor);let left=n-b.reduce((a,c)=>a+c,0);
+    raw.map((v,i)=>[v-Math.floor(v),i]).sort((a,c)=>c[0]-a[0]).forEach(([,i])=>{if(left>0){b[i]++;left--;}});return b;};
+  const C=R.map(alloc),dots=[];
+  C[0].forEach((k,ci)=>{for(let j=0;j<k;j++)dots.push({id:dots.length,pre:-1,first:ci,col:[ci]});});
+  for(let r=1;r<R.length;r++){const by=CANDS.map((_,ci)=>dots.filter(d=>d.col[r-1]===ci)),pool=[];
+    by.forEach((ds,ci)=>{const keep=Math.min(ds.length,C[r][ci]);ds.forEach((d,j)=>{if(j<keep)d.col[r]=ci;else pool.push(d);});});
+    CANDS.forEach((_,ci)=>{let need=C[r][ci]-Math.min(by[ci].length,C[r][ci]);while(need-->0&&pool.length)pool.shift().col[r]=ci;});
+    pool.forEach(d=>{d.col[r]=5;});}
+  return {dots,unit};
+}
+function fPlan(){
+  const R=CUR.rounds,exact=!CUR.live||CUR.seq===SNAPCUR.seq;
+  let dots,unit;
+  if(exact){dots=SD.map(d=>({...d,first:d.col[0]}));unit=10;}
+  else ({dots,unit}=allocDots(R));
+  const maxCount=Math.max(...R.map((_,r)=>Math.max(...CANDS.map((_,c)=>dots.filter(d=>d.col[r]===c).length))));
+  const maj=Math.max(...R.map(T=>Math.ceil(T.slice(0,5).reduce((a,b)=>a+b,0)/2/unit)));
+  const plotH=Math.ceil(Math.max(maxCount,maj+kPer)/kPer)*s,fH=fTop+plotH+fBottom;
+  P={R,dots,unit,exact,fH,base:fTop+plotH};
+}
+const colX=c=>c*(colW+gapC)+(colW-kPer*s)/2;
+function fBuild(){
+  fPlan();
+  const svg=document.getElementById('dots');svg.setAttribute('viewBox','0 0 '+fW+' '+P.fH);svg.innerHTML='';cntT=[];pctT=[];nameT=[];
+  thr=document.createElementNS(NSv,'line');thr.setAttribute('stroke',css('--muted'));thr.setAttribute('stroke-dasharray','4 3');thr.setAttribute('x1',0);
+  thrL=document.createElementNS(NSv,'text');thrL.setAttribute('class','muted');thrL.setAttribute('font-size','11');thrL.setAttribute('text-anchor','end');thrL.textContent='Majority';
+  const g=document.createElementNS(NSv,'g');
+  circles=P.dots.map(d=>{const c=document.createElementNS(NSv,'circle');c.setAttribute('r',s/2-1);c.style.fill=css(CCOL[d.first]);g.appendChild(c);return c;});
+  svg.appendChild(g);svg.append(thr,thrL);
+  CANDS.forEach((n,c)=>{const cx=c*(colW+gapC)+colW/2;
+    const a=document.createElementNS(NSv,'text');a.setAttribute('x',cx);a.setAttribute('y',14);a.setAttribute('text-anchor','middle');a.setAttribute('font-size','13');a.setAttribute('font-weight','600');
+    const b=document.createElementNS(NSv,'text');b.setAttribute('x',cx);b.setAttribute('y',30);b.setAttribute('text-anchor','middle');b.setAttribute('font-size','11');b.setAttribute('class','muted');
+    const t=document.createElementNS(NSv,'text');t.setAttribute('x',cx);t.setAttribute('y',P.fH-8);t.setAttribute('text-anchor','middle');t.setAttribute('font-size','12');t.style.fill=css(CCOL[c]);t.setAttribute('font-weight',n==='Wrubel'?'700':'500');t.textContent=n==='Gangopadhyay'?'Gangopad.':n==='Exhausted'?'Blank/exhausted':n;
+    svg.append(a,b,t);cntT.push(a);pctT.push(b);nameT.push(t);});
+  document.getElementById('fUnit').textContent=P.unit;
+  document.getElementById('f-of').textContent=P.R.length;
+  document.getElementById('preCtl').hidden=!P.exact;document.getElementById('preOff').hidden=P.exact;
+  if(!P.exact)fPre=-1;
+  document.getElementById('fExplain').textContent=(P.exact?'Each dot follows real ballots from the county’s ballot file. ':'Built from the county’s latest round-by-round report; each round’s transfers are exact, dot colors are approximate after the first move. ')+'When a candidate is eliminated, their dots move to the next candidate those voters ranked, or to Exhausted if they ranked no one left. The dashed line is a majority of continuing ballots. The last column starts with ballots that skipped this race or marked two first choices; ballots that run out of rankings join it in later rounds.';
+  fRound=Math.min(fRound,P.R.length-1);fShown=null;
+}
+function fPos(r){const seen=CANDS.map(()=>0),out=new Map();
+  const ord=P.dots.slice().sort((a,b)=>{const sa=r>0&&a.col[r]!==a.col[r-1]?1:0,sb=r>0&&b.col[r]!==b.col[r-1]?1:0;return sa-sb||a.first-b.first||a.id-b.id;});
+  for(const d of ord){const c=d.col[r],j=seen[c]++;out.set(d.id,[colX(c)+(j%kPer)*s+s/2,P.base-Math.floor(j/kPer)*s-s/2]);}
+  return out;}
+function fShow(r){
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches,animate=fShown!=null&&r===fShown+1&&!reduce,at=fPos(r);
+  P.dots.forEach((d,i)=>{const c=circles[i],[x,y]=at.get(d.id);
+    c.style.transitionDuration=animate?'':'0s';
+    c.style.transitionDelay=animate&&d.col[r]!==d.col[r-1]?(Math.random()*0.5).toFixed(2)+'s':'0s';
+    c.style.transform='translate('+x+'px,'+y+'px)';c.style.opacity=fPre<0||d.pre===fPre?1:0.13;});
+  const T=P.R[r],cont=T.slice(0,5).reduce((a,b)=>a+b,0),last=P.R.length-1;
+  CANDS.forEach((n,c)=>{const v=T[c];cntT[c].textContent=v?fmt(v):'';pctT[c].textContent=v&&c<5?pct(v/cont):'';nameT[c].style.opacity=(c<5&&!v)?0.35:1;});
+  const y=P.base-Math.ceil(Math.ceil(cont/2/P.unit)/kPer)*s,x2=fW-(colW+gapC)+gapC/2;
+  thr.setAttribute('y1',y);thr.setAttribute('y2',y);thr.setAttribute('x2',x2);thrL.setAttribute('x',x2);thrL.setAttribute('y',y-4);
+  document.getElementById('f-rd').textContent=r+1;
+  const lead=T.slice(0,5).indexOf(Math.max(...T.slice(0,5)));let cap;
+  if(r===0)cap='Round 1: first choices. '+CANDS[lead]+' leads with '+pct(T[lead]/cont)+' of continuing ballots; nobody has a majority.';
+  else{const prev=P.R[r-1],e=[0,1,2,3,4].find(c=>prev[c]>0&&T[c]===0);
+    const gains=CANDS.map((n,c)=>[n,T[c]-prev[c]]).filter(([n,g],c)=>c!==e&&g>0).sort((a,b)=>b[1]-a[1]);
+    cap='Round '+(r+1)+': '+(e!=null?CANDS[e]+' eliminated, '+fmt(prev[e])+' ballots move':'ballots move')+': '+gains.map(([n,g])=>n+' +'+fmt(g)).join(', ')+'.';
+    if(r===last&&T[lead]*2>cont)cap+=' '+CANDS[lead]+' leads this count '+fmt(T[lead])+' to '+fmt(T[lead===0?2:0])+' ('+pct(T[lead]/cont)+').';}
+  document.getElementById('f-cap').textContent=cap;
+  document.getElementById('f-prev').disabled=r===0;document.getElementById('f-next').disabled=r===last;
+  fShown=r;}
+function fStop(){if(fTimer)clearInterval(fTimer);fTimer=null;document.getElementById('f-play').hidden=false;document.getElementById('f-pause').hidden=true;}
+function fGo(r){fRound=Math.max(0,Math.min(P.R.length-1,r));fShow(fRound);}
+document.getElementById('f-next').addEventListener('click',()=>{fStop();fGo(fRound+1);});
+document.getElementById('f-prev').addEventListener('click',()=>{fStop();fGo(fRound-1);});
+document.getElementById('f-pause').addEventListener('click',fStop);
+document.getElementById('f-play').addEventListener('click',()=>{
+  if(fRound>=P.R.length-1){fRound=0;fShow(0);}
+  document.getElementById('f-play').hidden=true;document.getElementById('f-pause').hidden=false;
+  fTimer=setInterval(()=>{if(fRound>=P.R.length-1){fStop();return;}fGo(fRound+1);},2200);});
+document.querySelectorAll('.f-pre').forEach(b=>b.addEventListener('click',()=>{fPre=+b.dataset.p;
+  document.querySelectorAll('.f-pre').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));fShown=null;fShow(fRound);}));
+
+// ---------- history ----------
+function drawHist(){
+  const rows=UPDATES.filter(u=>u.seq>0).sort((a,b)=>a.seq-b.seq);
+  const t=document.getElementById('hist');
+  if(!rows.length){t.innerHTML='<tbody><tr><td>—</td></tr></tbody>';return;}
+  let h='<thead><tr><th>Update</th><th>Posted</th><th>Wrubel 1st</th><th>Babitt 1st</th><th>Wrubel 1st %</th><th>Final: Wrubel</th><th>Final: Babitt</th><th>Wrubel final %</th><th>Wrubel % of new</th></tr></thead><tbody>';
+  let prevF=null;
+  rows.forEach(u=>{const fc=u.first_choice||{},tot=Object.values(fc).reduce((a,b)=>a+(+b||0),0);
+    const get=n=>{const k=Object.keys(fc).find(k=>lastName(k)===n);return k?+fc[k]:null;};
+    const R=roundsFromDoc(u),F=R?R[R.length-1]:null;let nw='—';
+    if(F&&prevF){const dW=F[2]-prevF[2],dB=F[0]-prevF[0];if(dW+dB>0)nw=pct(dW/(dW+dB))+' of '+fmt(dW+dB);}
+    if(F)prevF=F;
+    const cell=v=>v==null?'—':fmt(v);
+    h+='<tr><td>'+esc(u.label||('#'+u.seq))+'</td><td>'+esc(String(u.rov_updated||'').replace(/^\w+day, /,'').replace(/, 2026/,''))+'</td><td class="w">'+cell(get('Wrubel'))+'</td><td>'+cell(get('Babitt'))+'</td><td>'+(tot&&get('Wrubel')!=null?pct(get('Wrubel')/tot):'—')+'</td><td class="w">'+(F?fmt(F[2]):'—')+'</td><td>'+(F?fmt(F[0]):'—')+'</td><td>'+(F?pct(F[2]/(F[0]+F[2])):'—')+'</td><td>'+nw+'</td></tr>';});
+  t.innerHTML=h+'</tbody>';
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+// ---------- precinct map (ballot file) ----------
+let metric='final',sel='209310';
+function val(p,m){const s=STATS[p];
+  if(m==='final')return s.fin.W/(s.fin.W+s.fin.B);
+  if(m==='ed')return s.ed.W/(s.ed.W+s.ed.B);
+  if(m==='r1'){const t=Object.entries(s.r1).filter(([k])=>k!=='none').reduce((a,[,v])=>a+v,0);return s.r1.Wrubel/t;}
+  return s.n;}
+function hexToRgb(h){h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');return[0,2,4].map(i=>parseInt(h.slice(i,i+2),16));}
+function mix(a,b,t){const A=hexToRgb(a),B=hexToRgb(b);return'rgb('+A.map((v,i)=>Math.round(v+(B[i]-v)*t)).join(',')+')';}
+function color(v,m){
+  if(m==='n')return mix(css('--mid'),css('--ink'),0.15+0.6*(v/2400));
+  if(m==='r1')return mix(css('--mid'),css('--wru'),Math.min(1,Math.max(0,(v-0.15)/0.15)));
+  const d=Math.max(-1,Math.min(1,(v-0.5)/0.1));return d>=0?mix(css('--mid'),css('--wru'),d):mix(css('--mid'),css('--bab'),-d);}
+function label(v,m){return m==='n'?fmt(v):pct(v);}
+const pts=GEO.flatMap(f=>f.c.flat(2)),kx=Math.cos(37.875*Math.PI/180);
+const xs=pts.map(p=>p[0]*kx),ys=pts.map(p=>-p[1]);
+const minx=Math.min(...xs),maxx=Math.max(...xs),miny=Math.min(...ys),maxy=Math.max(...ys);
+const MW=640,MH=380,mpad=24,msc=Math.min((MW-2*mpad)/(maxx-minx),(MH-2*mpad)/(maxy-miny));
+const mox=(MW-(maxx-minx)*msc)/2,moy=(MH-(maxy-miny)*msc)/2;
+const PRJ=p=>[mox+(p[0]*kx-minx)*msc,moy+(-p[1]-miny)*msc];
+function drawMap(){
+  const svg=document.getElementById('map');svg.innerHTML='';
+  GEO.forEach(f=>{
+    const d=f.c.map(poly=>poly.map(r=>'M'+r.map(p=>PRJ(p).map(n=>n.toFixed(1)).join(',')).join('L')+'Z').join('')).join('');
+    const path=document.createElementNS(NSv,'path');
+    path.setAttribute('d',d);path.setAttribute('fill',color(val(f.p,metric),metric));
+    path.setAttribute('tabindex','0');path.setAttribute('role','button');
+    path.setAttribute('aria-label','Precinct '+f.p+': '+label(val(f.p,metric),metric));
+    if(f.p===sel)path.classList.add('sel');
+    const pick=()=>{sel=f.p;drawMap();drawDetail();drawTable();};
+    path.addEventListener('click',pick);
+    path.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
+    svg.appendChild(path);});
+  GEO.forEach(f=>{
+    const r=f.c[0][0].map(PRJ),cx=r.reduce((a,p)=>a+p[0],0)/r.length,cy=r.reduce((a,p)=>a+p[1],0)/r.length;
+    const t1=document.createElementNS(NSv,'text');t1.setAttribute('x',cx);t1.setAttribute('y',cy-6);t1.setAttribute('text-anchor','middle');t1.textContent=f.p;
+    const t2=document.createElementNS(NSv,'text');t2.setAttribute('x',cx);t2.setAttribute('y',cy+14);t2.setAttribute('text-anchor','middle');t2.classList.add('big');
+    t2.textContent=label(val(f.p,metric),metric)+(metric==='final'||metric==='ed'?' W':'');
+    svg.append(t1,t2);});
+  const lg=document.getElementById('legend');
+  if(metric==='final'||metric==='ed')lg.innerHTML='<span>Babitt +10</span><span class="ramp" style="background:linear-gradient(90deg,'+css('--bab')+','+css('--mid')+','+css('--wru')+')"></span><span>Wrubel +10</span><span>· Wrubel share of finalist votes'+(metric==='ed'?', Election Day ballots only':'')+'</span>';
+  else if(metric==='r1')lg.innerHTML='<span>15%</span><span class="ramp" style="background:linear-gradient(90deg,'+css('--mid')+','+css('--wru')+')"></span><span>30%</span><span>· Wrubel share of first choices (5 candidates)</span>';
+  else lg.innerHTML='<span>Shading = ballots counted by Nov 4</span>';
+}
+function drawDetail(){
+  const s=STATS[sel],el=document.getElementById('detail');
+  const r1t=Object.entries(s.r1).filter(([k])=>k!=='none').reduce((a,[,v])=>a+v,0),max=Math.max(...ORDER.map(n=>s.r1[n]||0));
+  const candCol=n=>n==='Wrubel'?css('--wru'):n==='Babitt'?css('--bab'):css('--exh');
+  const split=(o,lab)=>{const t=o.B+o.W+o.X;return '<div style="display:grid;gap:4px"><div class="k">'+lab+' · '+fmt(t)+' ballots</div><div class="split" role="img" aria-label="Babitt '+o.B+', Wrubel '+o.W+', exhausted '+o.X+'">'+
+    '<div style="width:'+(o.B/t*100)+'%;background:var(--bab)">'+o.B+'</div><div style="width:'+(o.W/t*100)+'%;background:var(--wru)">'+o.W+'</div><div style="width:'+(o.X/t*100)+'%;background:var(--exh)">'+o.X+'</div></div>'+
+    '<div class="note">Wrubel '+pct(o.W/(o.W+o.B))+' of finalist votes · '+o.X+' exhausted</div></div>';};
+  el.innerHTML='<h2>Precinct '+sel+'</h2><div class="note">'+fmt(s.n)+' ballots</div>'+
+    '<div class="k">First choices</div><div class="bars">'+ORDER.map(n=>{const v=s.r1[n]||0;return '<div class="bar"><span>'+n+'</span><span class="track"><span class="fill" style="display:block;width:'+(v/max*100)+'%;background:'+candCol(n)+'"></span></span><span class="v">'+v+' · '+pct(v/r1t,0)+'</span></div>';}).join('')+'</div>'+
+    split(s.vbm,'Final round · vote by mail')+split(s.ed,'Final round · Election Day');
+}
+function drawTable(){
+  const rows=Object.keys(STATS).sort((a,b)=>STATS[b].n-STATS[a].n);
+  let h='<thead><tr><th>Precinct</th><th>Ballots</th><th>Babitt (final)</th><th>Wrubel (final)</th><th>Net for Wrubel</th><th>Mail: Wrubel %</th><th>Election Day: Wrubel %</th></tr></thead><tbody>';
+  rows.forEach(p=>{const s=STATS[p];h+='<tr class="'+(p===sel?'hl':'')+'"><td>'+p+'</td><td>'+fmt(s.n)+'</td><td>'+fmt(s.fin.B)+'</td><td>'+fmt(s.fin.W)+'</td><td>'+(s.fin.W-s.fin.B>0?'+':'')+(s.fin.W-s.fin.B)+'</td><td>'+pct(s.vbm.W/(s.vbm.W+s.vbm.B))+'</td><td>'+pct(s.ed.W/(s.ed.W+s.ed.B))+'</td></tr>';});
+  h+='<tr><td><strong>District 1</strong></td><td>4,277</td><td>1,888</td><td>1,744</td><td>−144</td><td>46.8%</td><td>58.3%</td></tr></tbody>';
+  document.getElementById('tbl').innerHTML=h;
+}
+
+// ---------- render + live feed ----------
+function renderAll(rebuildDots){
+  const nc=pickCurrent(),key=nc.seq+'|'+nc.live+'|'+JSON.stringify(nc.rounds);
+  const changed=key!==fKey;CUR=nc;
+  drawScore();drawHist();
+  if(changed||rebuildDots){fKey=key;fBuild();fShow(changed&&!rebuildDots?P.R.length-1:fRound);if(changed&&!rebuildDots)fRound=P.R.length-1;}
+}
+function renderStatic(){drawMap();drawDetail();drawTable();}
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{metric=b.dataset.m;document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));drawMap();}));
+const retheme=()=>{renderStatic();renderAll(true);};
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',retheme);
+new MutationObserver(retheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+CUR=SNAPCUR;renderStatic();renderAll(true);fRound=0;fShow(0);
+
+(async()=>{
+  // Live feed: poll the same-origin file the Actions cron writes.
+  // Shape is unchanged from the old db collection:
+  //   [{seq,label,rov_updated,first_choice:{...},rounds:[{round,candidate,votes}]}]
+  const FEED='/d1/updates.json', POLL=5*60*1000;
+  async function load(){
+    try{
+      const r=await fetch(FEED,{cache:'no-store'});
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      const data=await r.json();
+      if(!Array.isArray(data))throw new Error('not an array');
+      const next=data.filter(u=>Number.isFinite(+u.seq)).map(u=>({...u,seq:+u.seq}));
+      if(!next.length)throw new Error('empty');
+      UPDATES=next;
+      const before=fKey;renderAll(false);
+      if(fKey!==before){fRound=0;fShow(0);}
+    }catch(e){
+      // Leave the embedded Nov 4 snapshot in place; never blank the page.
+      console.warn('[d1] updates.json unavailable ('+e.message+') - using embedded snapshot');
+    }
+  }
+  await load();
+  setInterval(load,POLL);
+})();
+
+</script>
+
+</body></html>
