@@ -1,0 +1,54 @@
+name: D1 count updates
+
+# Mon, Thu & Fri, 4:00-9:00 PM Pacific, every 30 min.
+# Pacific is PST (UTC-8) for the whole Nov 3 - Dec 3 2026 window (DST ended Nov 1),
+# so 4:00 PM PT = 00:00 UTC and 9:00 PM PT = 05:00 UTC *the next day*.
+# That shifts the weekday: Mon PT -> Tue UTC (2), Thu PT -> Fri UTC (5), Fri PT -> Sat UTC (6).
+# Thu is included so the Dec 3 certification (a Thursday) is polled.
+on:
+  schedule:
+    - cron: '0,30 0-4 * * 2,5,6'   # 4:00 PM - 8:30 PM PT (Mon/Thu/Fri)
+    - cron: '0 5 * * 2,5,6'        # 9:00 PM PT (Mon/Thu/Fri)
+  workflow_dispatch:             # manual trigger (gated by repo write access)
+
+permissions:
+  contents: write
+
+concurrency:
+  group: d1-updates
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stop after certification (Dec 3, 2026)
+        run: |
+          TODAY=$(TZ=America/Los_Angeles date +%F)
+          if [[ "$TODAY" > "2026-12-03" ]]; then
+            echo "::notice::$TODAY is past certification (2026-12-03) - skipping. Safe to disable this workflow."
+            exit 0
+          fi
+          echo "PT date $TODAY - in window"
+          echo "IN_WINDOW=1" >> "$GITHUB_ENV"
+
+      - name: Poll county and append any new report
+        if: env.IN_WINDOW == '1'
+        run: bash scripts/build-updates.sh
+
+      - name: Commit if updates.json changed
+        if: env.IN_WINDOW == '1'
+        run: |
+          if git diff --quiet -- d1/updates.json; then
+            echo "no change to commit"
+            exit 0
+          fi
+          SEQ=$(jq -r 'max_by(.seq).seq' d1/updates.json)
+          ROV=$(jq -r 'max_by(.seq).rov_updated' d1/updates.json)
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add d1/updates.json
+          git commit -m "D1: add update seq ${SEQ} (${ROV})"
+          git push

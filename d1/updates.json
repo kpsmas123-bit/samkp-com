@@ -1,0 +1,202 @@
+[
+  {
+    "seq": 1,
+    "label": "First results",
+    "rov_updated": "Tuesday, November 03, 2026; before 9:04 PM",
+    "first_choice": {
+      "Laura Babitt": 936,
+      "Ross Bernet": 868,
+      "Daria Wrubel": 768,
+      "Moni Gangopadhyay": 536,
+      "Steve Kromer": 310
+    },
+    "rounds": []
+  },
+  {
+    "seq": 2,
+    "label": "Night: #1",
+    "rov_updated": "Tuesday, November 03, 2026; 10:02 PM",
+    "first_choice": {
+      "Laura Babitt": 983,
+      "Ross Bernet": 925,
+      "Daria Wrubel": 838,
+      "Moni Gangopadhyay": 581,
+      "Steve Kromer": 339
+    },
+    "rounds": []
+  },
+  {
+    "seq": 4,
+    "label": "Night: final",
+    "rov_updated": "Wednesday, November 04, 2026; 2:07 AM",
+    "first_choice": {
+      "Laura Babitt": 1021,
+      "Ross Bernet": 959,
+      "Daria Wrubel": 889,
+      "Moni Gangopadhyay": 613,
+      "Steve Kromer": 350
+    },
+    "rounds": [
+      {
+        "round": 1,
+        "candidate": "Laura Babitt",
+        "votes": 1059
+      },
+      {
+        "round": 1,
+        "candidate": "Ross Bernet",
+        "votes": 967
+      },
+      {
+        "round": 1,
+        "candidate": "Daria Wrubel",
+        "votes": 933
+      },
+      {
+        "round": 1,
+        "candidate": "Moni Gangopadhyay",
+        "votes": 630
+      },
+      {
+        "round": 1,
+        "candidate": "Steve Kromer",
+        "votes": 366
+      },
+      {
+        "round": 1,
+        "candidate": "Blanks",
+        "votes": 281
+      },
+      {
+        "round": 1,
+        "candidate": "Exhausted",
+        "votes": 0
+      },
+      {
+        "round": 1,
+        "candidate": "Overvotes",
+        "votes": 41
+      },
+      {
+        "round": 2,
+        "candidate": "Laura Babitt",
+        "votes": 1189
+      },
+      {
+        "round": 2,
+        "candidate": "Ross Bernet",
+        "votes": 1053
+      },
+      {
+        "round": 2,
+        "candidate": "Daria Wrubel",
+        "votes": 986
+      },
+      {
+        "round": 2,
+        "candidate": "Moni Gangopadhyay",
+        "votes": 679
+      },
+      {
+        "round": 2,
+        "candidate": "Steve Kromer",
+        "votes": 0
+      },
+      {
+        "round": 2,
+        "candidate": "Blanks",
+        "votes": 281
+      },
+      {
+        "round": 2,
+        "candidate": "Exhausted",
+        "votes": 46
+      },
+      {
+        "round": 2,
+        "candidate": "Overvotes",
+        "votes": 43
+      },
+      {
+        "round": 3,
+        "candidate": "Laura Babitt",
+        "votes": 1449
+      },
+      {
+        "round": 3,
+        "candidate": "Ross Bernet",
+        "votes": 1147
+      },
+      {
+        "round": 3,
+        "candidate": "Daria Wrubel",
+        "votes": 1255
+      },
+      {
+        "round": 3,
+        "candidate": "Moni Gangopadhyay",
+        "votes": 0
+      },
+      {
+        "round": 3,
+        "candidate": "Steve Kromer",
+        "votes": 0
+      },
+      {
+        "round": 3,
+        "candidate": "Blanks",
+        "votes": 281
+      },
+      {
+        "round": 3,
+        "candidate": "Exhausted",
+        "votes": 99
+      },
+      {
+        "round": 3,
+        "candidate": "Overvotes",
+        "votes": 46
+      },
+      {
+        "round": 4,
+        "candidate": "Laura Babitt",
+        "votes": 1888
+      },
+      {
+        "round": 4,
+        "candidate": "Ross Bernet",
+        "votes": 0
+      },
+      {
+        "round": 4,
+        "candidate": "Daria Wrubel",
+        "votes": 1744
+      },
+      {
+        "round": 4,
+        "candidate": "Moni Gangopadhyay",
+        "votes": 0
+      },
+      {
+        "round": 4,
+        "candidate": "Steve Kromer",
+        "votes": 0
+      },
+      {
+        "round": 4,
+        "candidate": "Blanks",
+        "votes": 281
+      },
+      {
+        "round": 4,
+        "candidate": "Exhausted",
+        "votes": 312
+      },
+      {
+        "round": 4,
+        "candidate": "Overvotes",
+        "votes": 52
+      }
+    ]
+  }
+]
