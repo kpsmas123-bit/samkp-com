@@ -49,7 +49,9 @@ fi
 TOTAL=$(awk -F'\t' '{s+=$2} END{print s+0}' "$tmp/fc.tsv")
 if [ "$TOTAL" -eq 0 ]; then log "REJECT: zero report (all first-choice totals are 0)"; exit 0; fi
 
-# ---------- validate: no candidate's total went down ----------
+# ---------- validate: no candidate's first-choice total went down ----------
+# Only the 5 candidate rows live in fc.tsv, so this guard never touches
+# Blanks / Exhausted / Overvotes - by design: those may legitimately fall.
 if [ -n "$PREV_ROV" ]; then
   bad=0
   while IFS=$'\t' read -r name votes; do
@@ -92,6 +94,29 @@ if [ "$rcode" = 200 ]; then
   log "rounds: $(wc -l < "$tmp/rounds.tsv" | tr -d ' ') rows across $(cut -f1 "$tmp/rounds.tsv" | sort -u | wc -l | tr -d ' ') round(s)"
 else
   log "no RCV rounds (HTTP $rcode) - omitting"
+fi
+
+# ---------- validate: no candidate's round total went down ----------
+# Blanks / Exhausted / Overvotes can legitimately FALL when the county adjudicates
+# ballots (round-1 Overvotes went 53 -> 45 between Nov 06 and Nov 09), so those three
+# rows are exempt from the decrease check. Candidate rows may only fall to 0, which
+# means that candidate was eliminated a round earlier than in the previous report.
+if [ -s "$tmp/rounds.tsv" ] && [ -n "$PREV_ROV" ]; then
+  jq -r 'max_by(.seq).rounds[]? | [(.round|tostring), .candidate, (.votes|tostring)] | @tsv' \
+     "$OUT" > "$tmp/prev_rounds.tsv"
+  if [ -s "$tmp/prev_rounds.tsv" ]; then
+    bad=0
+    while IFS=$'\t' read -r rnd name votes; do
+      case "$name" in Blanks|Exhausted|Overvotes) continue ;; esac
+      prev=$(awk -F'\t' -v r="$rnd" -v n="$name" '$1==r && $2==n {print $3; exit}' "$tmp/prev_rounds.tsv")
+      [ -n "$prev" ] || continue          # round not present last time - nothing to compare
+      [ "$votes" -eq 0 ] && continue      # eliminated in this report, not a real decrease
+      if [ "$votes" -lt "$prev" ]; then
+        log "REJECT: round $rnd $name went DOWN $prev -> $votes"; bad=1
+      fi
+    done < "$tmp/rounds.tsv"
+    [ "$bad" -eq 0 ] || { log "not writing - round monotonicity violated"; exit 0; }
+  fi
 fi
 
 # ---------- label: "Nov 06, 5:30 PM" from the county timestamp ----------
