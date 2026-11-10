@@ -78,7 +78,10 @@ html{scroll-snap-type:y proximity}
 <body class="field">
 <main>
   <section class="hero">
-    <nav aria-label="samkp.com"><a class="brand" href="/"><img src="/assets/logo-wordmark.webp" alt="SamKP.com" width="480" height="122"></a><ul><li><a aria-current="page" href="/">Home</a></li><li><a href="/consulting.html">Consulting</a></li><li><a href="/resume.html">Resume</a></li><li><a href="/precinct-map.html">Precinct map</a></li><li><a href="/d1/">D1</a></li></ul></nav>
+    <!-- Links only here, deliberately: the hero logo directly below is the
+         wordmark, so repeating it in the bar is the brand twice in 100px.
+         Every other page carries <a class="brand"> in the same nav. -->
+    <nav aria-label="samkp.com"><ul><li><a aria-current="page" href="/">Home</a></li><li><a href="/consulting.html">Consulting</a></li><li><a href="/resume.html">Resume</a></li><li><a href="/precinct-map.html">Precinct map</a></li><li><a href="/d1/">D1</a></li></ul></nav>
     <h1 class="sr-only">Sam Kaplan Pettus</h1>
     <img class="logo reveal-el" src="assets/logo.webp" alt="Sam Kaplan Pettus" width="920" height="920">
     <div class="hero-fill">
