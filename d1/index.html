@@ -1,9 +1,11 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>District 1 Count Map</title>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>District 1 Count Map — Sam Kaplan Pettus</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23C6572A'/%3E%3Ctext x='17' y='25' font-family='Anton,Impact,sans-serif' font-size='26' font-weight='400' fill='%23F2B417' text-anchor='middle'%3ES%3C/text%3E%3Ctext x='16' y='24' font-family='Anton,Impact,sans-serif' font-size='26' font-weight='400' fill='%231F3A2E' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+</head><body>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;600&family=Poppins:wght@600;800&family=Public+Sans:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: field-desk sheet. Map left, precinct readout right, a "what it takes" calculator below. */
 :root{
@@ -24,6 +26,42 @@
   --exh:#6d7a76; --focus:#4fc0b4; --ontint:#0f1513; --c-ber:#93a6d4; --c-gan:#c0a0d2; --c-kro:#b2c06c; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+
+/* ---------- samkp.com site bar ---------- */
+/* Brand tokens are scoped here so the sheet below keeps its own palette, and the
+   bar stays the same orange in light and dark - it is the site's signature. */
+.sitebar{--field:#C6572A;--cream:#EAE1C6;--bark:#1F3A2E;--gold:#F2B417;
+  background:var(--field);border-bottom:2px solid rgba(31,58,46,.28)}
+.sitebar nav{max-width:1120px;margin:0 auto;display:flex;align-items:center;
+  justify-content:space-between;gap:10px 22px;flex-wrap:wrap;padding-block:11px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sitebar .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+  color:var(--cream);font-family:"Poppins",system-ui,sans-serif;font-weight:800;
+  font-size:19px;letter-spacing:-.01em;white-space:nowrap}
+.sitebar .brandmark{width:28px;height:28px;flex:none;border-radius:6px;background:var(--cream);
+  color:var(--bark);display:grid;place-items:center;font-family:"Anton",Impact,sans-serif;
+  font-weight:400;font-size:21px;line-height:1;text-shadow:1px 1px 0 var(--gold);
+  transform:rotate(-1.4deg);box-shadow:0 6px 14px rgba(10,20,40,.22)}
+.sitebar .brandmark span{transform:translateY(1px)}
+.sitebar .brand .tld{opacity:.6;font-weight:600}
+.sitebar ul{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.sitebar ul a{display:inline-flex;align-items:center;min-height:40px;padding:0 10px;border-radius:6px;
+  color:var(--cream);text-decoration:none;font-family:"Poppins",system-ui,sans-serif;font-weight:600;
+  font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;
+  transition:background-color .18s,box-shadow .18s}
+.sitebar ul a:hover{background:rgba(234,225,198,.16)}
+.sitebar ul a{position:relative}
+.sitebar ul a[aria-current="page"]::after{content:"";position:absolute;left:10px;right:10px;bottom:7px;height:2px;border-radius:1px;background:var(--gold)}
+@media (max-width:560px){.sitebar ul a[aria-current="page"]::after{left:8px;right:8px;bottom:6px}}
+.sitebar a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media (max-width:560px){
+  .sitebar nav{padding-block:9px;gap:6px 12px}
+  .sitebar .brand{font-size:17px}
+  .sitebar .brandmark{width:25px;height:25px;font-size:19px}
+  .sitebar ul a{font-size:11px;letter-spacing:.06em;padding:0 8px;min-height:38px}
+}
+@media (prefers-reduced-motion:reduce){.sitebar ul a{transition:none}}
 .wrap{max-width:1120px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:22px}
 header{display:grid;gap:6px}
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
@@ -89,6 +127,17 @@ svg#dots .muted{fill:var(--muted)}
 .secnote{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
 td.w{color:var(--wru);font-weight:600}
 </style>
+<div class="sitebar">
+  <nav aria-label="samkp.com">
+    <a class="brand" href="/" aria-label="samkp.com home"><span class="brandmark" aria-hidden="true"><span>S</span></span>samkp<span class="tld">.com</span></a>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/consulting.html">Consulting</a></li>
+      <li><a href="/d1/" aria-current="page">District 1</a></li>
+    </ul>
+  </nav>
+</div>
+
 <div class="wrap">
 <header>
   <div class="eyebrow">Berkeley City Council · District 1 · Ranked-choice count</div>
