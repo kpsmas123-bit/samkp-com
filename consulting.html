@@ -14,17 +14,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@500;600;700;800&family=Archivo:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="stylesheet" href="assets/site.css">
 <style>
-:root{ --cream:#EAE1C6; --ink:#26312a; --card-bg:#EAE1C6; --h-font:'Anton'; --strip-h:160px; }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+/* consulting only - the shared layer lives in assets/site.css */
+:root{ --strip-h:160px; }
+html{scroll-snap-type:y proximity}
 @supports(height:100dvh){.panel{min-height:100dvh}}
-@media(prefers-reduced-motion:reduce){html{scroll-snap-type:none;scroll-behavior:auto}}
-body{-webkit-font-smoothing:antialiased;background:#C6572A}
-a{color:inherit}
-.hf{font-family:var(--h-font),sans-serif;font-weight:400;text-transform:uppercase}
-.wrap{max-width:1080px;margin:0 auto;padding:0 34px}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media(prefers-reduced-motion:reduce){html{scroll-snap-type:none}}
+body{-webkit-font-smoothing:antialiased;background:var(--field)}
 
 /* ---- two snap panels ---- */
 nav{scroll-snap-align:start}
@@ -32,23 +29,17 @@ nav{scroll-snap-align:start}
 .panel-consult{scroll-snap-align:none}
 .panel > *{position:relative;z-index:1}
 
-/* ORANGE — consulting recipe */
-.panel-consult{--field:#C6572A;--accent:#1F3A2E;--on-accent:#EAE1C6;--sh:1px;--sh-color:#F2B417;--radius:4px;--tilt:1.4deg;
-  background:var(--field);color:var(--cream);font-family:'Lora',Georgia,serif;display:flex;flex-direction:column}
-.panel-consult::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.55;mix-blend-mode:soft-light;background:url("assets/texture.jpg") center/cover fixed}
+/* ORANGE — the shared field (class="field-panel"), laid out as a column */
+.panel-consult{display:flex;flex-direction:column}
 
-/* BLUE — work recipe */
+/* BLUE — overrides the shared tokens for this subtree only */
 .panel-work{--field:#3C69AC;--accent:#F2B417;--sh:2px;--sh-color:transparent;--radius:3px;--grain:.14;--tilt:1.9deg;
   background:var(--field);color:var(--ink);font-family:Poppins,system-ui,sans-serif;padding-bottom:10px}
 .panel-work::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:var(--grain);mix-blend-mode:multiply;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-/* ---- nav ---- */
-nav{display:flex;justify-content:center;align-items:center;gap:20px;max-width:none;margin:0;padding:22px 34px;color:var(--cream);width:100%;background:transparent}
-nav .brand{font-weight:800;font-size:20px;text-decoration:none;font-family:Poppins;color:var(--cream)}
-nav ul{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
-nav a{text-decoration:none;font-weight:600;font-size:16px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;font-family:Poppins;color:var(--cream);transition:color .2s,opacity .2s}
-nav a:hover{color:var(--cream);opacity:1}
+/* ---- nav: full width inside the panel, rather than the shared centred measure ---- */
+nav{max-width:none;margin:0;width:100%}
 
 /* ---- ORANGE: what I do ---- */
 .panel-consult .wrap{flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:10px;padding-bottom:60px}
@@ -145,7 +136,6 @@ nav a:hover{color:var(--cream);opacity:1}
 .dicon svg{width:22px;height:22px;transform:rotate(4deg)}
 .panel-work .tapline{font-weight:600;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);opacity:.85;margin-top:12px}
 .panel-work .card.is-featured .tapline{display:none}
-.site-footer{text-align:center;padding:48px 34px 60px;font-size:11px;line-height:1.6;color:var(--cream);opacity:.7;max-width:60ch;margin:0 auto;font-family:Poppins,sans-serif}
 
 /* video gallery — full-width 3-up grid */
 .vid-gallery{max-width:960px;margin:0 auto;padding:10px 30px 20px}
@@ -195,9 +185,8 @@ nav a:hover{color:var(--cream);opacity:1}
 @media(prefers-reduced-motion:reduce){.f-flip .flip-inner{transition:none}.lb-overlay{transition:none}}
 @media(max-width:640px){
   html{scroll-snap-type:none}
-  nav{gap:10px;padding:12px 20px;position:fixed;top:0;left:0;right:0;z-index:80;background:rgba(198,87,42,0.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-  nav .brand{font-size:17px}nav ul{gap:6px}
-  nav a{font-size:14px;letter-spacing:.06em;min-height:48px;display:inline-flex;align-items:center;padding:0 8px}
+  /* translucent over the panel, unlike the solid bar elsewhere */
+  nav{background:rgba(198,87,42,0.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
   .panel-consult{padding-top:56px}
   .panel-consult .wrap{padding:0 20px;padding-bottom:40px}
   .panel-consult .cards{grid-template-columns:1fr}
@@ -207,7 +196,6 @@ nav a:hover{color:var(--cream);opacity:1}
   .panel-work .card.is-featured{padding:24px 20px}
   .work-strip{-webkit-mask-image:linear-gradient(to right,#000 88%,transparent);mask-image:linear-gradient(to right,#000 88%,transparent)}
   .vid-gallery{padding:10px 20px 20px}
-  .site-footer{font-size:13px;padding:40px 20px 48px}
 }
 @media(max-width:560px){
   .panel-work .grid{grid-template-columns:1fr}
@@ -230,8 +218,8 @@ nav a:hover{color:var(--cream);opacity:1}
 </defs></svg>
 <h1 class="sr-only">Consulting and campaign work — Sam Kaplan Pettus</h1>
 
-<section class="panel panel-consult" id="consulting">
-  <nav><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li><li><a href="/d1/">D1</a></li></ul></nav>
+<section class="panel panel-consult field-panel" id="consulting">
+  <nav><ul><li><a href="index.html">Home</a></li><li><a aria-current="page" href="consulting.html">Consulting</a></li><li><a href="/d1/">D1</a></li></ul></nav>
   <div class="wrap">
 
     <h2 class="hf reveal-el">The work I do...</h2>

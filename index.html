@@ -17,30 +17,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@500;600;700;800&family=Archivo:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="stylesheet" href="assets/site.css">
 <style>
-:root{
-  --field:#C6572A; --cream:#EAE1C6; --ink:#26312a; --accent:#1F3A2E; --on-accent:#EAE1C6;
-  --card-bg:#EAE1C6; --card-border:0px solid transparent;
-  --h-font:'Anton'; --h-transform:uppercase; --h-weight:400;
-  --body-font:'Lora'; --sh:1px; --sh-color:#F2B417; --radius:4px; --tilt:1.4deg;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+/* home page only - the shared layer lives in assets/site.css */
+html{scroll-snap-type:y proximity}
 @supports(height:100dvh){.hero{height:100dvh}}
-@media(prefers-reduced-motion:reduce){html{scroll-snap-type:none;scroll-behavior:auto}}
-body{background:var(--field);color:var(--cream);font-family:var(--body-font),Georgia,serif;-webkit-font-smoothing:antialiased}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opacity:.55;mix-blend-mode:soft-light;background:url("assets/texture.jpg") center/cover fixed}
-a{color:inherit}
-.hf{font-family:var(--h-font),sans-serif;font-weight:var(--h-weight);text-transform:var(--h-transform)}
-.wrap{max-width:1080px;margin:0 auto;padding:0 34px}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-
-/* nav */
-nav{display:flex;justify-content:center;align-items:center;gap:20px;max-width:1080px;margin:0 auto;padding:22px 34px}
-nav .brand{font-weight:800;font-size:20px;text-decoration:none;font-family:Poppins;color:var(--cream)}
-nav ul{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
-nav a{text-decoration:none;font-weight:600;font-size:16px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;font-family:Poppins;color:var(--cream);transition:color .2s,opacity .2s}
-nav a:hover{color:var(--cream);opacity:1}
+@media(prefers-reduced-motion:reduce){html{scroll-snap-type:none}}
 
 /* hero */
 .hero{height:100vh;display:flex;flex-direction:column;text-align:center;position:relative;overflow:hidden;scroll-snap-align:start}
@@ -76,13 +58,9 @@ nav a:hover{color:var(--cream);opacity:1}
 .email-link:hover{border-color:var(--cream)}
 
 /* footer */
-.site-footer{text-align:center;padding:48px 34px 60px;font-size:11px;line-height:1.6;color:var(--cream);opacity:.7;max-width:60ch;margin:0 auto;font-family:Poppins,sans-serif}
 
 @media(max-width:640px){
   html{scroll-snap-type:none}
-  nav{gap:10px;padding:12px 20px;position:fixed;top:0;left:0;right:0;z-index:80;background:#C6572A}
-  nav .brand{font-size:17px}nav ul{gap:6px}
-  nav a{font-size:14px;letter-spacing:.06em;min-height:48px;display:inline-flex;align-items:center;padding:0 8px}
   .hero{padding-top:56px;height:80vh;height:80dvh}
   .hero-fill{padding:0 20px}
   .logo{width:clamp(160px,48vw,220px);left:16px;top:66px}
@@ -95,13 +73,12 @@ nav a:hover{color:var(--cream);opacity:1}
   .email-row{flex-direction:column;align-items:center;gap:18px}
   .email-link{display:inline-block;padding:8px 4px;font-size:16px}
   .social-btn{width:56px;height:56px}
-  .site-footer{font-size:13px;padding:40px 20px 48px}
 }
 </style></head>
-<body>
+<body class="field">
 <main>
   <section class="hero">
-    <nav><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li><li><a href="/d1/">D1</a></li></ul></nav>
+    <nav><ul><li><a aria-current="page" href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li><li><a href="/d1/">D1</a></li></ul></nav>
     <h1 class="sr-only">Sam Kaplan Pettus</h1>
     <img class="logo reveal-el" src="assets/logo.webp" alt="Sam Kaplan Pettus" width="920" height="920">
     <div class="hero-fill">

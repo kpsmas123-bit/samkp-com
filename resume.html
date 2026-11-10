@@ -14,26 +14,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@500;600;700;800&family=Archivo:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="stylesheet" href="assets/site.css">
 <style>
-:root{
-  --field:#C6572A;--cream:#EAE1C6;--ink:#26312a;--accent:#1F3A2E;--on-accent:#EAE1C6;
-  --gold:#F2B417;--h-font:'Anton';--h-transform:uppercase;--h-weight:400;
-  --body-font:'Lora';--sh:1px;--sh-color:#F2B417;--radius:4px;--tilt:1.4deg;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{background:var(--field);color:var(--cream);font-family:var(--body-font),Georgia,serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;opacity:.55;mix-blend-mode:soft-light;background:url("assets/texture.jpg") center/cover fixed}
-a{color:inherit}
-.hf{font-family:var(--h-font),sans-serif;font-weight:var(--h-weight);text-transform:var(--h-transform)}
-.wrap{max-width:720px;margin:0 auto;padding:0 100px;position:relative;z-index:1}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-
-nav{display:flex;justify-content:center;align-items:center;gap:20px;max-width:1080px;margin:0 auto;padding:22px 34px;position:relative;z-index:1}
-nav ul{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
-nav a{text-decoration:none;font-weight:600;font-size:16px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;font-family:Poppins;color:var(--cream);transition:color .2s,opacity .2s}
-nav a:hover{opacity:1}
+/* resume only - the shared layer lives in assets/site.css */
+body{overflow-x:hidden}
+/* narrower measure than the shared default, and above the texture overlay */
+.wrap{max-width:720px;padding:0 100px;position:relative;z-index:1}
+@media(min-width:641px){nav{position:relative;z-index:1}}
 
 .cv-header{padding:48px 0 28px;position:relative;z-index:1}
 .cv-title{font-family:var(--h-font),sans-serif;font-size:clamp(42px,8vw,68px);text-transform:uppercase;line-height:.9;color:var(--cream);text-shadow:var(--sh) var(--sh) 0 var(--sh-color);transform:rotate(-0.8deg)}
@@ -68,22 +55,18 @@ nav a:hover{opacity:1}
 .cv-clip-title a:hover{border-color:var(--cream)}
 .cv-clip-quote{font-size:14px;line-height:1.5;margin-top:6px;opacity:.8;font-style:italic}
 
-.site-footer{text-align:center;padding:48px 34px 60px;font-size:11px;line-height:1.6;color:var(--cream);opacity:.7;max-width:60ch;margin:0 auto;font-family:Poppins,sans-serif;position:relative;z-index:1}
+.site-footer{position:relative;z-index:1}
 
 @media(max-width:640px){
-  nav{gap:10px;padding:12px 20px;position:fixed;top:0;left:0;right:0;z-index:80;background:#C6572A}
-  nav ul{gap:6px}
-  nav a{font-size:14px;letter-spacing:.06em;min-height:48px;display:inline-flex;align-items:center;padding:0 8px}
   .wrap{padding:0 20px}
   .cv-header{padding-top:72px}
   .cv-contact{gap:12px;font-size:11px}
   .cv-entry-head{flex-direction:column;gap:0}
   .cv-entry-date{margin-top:2px}
   .cv-sticker{display:none}
-  .site-footer{font-size:13px;padding:40px 20px 48px}
 }
 </style></head>
-<body>
+<body class="field">
 <svg width="0" height="0" style="position:absolute"><defs>
   <filter id="sticker" x="-40%" y="-40%" width="180%" height="180%">
     <feMorphology in="SourceAlpha" operator="dilate" radius="2.2" result="d"/>

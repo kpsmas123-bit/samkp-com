@@ -1,0 +1,92 @@
+/* ============================================================
+   samkp.com — the shared layer.
+
+   Every page links this file and nothing in here is repeated in a
+   page's own <style>. A page's <style> holds only what is true of
+   that page alone (its layout, its own components).
+
+   Change the brand once, here, and every page follows.
+
+   URLs below resolve against /assets/, so the same rule works from
+   / and from /d1/ without per-page path juggling.
+   ============================================================ */
+
+:root{
+  /* field */
+  --field:#C6572A;        /* orange: the site's ground */
+  --cream:#EAE1C6;        /* type on the field, and card faces */
+  --ink:#26312a;          /* type on cream */
+  --accent:#1F3A2E;       /* deep green */
+  --on-accent:#EAE1C6;
+  --card-bg:#EAE1C6;
+
+  /* the sticker look: gold offset on headings, soft radius, slight tilt */
+  --gold:#F2B417;         /* the accent gold, one source of truth */
+  --sh:1px;
+  --sh-color:var(--gold); /* the offset behind headings */
+  --radius:4px;
+  --tilt:1.4deg;
+
+  /* type */
+  --h-font:'Anton';
+  --h-transform:uppercase;
+  --h-weight:400;
+  --body-font:'Lora';
+  --ui-font:Poppins;      /* nav, buttons, labels, anything UI */
+}
+
+/* ---------- reset + primitives ---------- */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+a{color:inherit}
+.hf{font-family:var(--h-font),sans-serif;font-weight:var(--h-weight);text-transform:var(--h-transform)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 34px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap}
+
+/* ---------- the orange field ----------
+   The field is the background plus the paper texture laid over it in
+   soft-light. Two ways in, because pages need both:
+     body.field    - the whole page is the field (home, resume, d1)
+     .field-panel  - one section is the field (consulting, whose second
+                     panel is blue and carries its own grain)            */
+body.field{background:var(--field);color:var(--cream);font-family:var(--body-font),Georgia,serif;-webkit-font-smoothing:antialiased}
+body.field::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:70;
+  opacity:.55;mix-blend-mode:soft-light;background:url("texture.jpg") center/cover fixed}
+
+.field-panel{background:var(--field);color:var(--cream);font-family:var(--body-font),Georgia,serif}
+.field-panel::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  opacity:.55;mix-blend-mode:soft-light;background:url("texture.jpg") center/cover fixed}
+
+/* ---------- nav ----------
+   Links only, centred. A page that also wants the wordmark adds an
+   <a class="brand"> and the row splits brand-left / links-right. */
+nav{display:flex;justify-content:center;align-items:center;gap:20px;max-width:1080px;margin:0 auto;padding:22px 34px;color:var(--cream)}
+nav:has(.brand){justify-content:space-between}
+nav ul{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
+nav a{text-decoration:none;font-weight:600;font-size:16px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;
+  font-family:var(--ui-font),system-ui,sans-serif;color:var(--cream);transition:color .2s,opacity .2s}
+nav a:hover{opacity:1}
+/* the page you are on, marked with aria-current="page" in the markup */
+nav a[aria-current="page"]{opacity:1;position:relative}
+nav a[aria-current="page"]::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:1px;background:var(--gold)}
+nav .brand{display:inline-flex;align-items:center;flex:none;line-height:0;opacity:1}
+nav .brand img{display:block;height:58px;width:auto;transform:rotate(calc(var(--tilt)*-1));
+  filter:drop-shadow(0 6px 14px rgba(20,10,0,.28))}
+nav a:focus-visible{outline:2px solid var(--sh-color);outline-offset:3px}
+
+/* ---------- footer ---------- */
+.site-footer{text-align:center;padding:48px 34px 60px;font-size:11px;line-height:1.6;color:var(--cream);opacity:.7;
+  max-width:60ch;margin:0 auto;font-family:var(--ui-font),sans-serif}
+
+@media(max-width:640px){
+  nav{gap:10px;padding:12px 20px;position:fixed;top:0;left:0;right:0;z-index:80;background:var(--field)}
+  nav ul{gap:6px}
+  nav a{font-size:14px;letter-spacing:.06em;min-height:48px;display:inline-flex;align-items:center;padding:0 8px}
+  /* a bar carrying the wordmark is too tall to float over the page, so it
+     stays in flow on small screens; links-only bars still pin to the top. */
+  nav:has(.brand){position:static;padding:12px 16px;flex-direction:column;gap:10px}
+  nav .brand img{height:36px}
+  .site-footer{font-size:13px;padding:40px 20px 48px}
+}
+@media(prefers-reduced-motion:reduce){nav a{transition:none}}
