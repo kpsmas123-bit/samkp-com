@@ -6,9 +6,15 @@ Hand-written static HTML, published to GitHub Pages at **samkp.com**.
 ## Layout
 
 ```
-index.html         Home — full-screen hero (logo + portrait), then "Latest Projects" tiles
+index.html         Home — full-screen hero (logo + portrait), then "Check These Out" tiles
 consulting.html    Two scroll-snap panels: Consulting (orange) + Work history (blue)
-assets/            logo.svg, portrait.png, texture.jpg
+resume.html        Resume
+precinct-map.html  Berkeley precinct map (embeds an external map app)
+d1/                Berkeley District 1 ranked-choice count: index.html + updates.json
+assets/site.css    The shared layer — every page links it. Change the brand here.
+assets/            logo.webp, logo-wordmark.webp, portrait.webp, texture.jpg, og-image.png
+scripts/           build-updates.sh — polls the county, appends to d1/updates.json
+.github/           workflows/d1-updates.yml — runs that script on a schedule
 CNAME              samkp.com (custom domain)
 ```
 
@@ -19,7 +25,15 @@ site goes live — there is no build step and nothing generates the HTML. Edit b
 
 ## Design system
 
-Two colour "recipes", driven by CSS variables:
+`assets/site.css` is the single source: brand tokens, the reset, the orange field and
+its texture, the nav and the footer. Every page links it and its own `<style>` holds
+only what is true of that page. Change the brand once, there, and every page follows.
+
+A page's `<style>` loads *after* the shared sheet, so a bare `nav{...}` or `body{...}`
+rule in a page will beat the shared one. Scope such overrides (a media query, or a more
+specific selector) rather than restating the bare element.
+
+Two colour "recipes", driven by those variables:
 
 | | Consulting (orange) | Work (blue) |
 |---|---|---|
@@ -35,8 +49,3 @@ On `consulting.html` both recipes live on one page, scoped to `.panel-consult` a
 - **Motion:** GSAP ScrollTrigger (scroll-reveal) and GSAP Flip (click-to-feature on the work
   cards). Scroll-snap is native CSS (`scroll-snap-type: y proximity`). All motion respects
   `prefers-reduced-motion`.
-
-## Filling asset slots
-
-Placeholders are marked `▢` in the HTML. Drop real files into `assets/` and point the `▢`
-element at them. Keep exports compressed — large images slow the page down.
