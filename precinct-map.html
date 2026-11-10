@@ -5,7 +5,7 @@
 <link rel="canonical" href="https://samkp.com/precinct-map.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Berkeley Precinct Map — Sam Kaplan Pettus">
-<meta property="og:description" content="Interactive Berkeley precinct-level election results map.">
+<meta property="og:description" content="Interactive precinct-level election results: every contest on a Berkeley ballot, plus statewide, congressional and proposition results across Alameda County.">
 <meta property="og:url" content="https://samkp.com/precinct-map.html">
 <meta property="og:image" content="https://samkp.com/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -25,7 +25,57 @@ nav{padding:10px 20px;background:var(--accent);position:relative;z-index:10}
 </style></head>
 <body>
 <nav><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li><li><a href="/d1/">D1</a></li></ul></nav>
-<iframe class="map-frame" src="https://kpsmas123-bit.github.io/berkeley-precinct-map/" title="Berkeley Precinct Map" allow="fullscreen"></iframe>
+<iframe id="mapFrame" class="map-frame" title="Berkeley Precinct Map" allow="fullscreen"></iframe>
+<noscript><p style="padding:16px;color:#EAE1C6">The precinct map needs JavaScript.
+  <a style="color:#F2B417" href="https://kpsmas123-bit.github.io/berkeley-precinct-map/">Open it directly</a>.</p></noscript>
+<script>
+/* Deep links.
+   The map lives on GitHub Pages in its own repo and is embedded here, so without
+   this bridge every samkp.com visitor landed on the default view and a link to a
+   particular contest or candidate could only be shared as a github.io URL.
+
+   URL scheme on this page:
+     /precinct-map.html#<berkeley map hash>
+     /precinct-map.html#county/<county map hash>
+   e.g. #county/2024-11-general/u-s-representative-12th-congressional-district/deviation/c-lateefah-simon
+
+   The map posts its hash here whenever it changes, so the address bar always
+   describes what is on screen, and it asks for this page's URL when someone uses
+   its "copy link" button. Only messages from the map's own origin are honoured. */
+(function () {
+  var BASE = "https://kpsmas123-bit.github.io/berkeley-precinct-map/";
+  var ORIGIN = "https://kpsmas123-bit.github.io";
+  var frame = document.getElementById("mapFrame");
+
+  function srcFromHash() {
+    var h = (location.hash || "").replace(/^#/, "");
+    var county = /^county(\/|$)/.test(h);
+    if (county) h = h.replace(/^county\/?/, "");
+    return BASE + (county ? "county.html" : "index.html") + (h ? "#" + h : "");
+  }
+  frame.src = srcFromHash();
+
+  window.addEventListener("message", function (ev) {
+    if (ev.origin !== ORIGIN) return;
+    var d = ev.data || {};
+    if (d.type === "bpm:hash") {
+      var inner = String(d.hash || "").replace(/^#/, "");
+      var h = d.page === "county" ? "#county" + (inner ? "/" + inner : "") : (inner ? "#" + inner : "");
+      if (location.hash !== h) {
+        history.replaceState(null, "", location.pathname + location.search + h);
+      }
+    } else if (d.type === "bpm:share-url-request" && ev.source) {
+      ev.source.postMessage({ type: "bpm:share-url", url: location.href }, ORIGIN);
+    }
+  });
+
+  // back/forward, or someone pasting a different link into the address bar
+  window.addEventListener("hashchange", function () {
+    var want = srcFromHash();
+    if (frame.src !== want) frame.src = want;
+  });
+})();
+</script>
 <script data-goatcounter="https://samkp.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </body></html>
