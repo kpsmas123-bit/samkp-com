@@ -44,6 +44,12 @@ Two colour "recipes", driven by those variables:
 On `consulting.html` both recipes live on one page, scoped to `.panel-consult` and
 `.panel-work`, so each section keeps its own look.
 
+- **Wordmark:** `assets/logo-wordmark.webp` sits in the nav on `consulting`, `resume` and
+  `/d1`. Not on the home page, whose hero already shows the full logo, and not on the
+  precinct map, whose bar is the dark green `#1F3A2E` — the mark's green fill needs the
+  orange behind it. Add it by putting `<a class="brand">` in the nav; the shared sheet
+  does the rest, and `nav:has(.brand)` splits the row. A branded nav stays in flow on
+  small screens instead of pinning to the top, because it is too tall to float.
 - **Fonts:** Anton (headlines, uppercase), Lora (body serif), Poppins (nav/labels).
 - **Texture:** kraft photo on `soft-light` over the orange; SVG grain on `multiply` over the blue.
 - **Motion:** GSAP ScrollTrigger (scroll-reveal) and GSAP Flip (click-to-feature on the work
