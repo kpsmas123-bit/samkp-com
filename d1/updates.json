@@ -372,5 +372,179 @@
         "votes": 66
       }
     ]
+  },
+  {
+    "seq": 6,
+    "label": "November 09, 4:59 PM",
+    "rov_updated": "Monday, November 09, 2026; 4:59 PM",
+    "first_choice": {
+      "Daria Wrubel": 1835,
+      "Laura Babitt": 1761,
+      "Ross Bernet": 1689,
+      "Moni Gangopadhyay": 1110,
+      "Steve Kromer": 571
+    },
+    "rounds": [
+      {
+        "round": 1,
+        "candidate": "Laura Babitt",
+        "votes": 1825
+      },
+      {
+        "round": 1,
+        "candidate": "Ross Bernet",
+        "votes": 1701
+      },
+      {
+        "round": 1,
+        "candidate": "Daria Wrubel",
+        "votes": 1913
+      },
+      {
+        "round": 1,
+        "candidate": "Moni Gangopadhyay",
+        "votes": 1132
+      },
+      {
+        "round": 1,
+        "candidate": "Steve Kromer",
+        "votes": 591
+      },
+      {
+        "round": 1,
+        "candidate": "Blanks",
+        "votes": 554
+      },
+      {
+        "round": 1,
+        "candidate": "Exhausted",
+        "votes": 0
+      },
+      {
+        "round": 1,
+        "candidate": "Overvotes",
+        "votes": 45
+      },
+      {
+        "round": 2,
+        "candidate": "Laura Babitt",
+        "votes": 2031
+      },
+      {
+        "round": 2,
+        "candidate": "Ross Bernet",
+        "votes": 1837
+      },
+      {
+        "round": 2,
+        "candidate": "Daria Wrubel",
+        "votes": 1996
+      },
+      {
+        "round": 2,
+        "candidate": "Moni Gangopadhyay",
+        "votes": 1218
+      },
+      {
+        "round": 2,
+        "candidate": "Steve Kromer",
+        "votes": 0
+      },
+      {
+        "round": 2,
+        "candidate": "Blanks",
+        "votes": 554
+      },
+      {
+        "round": 2,
+        "candidate": "Exhausted",
+        "votes": 77
+      },
+      {
+        "round": 2,
+        "candidate": "Overvotes",
+        "votes": 48
+      },
+      {
+        "round": 3,
+        "candidate": "Laura Babitt",
+        "votes": 2457
+      },
+      {
+        "round": 3,
+        "candidate": "Ross Bernet",
+        "votes": 2002
+      },
+      {
+        "round": 3,
+        "candidate": "Daria Wrubel",
+        "votes": 2514
+      },
+      {
+        "round": 3,
+        "candidate": "Moni Gangopadhyay",
+        "votes": 0
+      },
+      {
+        "round": 3,
+        "candidate": "Steve Kromer",
+        "votes": 0
+      },
+      {
+        "round": 3,
+        "candidate": "Blanks",
+        "votes": 554
+      },
+      {
+        "round": 3,
+        "candidate": "Exhausted",
+        "votes": 181
+      },
+      {
+        "round": 3,
+        "candidate": "Overvotes",
+        "votes": 53
+      },
+      {
+        "round": 4,
+        "candidate": "Laura Babitt",
+        "votes": 3234
+      },
+      {
+        "round": 4,
+        "candidate": "Ross Bernet",
+        "votes": 0
+      },
+      {
+        "round": 4,
+        "candidate": "Daria Wrubel",
+        "votes": 3386
+      },
+      {
+        "round": 4,
+        "candidate": "Moni Gangopadhyay",
+        "votes": 0
+      },
+      {
+        "round": 4,
+        "candidate": "Steve Kromer",
+        "votes": 0
+      },
+      {
+        "round": 4,
+        "candidate": "Blanks",
+        "votes": 554
+      },
+      {
+        "round": 4,
+        "candidate": "Exhausted",
+        "votes": 527
+      },
+      {
+        "round": 4,
+        "candidate": "Overvotes",
+        "votes": 60
+      }
+    ]
   }
 ]
