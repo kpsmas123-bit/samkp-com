@@ -59,10 +59,14 @@ body.field::before{content:"";position:fixed;inset:0;pointer-events:none;z-index
   opacity:.55;mix-blend-mode:soft-light;background:url("texture.jpg") center/cover fixed}
 
 /* ---------- nav ----------
-   Links only, centred. A page that also wants the wordmark adds an
-   <a class="brand"> and the row splits brand-left / links-right. */
-nav{display:flex;justify-content:center;align-items:center;gap:20px;max-width:1080px;margin:0 auto;padding:22px 34px;color:var(--cream)}
-nav:has(.brand){justify-content:space-between}
+   One header on every page: the wordmark and the links, centred together on the
+   shared 1080px measure. Pages do not override its padding, measure or brand size
+   — the whole point is that it looks identical wherever you land. */
+/* width:100% matters: on the pages whose nav sits inside a flex column (the home
+   hero, the consulting panel) the auto side margins suppress the default stretch,
+   so without it the bar shrink-wraps to its links and runs a different measure
+   from the pages whose parent is a plain block. */
+nav{display:flex;justify-content:center;align-items:center;gap:28px;width:100%;max-width:1080px;margin:0 auto;padding:22px 34px;color:var(--cream)}
 nav ul{display:flex;gap:22px;list-style:none;flex-wrap:wrap}
 nav a{text-decoration:none;font-weight:600;font-size:16px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;
   font-family:var(--ui-font),system-ui,sans-serif;color:var(--cream);transition:color .2s,opacity .2s}

@@ -38,9 +38,6 @@ nav{scroll-snap-align:start}
 .panel-work::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;opacity:var(--grain);mix-blend-mode:multiply;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-/* ---- nav: full width inside the panel, rather than the shared centred measure ---- */
-nav{max-width:none;margin:0;width:100%}
-
 /* ---- ORANGE: what I do ---- */
 .panel-consult .wrap{flex:1;display:flex;flex-direction:column;justify-content:center;padding-top:10px;padding-bottom:60px}
 
@@ -219,7 +216,7 @@ nav{max-width:none;margin:0;width:100%}
 <h1 class="sr-only">Consulting and campaign work — Sam Kaplan Pettus</h1>
 
 <section class="panel panel-consult field-panel" id="consulting">
-  <nav><a class="brand" href="/"><img src="/assets/logo-wordmark.webp" alt="SamKP.com" width="480" height="122"></a><ul><li><a href="index.html">Home</a></li><li><a aria-current="page" href="consulting.html">Consulting</a></li><li><a href="precinct-map.html">Precinct map</a></li><li><a href="/d1/">D1</a></li></ul></nav>
+  <nav aria-label="samkp.com"><a class="brand" href="/"><img src="/assets/logo-wordmark.webp" alt="SamKP.com" width="480" height="122"></a><ul><li><a href="/">Home</a></li><li><a aria-current="page" href="/consulting.html">Consulting</a></li><li><a href="/resume.html">Resume</a></li><li><a href="/precinct-map.html">Precinct map</a></li><li><a href="/d1/">D1</a></li></ul></nav>
   <div class="wrap">
 
     <h2 class="hf reveal-el">The work I do...</h2>
