@@ -19,12 +19,23 @@
    orange field, and the bar stays in flow instead of floating over the map. */
 html,body{height:100%;overflow:hidden}
 body{background:var(--accent);font-family:var(--ui-font),system-ui,sans-serif;display:flex;flex-direction:column}
-nav{padding:10px 20px;background:var(--accent);position:relative;z-index:10}
-.map-frame{flex:1;width:100%;border:none;display:block}
-@media(max-width:640px){nav{position:static;padding:10px 20px}}
+nav{padding:8px 20px;background:var(--accent);position:relative;z-index:10}
+/* The map fills whatever the header leaves, so the shared 58px wordmark is run
+   smaller here than on a scrolling page — the header stays recognisable without
+   taking a chunk out of the map. */
+nav .brand img{height:38px}
+.map-frame{flex:1;width:100%;border:none;display:block;min-height:0}
+/* site.css stacks the branded nav on narrow screens, which is right for a page you
+   scroll and wrong for one where the map gets whatever is left. Same specificity, so
+   this wins: keep it on one row and shrink the wordmark instead. */
+@media(max-width:640px){
+  nav:has(.brand){position:static;padding:6px 12px;flex-direction:row;gap:10px;align-items:center}
+  nav .brand img{height:24px}
+  nav ul{gap:4px}
+}
 </style></head>
 <body>
-<nav><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li><li><a href="/d1/">D1</a></li></ul></nav>
+<nav><a class="brand" href="/"><img src="/assets/logo-wordmark.webp" alt="SamKP.com" width="480" height="122"></a><ul><li><a href="index.html">Home</a></li><li><a href="consulting.html">Consulting</a></li><li><a aria-current="page" href="precinct-map.html">Precinct map</a></li><li><a href="/d1/">D1</a></li></ul></nav>
 <iframe id="mapFrame" class="map-frame" title="Berkeley Precinct Map" allow="fullscreen"></iframe>
 <noscript><p style="padding:16px;color:#EAE1C6">The precinct map needs JavaScript.
   <a style="color:#F2B417" href="https://kpsmas123-bit.github.io/berkeley-precinct-map/">Open it directly</a>.</p></noscript>
