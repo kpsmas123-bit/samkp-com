@@ -5,7 +5,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;600&family=Poppins:wght@600;800&family=Public+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Poppins:wght@600;800&family=Public+Sans:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: field-desk sheet. Map left, precinct readout right, a "what it takes" calculator below. */
 :root{
@@ -30,41 +30,35 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15p
 /* ---------- samkp.com site bar ---------- */
 /* Brand tokens are scoped here so the sheet below keeps its own palette, and the
    bar stays the same orange in light and dark - it is the site's signature. */
-.sitebar{--field:#C6572A;--cream:#EAE1C6;--bark:#1F3A2E;--gold:#F2B417;
+.sitebar{--field:#C6572A;--cream:#EAE1C6;--gold:#F2B417;
   background:var(--field);border-bottom:2px solid rgba(31,58,46,.28)}
 .sitebar nav{max-width:1120px;margin:0 auto;display:flex;align-items:center;
-  justify-content:space-between;gap:10px 22px;flex-wrap:wrap;padding-block:11px;
+  justify-content:space-between;gap:10px 22px;flex-wrap:wrap;padding-block:8px;
   padding-left:max(16px,env(safe-area-inset-left,0px));
   padding-right:max(16px,env(safe-area-inset-right,0px))}
-.sitebar .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
-  color:var(--cream);font-family:"Poppins",system-ui,sans-serif;font-weight:800;
-  font-size:19px;letter-spacing:-.01em;white-space:nowrap}
-.sitebar .brandmark{width:28px;height:28px;flex:none;border-radius:6px;background:var(--cream);
-  color:var(--bark);display:grid;place-items:center;font-family:"Anton",Impact,sans-serif;
-  font-weight:400;font-size:21px;line-height:1;text-shadow:1px 1px 0 var(--gold);
-  transform:rotate(-1.4deg);box-shadow:0 6px 14px rgba(10,20,40,.22)}
-.sitebar .brandmark span{transform:translateY(1px)}
-.sitebar .brand .tld{opacity:.6;font-weight:600}
-.sitebar ul{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.sitebar .brand{display:inline-flex;align-items:center;flex:none;line-height:0;order:2}
+/* assets/logo.webp is the same file the home page uses - square, transparent, so it
+   drops straight onto the orange. The -1.4deg tilt matches the site's sticker look. */
+.sitebar .brand img{display:block;height:112px;width:auto;transform:rotate(-1.4deg);
+  filter:drop-shadow(0 7px 16px rgba(20,10,0,.3))}
+.sitebar ul{order:1;display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
 .sitebar ul a{display:inline-flex;align-items:center;min-height:40px;padding:0 10px;border-radius:6px;
   color:var(--cream);text-decoration:none;font-family:"Poppins",system-ui,sans-serif;font-weight:600;
-  font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;
-  transition:background-color .18s,box-shadow .18s}
+  font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;position:relative;
+  transition:background-color .18s}
 .sitebar ul a:hover{background:rgba(234,225,198,.16)}
-.sitebar ul a{position:relative}
 .sitebar ul a[aria-current="page"]::after{content:"";position:absolute;left:10px;right:10px;bottom:7px;height:2px;border-radius:1px;background:var(--gold)}
 @media (max-width:560px){.sitebar ul a[aria-current="page"]::after{left:8px;right:8px;bottom:6px}}
 .sitebar a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 @media (max-width:560px){
   .sitebar nav{padding-block:9px;gap:6px 12px}
-  .sitebar .brand{font-size:17px}
-  .sitebar .brandmark{width:25px;height:25px;font-size:19px}
+  .sitebar .brand img{height:76px}
   .sitebar ul a{font-size:11px;letter-spacing:.06em;padding:0 8px;min-height:38px}
 }
 @media (prefers-reduced-motion:reduce){.sitebar ul a{transition:none}}
 .wrap{max-width:1120px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:22px}
 header{display:grid;gap:6px}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;border:0}
 h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,4vw,36px);line-height:1.1;margin:0;text-wrap:balance}
 h2{font-size:17px;font-weight:700;margin:0;text-wrap:balance}
 .lede{color:var(--muted);max-width:68ch;margin:0}
@@ -129,19 +123,18 @@ td.w{color:var(--wru);font-weight:600}
 </style>
 <div class="sitebar">
   <nav aria-label="samkp.com">
-    <a class="brand" href="/" aria-label="samkp.com home"><span class="brandmark" aria-hidden="true"><span>S</span></span>samkp<span class="tld">.com</span></a>
     <ul>
       <li><a href="/">Home</a></li>
       <li><a href="/consulting.html">Consulting</a></li>
-      <li><a href="/d1/" aria-current="page">District 1</a></li>
+      <li><a href="/d1/" aria-current="page">D1</a></li>
     </ul>
+    <a class="brand" href="/"><img src="/assets/logo.webp" alt="Sam Kaplan Pettus" width="920" height="920" decoding="async"></a>
   </nav>
 </div>
 
 <div class="wrap">
 <header>
-  <div class="eyebrow">Berkeley City Council · District 1 · Ranked-choice count</div>
-  <h1>Where the District 1 count stands</h1>
+  <h1 class="sr-only">Where the District 1 count stands — Berkeley City Council, District 1 ranked-choice count</h1>
   <div class="srcline">
     <span class="badge" id="srcBadge">Ballot file</span>
     <span id="srcText">November 04, 2:07 AM</span>
