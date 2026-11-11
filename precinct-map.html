@@ -25,6 +25,15 @@ body{background:var(--field);font-family:var(--ui-font),system-ui,sans-serif;dis
    the bar is identical to every other page. */
 nav{background:var(--field);position:relative;z-index:10}
 .map-frame{flex:1;width:100%;border:none;display:block;min-height:0}
+
+/* On a phone the branded bar is 184px — 23% of the viewport — sitting on top of
+   a map that wants to be full screen. This is the one page where the header is
+   not the point, so the wordmark steps aside below 640px and the links run in a
+   single row, returning ~128px to the map. Every other page keeps its wordmark. */
+@media(max-width:640px){
+  nav .brand{display:none}
+  nav:has(.brand){flex-direction:row;padding:6px 12px;gap:6px}
+}
 </style></head>
 <body>
 <nav aria-label="samkp.com"><a class="brand" href="/"><img src="/assets/logo-wordmark.webp" alt="SamKP.com" width="480" height="122"></a><ul><li><a href="/">Home</a></li><li><a href="/consulting.html">Consulting</a></li><li><a href="/resume.html">Resume</a></li><li><a aria-current="page" href="/precinct-map.html">Precinct map</a></li><li><a href="/d1/">D1</a></li></ul></nav>

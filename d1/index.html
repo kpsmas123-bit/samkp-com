@@ -138,13 +138,13 @@ td.w{color:var(--wru);font-weight:600}
     <button class="f-pre" type="button" data-p="2" aria-pressed="false">209700</button>
   </div>
   <p class="note" id="preOff" hidden>Precinct highlighting needs the ballot-level file. The county's live report only gives districtwide rounds; it comes back when a newer ballot file is loaded.</p>
-  <div class="dotwrap"><svg id="dots" role="img" aria-label="Ranked-choice rounds as moving dots"></svg></div>
+  <div class="dotwrap scroll-x"><svg id="dots" role="img" aria-label="Ranked-choice rounds as moving dots"></svg></div>
   <p class="flowcap" id="f-cap" aria-live="polite"></p>
 </section>
 
 <section class="panel" aria-labelledby="histh">
   <h2 id="histh">Update by update</h2>
-  <div class="tablewrap"><table id="hist"></table></div>
+  <div class="tablewrap scroll-x"><table id="hist"></table></div>
 </section>
 
 <div class="grid">
@@ -168,7 +168,7 @@ td.w{color:var(--wru);font-weight:600}
 <section class="panel" aria-labelledby="tblh">
   <div class="secnote">Ballot file of Nov 4, 2:07 AM</div>
   <h2 id="tblh">All three precincts</h2>
-  <div class="tablewrap"><table id="tbl"></table></div>
+  <div class="tablewrap scroll-x"><table id="tbl"></table></div>
 </section>
 
 <footer class="site-footer">
@@ -431,4 +431,12 @@ CUR=SNAPCUR;renderStatic();renderAll(true);fRound=0;fShow(0);
 
 <script data-goatcounter="https://samkp.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
+<script>
+/* mark a scroll panel when there is nothing further right, so the fade can go */
+document.querySelectorAll(".scroll-x").forEach(el=>{
+  const mark=()=>el.classList.toggle("at-end", el.scrollLeft+el.clientWidth >= el.scrollWidth-2);
+  el.addEventListener("scroll", mark, {passive:true});
+  addEventListener("resize", mark); mark();
+});
+</script>
 </body></html>

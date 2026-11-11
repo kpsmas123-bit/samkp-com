@@ -84,13 +84,23 @@ nav a:focus-visible{outline:2px solid var(--sh-color);outline-offset:3px}
   max-width:60ch;margin:0 auto;font-family:var(--ui-font),sans-serif}
 
 @media(max-width:640px){
-  nav{gap:10px;padding:12px 20px;position:fixed;top:0;left:0;right:0;z-index:80;background:var(--field)}
-  nav ul{gap:6px}
-  nav a{font-size:14px;letter-spacing:.06em;min-height:48px;display:inline-flex;align-items:center;padding:0 8px}
+  nav{gap:8px;padding:8px 16px;position:fixed;top:0;left:0;right:0;z-index:80;background:var(--field)}
+  nav ul{gap:4px}
+  nav a{font-size:14px;letter-spacing:.06em;min-height:44px;display:inline-flex;align-items:center;padding:0 7px}
   /* a bar carrying the wordmark is too tall to float over the page, so it
      stays in flow on small screens; links-only bars still pin to the top. */
-  nav:has(.brand){position:static;padding:12px 16px;flex-direction:column;gap:10px}
-  nav .brand img{height:36px}
+  nav:has(.brand){position:static;padding:8px 14px;flex-direction:column;gap:6px}
+  nav .brand img{height:30px}
   .site-footer{font-size:13px;padding:40px 20px 48px}
+
+  /* A horizontally scrollable panel has to look scrollable. On a phone the D1
+     dot chart shows 311 of its 520px and the round table 311 of 553, and the cut
+     landed mid-number — "1,13" reads as broken data rather than as "swipe me".
+     The fade clears once there is nothing left to the right. */
+  .scroll-x{position:relative}
+  .scroll-x::after{content:"";position:absolute;top:0;right:0;bottom:0;width:34px;
+    pointer-events:none;opacity:1;transition:opacity .2s;
+    background:linear-gradient(to right,rgba(234,225,198,0),var(--card-bg))}
+  .scroll-x.at-end::after{opacity:0}
 }
 @media(prefers-reduced-motion:reduce){nav a{transition:none}}
