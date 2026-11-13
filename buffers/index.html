@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Berkeley 600-ft Childcare Buffers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600&display=swap" rel="stylesheet">
+<style>
+/*
+VOICE: plain working map, newspaper graphics-desk clarity.
+IDEA: a planning-department overlay sheet: street base, red buffer stamps.
+PICTURE: the map itself, full width, circles overlapping.
+COLOUR and TYPE: white ground, grey streets, one red for buffers; Outfit + Inter.
+LAYOUT: finding and three figures on top, map, then what's missing and method.
+*/
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#10161d);--ink:light-dark(#10223a,#e6ebf1);--mute:light-dark(#5b6878,#9aa6b4);
+--map:light-dark(#f4f5f2,#18212b);--line:light-dark(#d9dde2,#2a3542);
+--r3:light-dark(#c9ced4,#3a4654);--r2:light-dark(#9aa3ad,#5d6b7b);--r1:light-dark(#5f6b78,#8d9aa9);--r0:light-dark(#8a7a5a,#a38f63);
+--red:#d62828;--redfill:#e63946;--bnd:light-dark(#10223a,#c9d3de)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(22px,3.5vw,48px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+h1{font:600 clamp(28px,4vw,44px)/1.08 Outfit,Inter,sans-serif;margin:0 0 10px;text-wrap:balance}
+.lede{color:var(--mute);max-width:70ch;margin:0}
+.figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+.fg{border-top:2px solid var(--ink);padding-top:8px}
+.fg b{display:block;font:600 clamp(26px,3.4vw,38px)/1.1 Outfit,Inter,sans-serif;white-space:nowrap}
+.fg b.red{color:var(--red)}
+.fg span{font-size:14px;color:var(--mute)}
+#map{height:min(78vh,760px);min-height:420px;background:var(--map);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;color:var(--mute);margin-top:12px}
+.legend i{display:inline-block;vertical-align:-3px;margin-right:7px}
+.lc{width:16px;height:16px;border-radius:50%;background:rgba(230,57,70,.22);border:1.5px solid var(--red)}
+.ld{width:9px;height:9px;border-radius:50%;background:var(--red);vertical-align:0!important}
+.lr{width:22px;height:3px;background:var(--r1);vertical-align:4px!important}
+.lb{width:22px;height:0;border-top:2px dashed var(--bnd);vertical-align:4px!important}
+h2{font:600 22px/1.2 Outfit,Inter,sans-serif;margin:0 0 10px}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px)}
+p{margin:0 0 12px;max-width:68ch}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{font-weight:600;font-size:13px;color:var(--mute)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.bar{height:8px;background:var(--red);opacity:.75;border-radius:2px}
+.small{font-size:13px;color:var(--mute)}
+a{color:inherit}
+/* minimal Leaflet core */
+.leaflet-pane,.leaflet-marker-icon,.leaflet-pane>svg,.leaflet-pane>canvas,.leaflet-zoom-box,.leaflet-layer{position:absolute;left:0;top:0}
+.leaflet-container{overflow:hidden;font:13px/1.4 Inter,system-ui,sans-serif;-webkit-tap-highlight-color:transparent;outline:0}
+.leaflet-container.leaflet-touch-drag{touch-action:none}
+.leaflet-pane{z-index:400}.leaflet-overlay-pane{z-index:400}.leaflet-marker-pane{z-index:600}.leaflet-tooltip-pane{z-index:650}.leaflet-popup-pane{z-index:700}
+.leaflet-map-pane svg{z-index:200}.leaflet-map-pane canvas{z-index:100}
+.leaflet-container .leaflet-overlay-pane svg{max-width:none!important;max-height:none!important}
+.leaflet-zoom-animated{transform-origin:0 0}
+.leaflet-zoom-anim .leaflet-zoom-animated{transition:transform .25s cubic-bezier(0,0,.25,1)}
+.leaflet-zoom-anim .leaflet-zoom-hide{visibility:hidden}
+.leaflet-interactive{cursor:pointer;pointer-events:auto}
+.leaflet-pane>svg path{pointer-events:none}.leaflet-pane>svg path.leaflet-interactive{pointer-events:auto}
+.leaflet-grab{cursor:grab}.leaflet-dragging .leaflet-grab{cursor:grabbing}
+.leaflet-control{position:relative;z-index:800;pointer-events:auto;float:left;clear:both}
+.leaflet-top,.leaflet-bottom{position:absolute;z-index:1000;pointer-events:none}
+.leaflet-top{top:0}.leaflet-right{right:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}
+.leaflet-right .leaflet-control{float:right;margin-right:10px}.leaflet-top .leaflet-control{margin-top:10px}
+.leaflet-left .leaflet-control{margin-left:10px}.leaflet-bottom .leaflet-control{margin-bottom:10px}
+.leaflet-bar{box-shadow:0 1px 4px rgba(0,0,0,.3);border-radius:6px;overflow:hidden}
+.leaflet-bar a{display:block;width:44px;height:44px;line-height:44px;text-align:center;background:var(--bg);color:var(--ink);text-decoration:none;font:600 22px/44px Inter,sans-serif;border-bottom:1px solid var(--line)}
+.leaflet-bar a:last-child{border-bottom:0}
+.leaflet-bar a.leaflet-disabled{opacity:.4;cursor:default}
+.leaflet-control-scale-line{border:2px solid var(--ink);border-top:0;padding:0 5px;font-size:12px;background:color-mix(in srgb,var(--bg) 80%,transparent);color:var(--ink);white-space:nowrap}
+.leaflet-popup{position:absolute;text-align:center;margin-bottom:20px}
+.leaflet-popup-content-wrapper{padding:1px;text-align:left;border-radius:8px;background:var(--bg);color:var(--ink);box-shadow:0 3px 14px rgba(0,0,0,.3)}
+.leaflet-popup-content{margin:12px 16px;line-height:1.4;font-size:14px;min-width:200px}
+.leaflet-popup-content b{font-size:15px}
+.leaflet-popup-tip-container{width:40px;height:20px;position:absolute;left:50%;margin-top:-1px;margin-left:-20px;overflow:hidden;pointer-events:none}
+.leaflet-popup-tip{width:17px;height:17px;padding:1px;margin:-10px auto 0;transform:rotate(45deg);background:var(--bg)}
+.leaflet-popup-close-button{position:absolute;top:2px;right:4px;width:28px;height:28px;font:20px/28px Inter,sans-serif;color:var(--mute);text-decoration:none;text-align:center}
+.lbl{white-space:nowrap;font:600 11px/1 Inter,sans-serif;color:var(--mute);text-shadow:0 0 3px var(--map),0 0 3px var(--map),0 0 3px var(--map);pointer-events:none}
+.lbl span{display:inline-block;transform:translate(-50%,-50%) rotate(var(--a))}
+.lbls-off .lbl{display:none}
+.st0{stroke:var(--r0)}.st1{stroke:var(--r1)}.st2{stroke:var(--r2)}.bnd{stroke:var(--bnd)}
+.buf{stroke:var(--red);fill:var(--redfill)}
+.dot{stroke:#fff;fill:var(--red)}
+.hh{stroke:#e85d04;fill:#f48c06}.hl{stroke:#7b2cbf;fill:#9d4edd}
+.toggles{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:4px}
+.toggles label{display:flex;align-items:center;gap:8px;min-height:44px;font-size:15px;cursor:pointer}
+.toggles input{width:20px;height:20px;accent-color:var(--ink)}
+.sw{display:inline-block;width:16px;height:16px;border-radius:50%}
+.sw.c{background:rgba(230,57,70,.25);border:1.5px solid var(--red)}
+.sw.h{background:rgba(244,140,6,.3);border:1.5px solid #e85d04}
+.sw.m{background:rgba(244,140,6,.15);border:1.5px dashed #e85d04}
+.sw.l{background:rgba(157,78,221,.15);border:1.5px dashed #7b2cbf}
+.cov td.n b{font-weight:600}
+@media(max-width:600px){.figs{grid-template-columns:minmax(0,1fr)}.cols{grid-template-columns:minmax(0,1fr)}#map{height:70vh}}
+</style>
+</head>
+<body>
+<section class="band"><div class="wrap">
+<h1 id="title">600-ft preschool buffers across Berkeley's licensed childcare centers</h1>
+<div class="figs">
+<div class="fg"><b id="f1">51</b><span>center sites mapped (64 licenses)</span></div>
+<div class="fg"><b id="f2" class="red">–</b><span id="f2l">of main arterial length is inside a buffer</span></div>
+</div>
+</div></section>
+
+<div id="map" role="region" aria-label="Map of Berkeley childcare buffers"></div>
+
+<section class="band" style="padding-top:14px"><div class="wrap">
+<div class="toggles" role="group" aria-label="Map layers">
+<label><input type="checkbox" id="tC" checked><span class="sw c"></span>Licensed centers (state data, 51)</label>
+<label><input type="checkbox" id="tH" checked><span class="sw h"></span>Google Maps: matches a state-licensed home (<span id="nH"></span>)</label>
+<label><input type="checkbox" id="tL" checked><span class="sw l"></span>Google Maps: no confirmed license match (<span id="nL"></span>)</label>
+</div>
+<div class="legend"><span><i class="lr"></i>Arterial and collector streets</span><span><i class="lb"></i>City limit</span></div>
+</div></section>
+
+<section class="band" style="padding-top:8px"><div class="wrap" style="max-width:560px;margin:0">
+<p class="small" style="margin-top:20px">Sources: <a href="https://data.chhs.ca.gov/dataset/community-care-licensing-facilities">CA Community Care Licensing</a> · Google Maps listings · <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a></p>
+</div></section>
+
+<script type="text/plain" id="streets">
+0:isk{AroqiHeIjA hCgBy@i@[]Wm@Mw@ zBlDq@Yk@c@UYWo@ xBvCuAsAS]Oe@ b@fJZPXDXCVM _CYv@DTEPI cBeHHn@Aj@Qr@Yb@]ToB^sA\ dGgGJj@@`@Cn@It@ ??Gn@@\J`@T^ a@wB_Gz@ ~Fi@nJqA qJoDq@qB j@rBL`@ _@jIJUVE i@?@HCDY@ ZQDF?R YaNj@rB cA`Ij@N k@OtAN kBy@`BW aBgBLbAANIFaAR }A`@_]jG l\qF`CGbAD eE@nDk@ _a@hHn[}F m\pFKCcAH nAEgMhC vJcCqAF pAGwAP ZfCe@N d@OUBMK LiCs@@eA^ xBa@[EOKGQIi@ v@vAS?MEIOGW j@lDO_@ Lv@GB @{A`@ARNDN?NCLKJ k@gAzBg@xAc@ wEfD[FOA ^{@?ZCLMLMB TyAVG g@}A?ZCNIJQF X~BKCIKEM?O @qAYF VhAJWd@S iA]e@J b@]WDKE b@?c@N ?LyBj@MN fCiAE? wApA^?d@GfCi@ mEp@zFoA~Du@ eN|BeKtB `BElIgB oLlBiFhA hFiASAeALkAV |CHxAc@NO uF`BjCm@ }CIc@H ??k@NSM
+0:cen{AdgriHfIcB kInAmAT `Ab@FMxAY mCp@LH QcBCPEDUB N`@nAS qA@uDf@ fDw@_AN Vx@jAK qAK|@O oAQsAXSL xAXd@G _CQiAN ??e@F ZNz@ApBK mDLlEm@ wG|@hAO en`AucamAeKi@ dKul@E_AKq@ NjKEmAFkE E|HOK BcL[eC TtPNMDU YjBRw@@O ]cC\sE@oDEcD g@zTLsC MrCHgJE}E OxLErD ??KbB[|A f@ua@AzBNtIGlG IeFEzDIrA NoG?tAHnC WdJ^oAXqA y@`DV_BJyB e@aBGp@ FTId@ @{@?TJL Kc@GNGF Lb@BlBMnB @sZZzCDzB c@zQc@jAa@r@ |@uJLLBH e@zHZw@Tu@ {AnCwDbF PDlDwE`@s@ aFdGY`@ PBX_@ k@ZwCvD tC~HcAYi@[WWSc@Ge@?s@Hc@XgA |BvHiCM x@x@bBMvA?lGZ oMkLhBaC qCzDf@y@ s@bJeDVo@Xc@^ xFqAoHa@ bHoGO`@iAfBI\EX hBaEiCjD bCjEjAK iBKb@HdA@ uB}Ef@qA^s@
+0:ksp}Adbp{Ex@_C y@r@@t@Ll@Zd@XR }AwApAyB yA\w@f@[L_@HiAFkBZ]L fIqB_AlA z@~Ab@kA q@hBL] a@a@l@o@ s@bDXs@ m@}Bg@|@ BjAe@v@ `@cCWl@ H|AQi@c@o@ j@Ca@|A VGcAlD r@j@`@uAD]@s@Ei@ c@pElBiF mB{C}@Lk@^c@p@Qp@ ~CqCoAA}AN dDdDk@dD `@_G]S[G r@xJT]bBmDd@o@ZWb@YtAa@ uHnIVq@ s@k@[tB Tt@`@mA q@`^AIGI Fgi@a@Cc@B `ApKq@tD l@~VGA @YQZ NAO@ ??y@hA x@iASNM@KEIMMeDG_@ ~@kO~@kD gA~B}AvJG|@C`A bBwUNhBItB G{MpAWh@Oz@a@dAw@ }F`CfLaA oLi@_DRaAV |ErFLfA Wpb@hAkC iAyf@Et@ ?fg@]f@ \oh@NtC WoIuA\oB|@ zDnd@@u@Ce@ ??O_AEk@ JdLQ^a@nA l@cSnAqH qAp\PiABcAe@kIBcBLaA A~Rj@kA o@eMDmB a@xCPfD@zAKbCS`B JiNA~CG`Ay@`H bAcF`@gAP{@ _AlI[zAg@xA d@{EIC ObAOnA ??Wx@Wn@ HFXo@Le@dAkHJc@
+0:wdq}Athp{ExADx@\b@`@NVRp@ {EoCfFc@ iF_AmKjF hFh{@pH_QX{@ qKoi@fBi@bAQ~@I oKfCoB|@ \bCKIGS R\U? NqBj@ITFRTF\Eb@QVWHg@E EqBzFqC kGbGG@ B^JOLG ]mCu@F]G rA?oAd@eB^eALcDV ~KX`AJPANIPYp@uBP_@\e@j@]NQ gJ~B[W ??M[Go@ TjAAW@OHMVU iHlFlDc@bAQrA]hAc@ wLxAkAA jA@wE\ jC_@aA? ??aA@ ??UQ TPU@KH XPi@D h@l@~Fs@ mGOKGO?sF~@ lGhBBQJM UaDINIF NlCHM KCJJN@~FqB iHz@h@G i@m@a@B VlBPHFN YYXA q@kBmD`AwDPUFYTS^Gd@?x@ pLqFqE\ hEnA^? {Ag@dBS sFS{Fb@ nDn@tGC uGBxEk@ eI`AjBU sC~BFiAF[R[PMb@IrGQ iKCeAH ??{@F ??y@B ??qASm@[SU rCdAgB@}BM |Er@lCNxBG sKuB@[VM Yh@Ys@ k@bCpE\ }Es@[C FT^B g@YeAI ??c@E `@XnAJ wA{Bd@RTPRZ^jARTTNNB\@bAS|@G
+0:{is}Axsp{EJSLI o@jAqHk@yAGk@Dk@HmAf@ nPNb@D {Is@vHl@ m_rF{c|D]F ZO]F XW]F Lx@\G c@K\G _@Ea@D ^M_@L Z]gBZ jA@qAP v@qKOh@ ??EP BTT}@ Yf@m@`Cc@tAi@hAa@l@[\ |Ck@m@J f@Fk@H f@DxBY aCx@fCe@ cDQm@F l@Gm@H h@Fy@L r@Bl@K u@f@l@G iAo@iAD hACkAH z@JiBX xAb@z@] _AIfAQ kA|@FC a@}@k@h@oAz@sAf@}@P}@DwAI zKmDs@B p@@_ADg@NkCpBo@Pq@D vHO`AaA aA^`A_@ qAg@}AT xA}@_@@_ANkCt@uBL tI[dBU uBfBn@[ }Ab@hAk@hAcAv@qAh@mAb@oAh@}B sIfKk@F b@lBdAg@ oA{@~AU yBJyBPaBA hE?j@E y@hCLF^FZEXMf@k@z@}A qEnCVJ`@Fn@Ef@Yp@}@ mFbAt@K`AU {BBv@`@ w@a@l@b@ gBKd@C|AS^Kh@W oE?z@b@ eAU[B ??c@B @sA_@A \PzACnBK mEt@jAF mATa@?
+0:ibgeB|tsuE{AGiAKeG_A hLdB^? c@d@`@? c@\eDD ??UEeBE zBJmADkG@ `G_CjBXvCR gH|@oE@ nEAIEiAAQGWSi@}@OIe@GIICK hBYgCUuACmADiANuB^_Ct@oAX pSmAbI~AdAJdA@ sNX_A? t@`@f@NJT@RCTKPWHUMM]Ag@ VW|F?zFJ }N[m@? `@{ECo@ @lB@}@ I~DJeARSRAHDJLDVARGPa@R e@aDCR ??APGJm@FSHq@dAYP}FT pK~@Kj@STIBOCMIEMC_@JYLMd@O Pk@@P OHwI?wEC nPoD~AX cBhDt@? u@a@c@IOSCMBWNWVALLLb@@`@ QHqFB GZ`BJb@TLNh@bAn@`@LRDLDbA gG}FxF@ uGcDpB[fDCpAD|El@ _ZzBcA? `AgAs@L r@hArH@ wHgAzGyA kItAuCN rC?p@K }@t@sA? JLdA@ qAO{@? RUfCS oCv@z@? _Aw@w@@ n@f@{AA bAQj@A gPrG~@eAn@k@l@c@nAm@dAUtAStCA
+1:avk{AfqoiH][ ZcCm@J_@d@MH ~@fAQM ??WS P`@p@j@ cAmAO[ Jb@TX a@}@EI DHNIT[p@K }Af@?L ?MQ?gAM xAZDC EBP^ i@_@V? i@CPB aA[a@I @LnAR qAa@{Cy@ ~B|@\H iAbx@_@kA ??Y{@ PwOu@P b@dOMa@ @aN`@I c@jNI[ ?ws@|Bn@ }Bdd@JC KdMCE @_t@GA D`t@Wy@ Pgr@SA P`f@KB @ue@T@ U|e@TG WAq@N l@rJQq@ Nwp@]YmEoA zE`t@Qm@ Nio@JJLB i@xn@Ki@ Fon@D?LN Ytf@k@L h@zEE[ ??AG ??AQ ?_m@PD Qxl@WsB Noi@FB SIJD Oni@Eg@ ??|A] }A\AI ??cAT bAUsAyKE_E pAqURF _@qyAGDET @lbC`@I a@saCF[ IJCR @HBM
+1:qfl{AjqliHOb@ F|}@SE Lo}@Na@ QXc@r@ Xj|@PA SE_DW ~C`cA`@K c@@q@L ^kj@lAZ oApi@TE Wm_CYT X|jBAK ??mAsR hAsBHD UIJB Mxj@TE [}~B]P Zh~BKB B_k@PD Uxj@q@P `@__C{@fAc@lA ~AkCn@c@l@y@ _BjtAOE FN\J e@[i@O b@hDMkB Dhk@bAW eALi@J d@kk@AI ??FMRG [TCWEK ??IO HNf@N q@_@Ua@ T`@m@O f@ZNB Ydm@j@M k@@qAX lAaeAK?E@ NxTCI ??CTOD R[IqA @ahALc@Tk@x@gA _Br_CRE Sa{BGb@ FfkA\J ]iCIeA FwODDlDV sD]OA Hit@Kl@ HtcAu@gL t@zQ{F_B rFmRQA Nyr@CR ?~hAVD WeiAc@lA \o@H[T{A e@~t@k@E f@qp@HO ]n@R_@
+1:{nl{ApvpiHUF RwaAC_@ ??Gm@ ??Ck@ ??Ei@ Dh@_@C \~eApAY sANs@N p@kgAEo@ ??CY ??AS ??C] ??UgD JhIkFa@ ~EgHMcB D|sAp@O u@D[H X}sAGiA ??CW ??A[ ??AI ??E[ ??a@sA `@~{AZI ]qhBlRtN oRzxAw@P f@isBLO^Qb@{@d@g@ eCfZIk@KoD TcNLa@ OlsBb@K m@_jBj@b@ m@hiBJA SgcBGaC BdgBKB H_pBZkA ]`JEuB ??VR WSCoA BnASO PQENK@ PnkBoAX nAmoBHk@ KnA?E ??@] QbBME Dbx@lElAZ@ mFiBq@M n@{v@GKa@Y f@pmBx@S oAXTE g@qmBYGsAM fBjnBWF V{t@[M JXdAZ kA|s@l@O o@DeAT `A_v@IG @wRkHg@ hH~SKG ??Y?
+1:ixl{A~boiHb@Z {@i@YC NL`@B i@jv@fAU gAJ[H Tqv@L@ OMu@A r@sw@MCMOKWG] \hz@T@ Upv@KB ??[F Paw@T@ a@KG@ @tw@bAW cAsv@PA Q`w@aCh@ ~Bsx@K@ @HJA MGK? ?JLA MIe@D `@tw@\G _@gw@D? e@EU@ @Hr@E u@Cq@D ^DRA i@hx@~A_@ cBTKB Dgx@U@ Pnx@LC OE]H Nex@r@E u@CgAF x@px@^I _@?_@H \_nAgAK bA|TTA ]tx@LE _@HPC QEq@N Vux@r@G s@Cw@F f@aUQA LhURA Wtx@[H PgoAOA ??KC]A f@xoAlAY mANoBb@ jBgz@Q@ NcUFC QnDQkC LlTr@E s@ly@RE Uky@s@D l@_ULIF? [^DU KSq@H h@pD^E
+1:{fm{AvcoiHS@ DqOf@G i@qDUD RnUfAG iAAq@D `@qOTE W|ORA SoUgAL fAtoA]H @FvBe@ yB\eAT bAwz@U@ F|zAAI ??K{@ FmxAAI @Hr@E u@COsB NrBs@D r@nzA@L Eq_@\I _@n]MgA BczAA[ ?oPgAL fA`PAK ?fDTA UdvAo@mF n@}sAi@aI d@|eBVtB a@gzALA Wrz@f@M i@BWF Pwz@S@ HeNC] ??xBW {Bt_BUsB RoOUD Rqz@d@C e@E?H ?Is@D p@tnAp@zF u@}wADd@ MgBF`A Kj|@l@M m@qpAeAL dAp`BAG @goAB`@ Eb~@C@ Bm_A@D AfoAEa@ B}nA@P C]M`@ La@@J AQ?D ?j`Au@P r@kaA@F AnoA]oC ZwkA@N A|pAXxB a@{CF`@ QwAHt@
+1:omm{AhmqiH@H AusAR~C WtmABT CygAS@ PaLDl@ GvpAE[ ?asAFv@ GhqAKy@ FirAB`@ GbsAPvA QwfAdAG eAkPBl@ EzNM@ JjbAE_@ @x@F`@ GaHg@J f@unAFv@ IvrAKy@ Dq_AY@ VFPA Q}THpA MtrAE] ??EY ??K}@ By{@M@ Hv{@AI @H`B_@ cBTE@ DASaD LlDFA G@l@fF m@qFqAX pAY?H Ay{@Q? Hny@H~@ McDCg@ ?wt@t@E u@|t@IgA F{r@q@A h@JH@ Ivt@PjC QsEEk@ ?hADh@ EsBEo@ ??AO @tKf@K i@iKW{D PlELvB Oqs@T@ Yfn@Dn@ Oyo@L? Oji@Eu@ @_h@OFGF VOCC @bh@QaC Nad@C? ?|h@VxD Wwn@IA Ddh@BX CpRSD
+1:srm{AjlpiHDh@ Eeh@GA Ddd@Eq@ @{a@\E _@`b@AK @gb@K? Hfb@O{B Jx]|@U }@HkAX hA_ZNhC QsC@H Csb@UA Pz`@Dn@ G}BAO ??CY ??OcC JyW\K ]r|@TE Yc_@NvB Q{`@UA Tn\@T Ek@BT Ce[HA KxWEq@ ??WsD PoPLA Qi@O? Dl@LA QnPOgC LsMI? B|Qf@zH i@kZL? Oh|@YF X_~@O@ LhPDp@ GiCCS ??GW ??Ck@ Bj@?LLtB MiPK@ FvJAS ??CY @zs@lAY oANgAT fAgt@@MIoA DkFU@ NhFQkC HfCHtADJ QwGl@G s@g@M@ JzAEm@ B||@\I a@sz@NtB OuDL? Op@@L EmBG? Dn@aAD `AEFA G@Dn@ K_BDn@
+1:mxm{AhdqiHh@K k@@c@J TBNE c@a}@ICYB `@b}@_@J PBb@K g@a}@RE a@x}@PE QCkB`@ hBq~@_@@ L|}@RE a@m}@n@E o@CgEV dDI`@C iAd~@a@H @HvBe@ yBZoDx@ jCc@d@K }Ak~@S@ Rh_Av@S iAm~@vDS yDJgBJ bBb_AVE e@}~@RC aAp_AKB @HdAW gALgAT p@t^?A ??EE @ZBS E}_Bg@B f@p_BKMEs@ P`AQ? Fb@JG OiBIO FlAAN ?^FB Gc@ERDJ E}BMD LEIQE] FpAFNFZ Ok@JCDM WICL @}|A|BM }Bf{AAE @}zAoCN lCv|AHL I_ABV?J C{@AA ?wYUF TnYOiA NhA@X QcBAE ???E ??CM @aV|A] _B~VMqA LySgAT z@s`Ad@C g@ztAE[
+1:ohn{A||qiHScB RiOTE i@nOCO ??AG ??CU ??CW ??Io@ ??OoA F}HMB DxHCS ??EU BoGUF PfGEe@ ??E] ??E[ ?gD_@H ^|CK{@ Do]wBaF rBm^hBK iB@K@ HfdAEW ??E_@ @obAW@ TlbAAG ??CW ??AI @HtBe@ wBZmAcK lAbKwBf@ rBcbAXA c@EQB NDJA [Cc@N `@daAb@K e@{`ARG e@RPK _@@]b@ Rfs@E[ ??lBmM wBaFWL Ri]OX ?L^g@ZY {@r@MNUR ^j[SBYAcAg@}@Qe@O rEpd@WD J}~@PS ]p_A_@H Xe_AiBL nAv~@SD BH|Cq@ aDf@YHEF PAPE c@FF@HC Q@C? ??IB Ki_A`BKVM {BNmBN `@dX]S ??cAs@ ~@}U_@D
+1:uxn{AhmoiHnCS oCJ[JEF @bUYW VkT`@K e@LBA WjTUYa@q@ v@kQRQ kA|QWs@ ??[qA ??[u@ ??CQGK ??a@] Z_HfAAZE^STW }CrJTZ m@{@V^ Y_I\? k@@LA MnGNN QbCKEEO B_ACc@ B`A?] CkIR? S?MMGQ TfIAK @a@Uc@ Tb@RR UL@a@ MgGAN ??NA UtE@JPx@ SeAAG @mFSg@KEMLWp@ bAzEo@}C n@pMIK@M @{@HH@P OrHYo@Ia@ PgTb@? u@fTAq@HqAt@wBF[Bg@ kAyHMm@ JhOFHBN WcPAIGEG?CF JRV`@ Wa@HK UG[E ZDAD ??BHHB a@v@Pi@NSj@E sAMUNc@z@c@n@{@r@_@PM@o@Q dFvb@[qN XoPPy@@yADa@ s@dVIsD ???M ???U ??AQ ?iFG^ F_@d@{A e@dI?G ???E ??AM ??Ae@
+1:ogo{A~_piHEgB ??@_@ i@oFj@o@n@oAPGV? oGjDb@PX?^Qj@c@ kC\OB ?BPA QAIB ??EH DIOF H@NI YFyAl@mAXeANKJUh@KLK@q@IMBOJ[t@[PW@OEwBwASEUDKFMPa@pAa@N fUyFXO o@\TM qTzFTS\kALOLG\@vBtARFP?RETSZs@FEPEd@HP?POTi@LM`AK~Bq@ ym_A_v_mAg@A NJl@@ }@MQ? NJP? a@Ke@@ d@JNA _@~f@uAjBu@r@ tBil@I? HLd@A k@@D? IMiA@ Bpl@x@yAr@eA qBqg@^Jl@? _Blk@TV e@IiBzAs@z@{BzE{L|S fUemAa@[O[ @l@~AT aBcAEVGJSJ `@j@L]PEP? sAGTLDHDR a@k@b@A y@FTE yG|GCQA] ??c@H TNZm@\]hDuC^YRE gH`HJGTC c@NPc@ UOFXAT eAj{@bDgEx@kAlHyM gQrUFL?H Yir@pC{G cDpHPU m@v@Za@ u@~@X] kAnx@v@mAnCmD iFtH`@y@ c@~@@E oU}a@ZIbKyF^Yj@o@`HaK _YxUp@I wAHXJBP aB_@hB@ yLqn@QV}AdB[l@iA`HEr@?jC ~@xZ|HUlDA qNXDA q@nZU_@GSEy@ Tx@KIEK
+1:qhr}Atpo{E?t@ ??Af@ ??AvAIr@ ??]~A X|TGdA@vB BvRNq@Pa@ a@yMApH @qHD[@aC?qAEW CxP?x@ ?x@AbCC`@ DeDN^RR c@mBA^@X AoNBhA GjQMd@a@j@k@Xq@B lCoBF] Wsn@C`G ?zHhBK iBJBVThAB\ ]_Ce@D d@aI?d@ ??Az@ ???P ???hA ?fA@t@ A}B?fA c@z@C@ ??m@Dk@EsCa@ rDzb@P_@ g@@LJFP U]}BA ??iGC[B]HYRQVO\ ~Iod@}AQ ??eBS ??QAc@Fa@VOPOZu@|BWZQL z@`^Sn@ ??PB QC]nA ??_@nA Tqd@[H ??k@@ ??uAO ??a@G ??[E ??qAQ ??OC ??w@I \d@TJ s@q@_AK h@Xr@V }Aq@WE VJh@R aA_@VJ WKKA ??OC ??sEm@uFk@ ulqFay{Dd@xC e@yCa@yC EBf@tC s@eEJn@ kAgH~@vF
+1:ifgeBbmruEeH? ??[? ??y@A \ea@YzZ ??CrC ???t@ ??C|A ??A|A ???N ??CjA ???H ??AzA ???P ??I`H ???T ??ArA ??AlA ??AxB ??E|C D@?_D AzE@{@ E~DBcC C}@Ah@ ?zE@cA AwC?R ??CbC ??AbA
+2:irk{Av}niHwQnA lNlO}@W ^xIaAt@i@R j@`PeAoO XEj@S k@F[D @JXE YDAK ??uBZ tB[{@gM `@xx@m@N l@oj@ZE }@sMCe@ ??AM ??CY ??AI ???G ??CS B||@UF Pe}@Em@ DlkAfAT\?TEZOJIJO uDsjAGeA ??c@kG NruA`@J c@K@? AgKPE Wmj@WD Dpb@J@PE a@cb@pBY sBzb@EK DJDD Eqb@c@F ^bv@`@H c@uSAG ??U}A PfKh@S q@}i@TE e@AUD Pj^H? [k^eEl@ `Ezs@x@R {@mIr@[ s@ZT`C W}OXG ]HBA Ee^r@K }@t^JA QDDC Ke^TC a@p^PC Ser@UHQ@ `@~q@FA Mi~AEe@ ??k@sCAW l@jDhAG wA``BXG [c^n@K s@x^DA Ggr@sCL pCEp@C
+2:odl{Az_piHXE c@v^^I a@kzBB? In{@[@ TvsAdAI\@\F kCapCTG U|zBVG c@c~@qEZ jEc|@PA Y|zBXG c@szBP? c@b{A_@D Zq{ATF UGOg@Ca@Mu@ Nt_Cp@Q y@e^tB[ wBNiBV bBi`BAw@CIm@K]_@OAaA^ `D|mAU@ NHvCQ wCts@VG c@{r@J? OIQ@ NpS`@E e@f_@TG YksBOw@A}ADOXWTk@^g@ gAf|BFA Kss@UBGF ?i{@\i@FwA e@j_AH@h@E eAcx@HUFkA [toAWD PmS`@C a@~s@bAU sAk^~AW aBJaAL z@q_@WB Fn_@VC _@k_@S@ Rz_An@O y@mcCCA EbcAgAH v@`_@WB ??mCZ lBa`@oAH f@p`AbCi@ kCsaBlMk@ mNvb@M@ ??gAF v@l_@m@H Tl`@|A] sBo_@YD Tn`@XG _@eaAu@D f@b`@vGy@ yGdb@TG Uo`@kD`@oA`@ fFaxAf@U k@bwAXC e@evANC
+2:_wl{AnboiHS? ??S@ JFZI i@NLE S`bAtA[ uBd@^I _@HAG ??Gg@ @~@FO Io@Gi@ ??QwA NzEJY [aEc@oD `@xLPm@ Wt@DG GozBZUbBI yCtmB?K ??wAcT b@pc@`ASLK yAyb@YF @J~Ae@zCa@ }Fz@oR~@ nR_ASyC N{PzQaA {Q`AQ? Jsu@AW ??CsA ??CaA ??CeA BboAA_@ @uONE Q?OB NvOEY Bl@BJ CcoACgA@I ?~vAZC [{vAHEtBKJC kC|INA OnfA@R Cm@@X AYQoC FmJP@ YjJm@cJ h@roBAMe@sA d@bB@A SyoB^C a@`pBRA WyoBQA P@DA SvlB[kC ZjCPdB SwoBNC OBAE ??UqD TpDOB ??P@ WwDOuB NlHDA GfhB]sCIU XilBAM
+2:ubm{AneoiHEo@ ??AK ???K ??AK ??k@kI h@w^vBK cCzyCy@_A t@owCN? Svu@p@C w@c@Df@ M@LA U_VUuD R`VPjC g@_ITrD W_E@J C~kBGM DulBBV G|gA`GsA cGre@EQGA Hw`CEi@ B`cCL@ MADK IubCEs@ @tcCIKESA_@m@cFCo@Gi@ jA|JOH Nu_Bx@G {@ac@MeB FtcBVE Y{oA\dF c@yYAK @pgCAF ?a@@X AqgCAO @hhC@FFHNC [whCIkA ??IuA HziBTG UurBPIvAG sBrHCQ @zhCV~B Y{lCKwD JvDtTeA {TxiCFf@ MsnCAi@ ??N]JO [l@QT[P b@rPx@hM }@teBZShAuBRMfE_ApUiEhAO ab@ehBFv@ GruBMm@ @weCVSDU _@`gCPE QDIa@ FyxBN|B W`vBp@nF q@oFHC Ia@Mw@ HlABN C}eCYF TrdCBP
+2:kim{AjaniHAX ???RRbD SwDbAK kAj}BJt@ OuR|A] cB_pBeA@ dAA?H ??RxC SyC^GHG s@nb@GEu@J v@pOpCO oDaOb@E k@{[fAO kA~Pg@yH \kLTIl@C cAL@KCI ?tqBjAY kA{pBIA Fnb@K@ Bqb@IH Flb@b@G e@@QB Nya@HBFG UM}@V |@WBP C`qBRE Y}mALA OsTC[ @xdBHC IgvBbD_@ eDpQAU @bVQ@ NBFA GgVQgC HtxB?KCI ??CQ BPAT ??UL Ru}AQD Px{AIs@ FyuBAm@ ??kAJ jAKGsAM_A TrCdAM iA|zBHCDG QqhBfAO gAdfBOoA HegAvBK yBcOOF Lf}AJA QwDE[ DoxBCY ??AK @J~@Q aAzyBMgA L}Dr@O s@_qBe@@ d@hb@n@Q q@HM?m@[ t@fPVC
+2:_om{AxpoiHQ? N}b@H`A MxeBQqA PeBLE Y_~@u@F n@baACY ??CQ @msBa@B ^hsBIo@ @ykBd@jH g@mSE_@ D^F@|AQ eBjwBb@I i@qwBGA @dg@ME J_g@m@? h@dFR|C U~kBRE UqqBhAA iA@BX Ca@?F ?Gg@FcAXk@@WN jDf_@m@@ l@F|@^L? oAjOO@ Lp~@JE Yk~@[@ RlU]@ VioAMK L~oAzQ{@ gRue@]B ZrPK@ Jgy@YOSAUDQJ lA`pATA WIG@ DoUOA JzUF? IIkDP jD|g@z@Q cARFA Gy~@LE OAK?AD LoPjAE kACi@B ZtP[@ ZAN@ Sb_ARG ]ipAZC _@xpALC Sih@p@E u@sUc@B b@{PO@ ?wg@EB Drg@K@ Dug@a@}@g@_C hA|Dk@v@Mp@ t@td@f@C i@Ec@B Hy_@XEv@Ez@Y`@E yDda@k@B
+2:yvm{ArqoiHZA c@|_ApAY wAujAEm@ Bci@Ux@a@t@If@ ~@nq@PA Q|UtAI wAub@IkA ?v@@R AkAGy@ Den@e@}B?_BH{@Ae@Fs@@c@ RhmCVG YmnABZ Gvc@RC Seg@jAG kAFEI @vPVC YsPq@D p@E?H ??HtA IuAD? K_^b@q@VU }@vrBRC Wmi@c@B \ufAJR [b^`@C e@e`@@NP`@ Ul`Ca@mD \yiAl@C o@~Ur@C u@GcBJ `Bqg@U@ @vPSwD RvDXC YiPb@C e@E]B Zh{AE[ ??CQ ??m@eF l@knBh@i@b@aA mAjBOH HrZRA StJEg@ B|\l@E o@uUVA Wyk@HO Khe@IuA Dib@IH F`ZO@ L_ZHG Kbb@?Q ??Ee@ @_`@DC ECID FjmBfBa@ gBgkA?I ??CW ???K ??AO ?eCI@ED N|BC]
+2:}{m{ApeniHKJ Hx\Ei@ ??AO ??Ce@ BjrAo@mF n@lFPE S_mBTI WbZAM @LFBb@E m@KAU ??A[ ??Ea@ ??AY @X@XBF G`i@k@B j@ak@CI ??CK BbwATE Y}vACI ??AI ??CG @|l@fAG gAFBD|@GDE iAul@?? ??AG ??AM @GEq@ BdGb@G c@cE@G Eq@UkD RhEDZ G`qAAW ??GS ??KaA J`AB\DL Kkb@XA [IoBL jB}t@EM @fuAQyA NmrA?NXfE YwEAM ??Ce@ ??_@mF Tn{AAI ??A[ ??GMMG TTGi@ @z^`IyAzEiA }O{tBTQT]r@k@ aB~|AMR LSYmE PnFPb@ Se{AC[ ?nzAqAwC pAvCDL E}zANG [tsAQqC ??Q_B Fjm@v@O _A{l@k@aK
+2:uan{AjipiHa@B JhUQa@ F{SpCQ sCD@J AKyAgU xAfUkCN dCvScByD xAgv@vDU {DsMtC_@ cDrw@b@C gAsUxHc@ _IpuA~@_@|Cq@vDeAhE_A`BURAPD~Az@V?`@I a[vDOG H}AfCe@ gCd@a@C XcqAWuD VtDR? YvtARI ]wn@EI Bid@PA Ujd@kCcG hC}a@SuC ??C] ???I ??AW ?bb@e@L d@qb@qAeR ~@fqBFEHB YFFE Soz@nCM oCLCK ??m@{B d@|p@vJyB oK`CVG _@mcBO_C N~BhEi@ oExr@CI ??CO ?dr@TE U_r@CI @kt@Es@ B~u@kBiH_@oF fCee@IgA @tcAYq@ VcbA?M IbHRGTQ k@gGJA OvzBzAWJG qBovCIJ ??S|@ Bvp@`H_@ cHmTVSPE k@oYSJQE ^zxAhCQ }Caa@W@ Nva@ZE _@{xAKW?qBE]KQMG_@@ ~@h|@w@D j@F^A g@lJc@mG
+2:snn{AftoiHnG] aHpSoFaN hFdd@TF ]_qAp@Rt@S kBp^A_@ @eAID F~@KoA Hb_BtCi@ {Ci}At@@ y@QGgA ?dw@RM Swv@KyA ??KyA JxAnCQ qD`{@l@O _AahBTELMRe@BWG_@IKc@?QIGO@W NlD@@ G`eCpGuA qGqXXG ]_AlBf@ iCaqALL^LTAl@QN@ kCo@Hd@ _@gWNXt@R mA_AFP SlSJ\PRJ`@ o@cBDN I|k@~EY sFk`AFGLCJDFL m@bPZjB a@kSHK M|dAMW ??UW N}@t@I eAfAEG @i@RK Ut@QW ??RQ SPIK ?{q@^bAFHPAFKBQHG oAe@[\SDcA@s@]G@ nDpq@m@s@eAo@ pB|BJM STFG _@\VU c@^JI o@w_@`C`@T@^K~AqApCOz@Df@I oPh]w@_@ r@lFhAg@ {B{b@EIMG[BQVIb@KPi@`@K@UCKD nDeBHR@PMj@@JBFHDFAZUd@D yAzYs@_@ p@|Gt@O w@{t@KKg@?u@Y@K~@e@DYGUOK{@@SLMXG@GUGy@ hDv`Ap@I y@uaAr@SfAeATa@ZwARUf@O\i@ qGreAXC c@DSD REHA Km|@TA Ytd@d@@fLu@
+2:{_o{AxpoiHGKCO DdIc@F `@mWNB k@dAf@w@BM u@Gd@B _ArW\E ]u|@NCbAC iBvd@n@K q@l]hC[ wC_aAd@U o@jl@rAyD uA}K`@BTEf@c@HOFa@NQVETH uDoUPG ]r|@bAM eA_JFgA?}@Li@ _@pDiN{V `Njb@RC SeW`AS eAec@q@q@Og@Ic@@q@NkA x@zFb@K wAz|@v@K }@LDA EkdAY{@Qa@sAcBQ[G]AWLi@ xB~sApC] wCoCXE eA{Wd@J`@@\A\G kCd_@|@K }A}y@Ni@`@]x@sAXcAJs@Ta@ mDrID] G|@@_@ Aty@f@I gAumAEv@Vj@?JIFU@MFk@rABLXl@@PKZCTELSFQEWWKAe@BeAz@IT?l@Kj@?JPX vFzDLGHKF_@ k@rYXi@NMRC\H aBl`@XQVG {@k]NU UXDC UNNK Uv_@d@u@ iAlBb@w@ m@aw@Pi@HMHE~@Q wF{DFPAPEJONy@P}@DMAUUKCuAd@SJCTDNXl@RZH^CLu@t@O^B\Ph@ dG`Ds@oA oCj{@b@Q~BWb@QVYtCkF kKvITU Wkt@Hg@d@u@FWFe@P]PMl@GPKPUHi@HOPOp@Q~@m@Z]Xu@ mL|CCTSNq@?aADGPEn@Uh@kB`Ag@j@Ch@ET_@`@Ib@KbB@XDN^v@BXEX nIzDFBLChAkANIlAOj@c@RGRAn@JNARKXi@NMn@@n@] qQeCbC_BNWDg@ yEfFDRPPTDJEf@a@d@OpBEt@Mf@EHIFOLw@JQPC~@VVCRMHML]Ds@FWJOVO^?XN`@`ALHRBvBIRKPU\uAL_@V[PG a]nJBT CUXa@h@O _DpDz@iBFIVK aCbEd@cA eB~@~@B eAHCJ ???PDNRLpDPLCHQCk@BKJIH?~@v@v@`A {o~@_z|lAmLkBgLcA ??eB}@ ??WM
+2:alp}Aziq{EmGcD pEaGy@SMK e@fDw@Y k@rCe@U ??qHk@ pBvK{F|M zF}MDK KMDJ?L I{@AX ??DF kB}Jo@E ??SA ??UC FwA`@}E?]Ey@Su@U_@YYkDuBk@Oo@?]HWLSPW^{HzRa@l@_@Tg@HaEKyBA lb@uCDcA GvA@S }OiYSh@IbB ??EJE|@ DCDeA KhAGtA DCFuA K`CBk@ EBKlB@R H{@@] KxAH{@ Iz@A\ ??dAU^DTL mSrOsB? rB?WB ??SH ??WPQR ]s@E? e_@oUxAiZhAcIB_Hr@{GHYj@}@F[?iCCWI[ mGf`A@K El@Ba@ GhABg@ E~@@W QnD{@Ga@F{OjG xRkGNwC
+4:uqm{Av`wiHaZybCwBsQ\}@@SKmAKkBEwBGWGiAi@}D@eA?m@k@eCC[h@q@FcAJUBWDGGOSQKWJc@IOLYCQ@OCIICEKFMCGMI@GNICUEK@MCSJKHi@Q]^mBEAF_@@AJi@DBJk@GCFg@OEFg@CAAi@DOB@@OGY?MDW@QEIEYFKkCgAkAUCd@F`@YFuFuAK?wEdARdJuQ[ ??K[q@oD[[[K}@aHBcBoAuBmAd@c@Dy@oF_BcBWwAgADCmAUBGoCLGhCMHBJJH?FK?OXs@@_@ASCG]o@G]DyALy@\]FQ?e@BKJQTWd@Y~@_@LMRc@Dw@FMn@EdAALKDKBMSo@?Wr@{BKYS_@EKGICUFWbAk@ ??\KN@`ARx@DNCTODKBOSc@ ??CE?]Hm@?MJq@JSd@a@VQVGf@HVRLBLULc@]y@BW@?Z_AJQf@K~Bu@p@OhAdB^{@xD]dCuD ??pAIVBFE~@Ede@iCbPy@`EWCiALE^CXM\y@DIEsAIuCAgAQeG~Kk@HDHHt@d\RvFBA@FEBBFG@Nj@KDP|@DDGL^bBBn@wDT@@a@D?CQ@?BI@@HHABd@IBb@bGHAHxAI@LpBJAXdEK@LjBDBHCHXI@r@rKdFo@NxApC]dArOsC^d@zG??@HA@T~C}@JAMm@HBLaAV@HB?B\[F@Hq@L?Aw@PJ|@DA@LC@TxB[Fj@lE ???Pf@hEFf@DABPC@NjA@?Hn@A?NjAA?@H@AbB~MFPpKfy@fBpM lLj_AmLk_A _gAj_BdOiExY{Ht^}JvI{B
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script>
+{
+const SITES=[
+["UCB Clark Kerr Campus Children's Center","2900 Dwight Way, Bldg 5","Child care center",46,37.86599048,-122.2495819],
+["Beth El Nursery School","1301 Oxford St","Child care center",72,37.88403144,-122.2666728],
+["Woolly Mammoth Childcare & Preschool","1333 University Ave","Child care center",69,37.87019933,-122.2857774],
+["Duck's Nest Berkeley","1411 4th St","Child care center",91,37.87675628,-122.302477],
+["Kids Speaking Spanish Preschool","1422 San Pablo Ave","Day care center",75,37.87793683,-122.295393],
+["YMCA of the East Bay – West Y","2009 10th St","Child care center",79,37.86839546,-122.2927929],
+["Mustard Seed Preschool","1640 Hopkins St","Day care center",66,37.88244584,-122.27981],
+["Building Kidz of Berkeley","1450 6th St","Child care center",57,37.87567933,-122.3005008],
+["UCB Haste Street Child Development Center","2339 Haste St","Day care + infant center",92,37.86581346,-122.2622932],
+["UCB Harold E. Jones Child Study Center","2425 Atherton St","Day care center",56,37.86560999,-122.264256],
+["Step One School","499 Spruce St","Day care center",108,37.90184697,-122.2702053],
+["Children's Community Center","1140 Walnut St","Day care center",52,37.88665343,-122.2692772],
+["Hearts Leap ICRI Preschool","2638 College Ave","Day care center",70,37.86223501,-122.253667],
+["Hearts Leap Beginnings","2640 College Ave","Infant center",40,37.86226297,-122.2542055],
+["Cedar Creek Montessori School","1600 Sacramento St","Day care center",40,37.87637189,-122.283079],
+["Through the Looking Glass Early Head Start","3075 Adeline Ave","Day care + infant center",24,37.85245115,-122.2694258],
+["St. John's Child Care Center / The Monteverde School","2717 Garber St / 2727 College Ave","Day care + infant center",75,37.86105903,-122.2527078],
+["Centro Vida Bilingual Childcare Center","1000 Camelia St","Day care center",64,37.87815694,-122.2970999],
+["Berkeley YMCA Early Head Start – Vera Casey","2246 MLK Jr Way","Infant center",26,37.86709283,-122.2728029],
+["Ecole Bilingue de Berkeley Preschool","2830 10th St","Day care center",100,37.85483207,-122.289084],
+["American International Montessori School","3339 MLK Jr Way","Day care center",117,37.84743739,-122.2708022],
+["Cornerstone Children's Center","2407 Dana St","Day care + infant center",112,37.86606898,-122.26058],
+["The New School of Berkeley","1606 Bonita","Day care center",48,37.87751053,-122.2728036],
+["Child Education Center","2112 Browning St","Day care + infant center",107,37.86823901,-122.288919],
+["Congregation Netivot Shalom","1316 University Ave","Day care center",30,37.86959307,-122.2857325],
+["Berkeley YMCA Head Start – South YMCA","2901 California St","Day care + infant center",94,37.85503881,-122.2768807],
+["UC Berkeley Dwight Way Child Development Center","2427 Dwight Way","Day care + infant center",66,37.86525807,-122.2594549],
+["Shu Ren International School","2125 Jefferson Ave","Day care center",75,37.86900306,-122.2779255],
+["Aquatic Park School","830 Heinz Ave","Day care + infant center",77,37.8523323,-122.2944112],
+["Dolma Child Care Center","1700 7th St","Day care + infant center",14,37.87235591,-122.2982448],
+["BUSD Hopkins Street","1810 Hopkins St","Day care center",140,37.88298001,-122.2787483],
+["Dandelion Nursery School","941 The Alameda","Day care center",24,37.89059602,-122.276123],
+["Ephesian Children's Center","1907 Harmon Ave","Day care center",20,37.8500686,-122.2694647],
+["Berkeley Montessori School","2030 Francisco St","Day care center",119,37.87533987,-122.2694785],
+["Berkeley Little School","1611 Hopkins St","Day care center",42,37.88232417,-122.2813233],
+["Pixar Child Development Center","2600 10th St","Day care + infant center",108,37.85869714,-122.2904099],
+["Berkeley International Montessori School","1227 Bancroft Way","Day care center",21,37.86528959,-122.2873213],
+["Arbor Preschool East","207 Alvarado St","Day care center",22,37.85601044,-122.2369542],
+["Berkeley Hills Nursery School","1161 Sterling Ave","Day care center",40,37.88998213,-122.2555249],
+["Global Montessori International School","2830 9th St","Day care center",90,37.85435447,-122.2904075],
+["Rosemarie's Motivational Preschool","1141 Bancroft Way","Day care center",30,37.86509199,-122.2888213],
+["Congregation Beth Israel – Gan Shalom","2230-32 Jefferson St","Day care center",32,37.86676422,-122.2785337],
+["Model School","2330 Prince St","Day care + infant center",110,37.8535061,-122.2605855],
+["Little Beans Preschool","2117 Acton St","Day care center",40,37.86865886,-122.2836172],
+["Little Elephant Montessori","2008 McGee Ave","Day care center",24,37.87049714,-122.2777067],
+["UCB Clark Kerr Preschool","2601 Warring St, Bldg 15","Day care center",29,37.86393,-122.2481],
+["Via Nova Children's School","3032 MLK Jr Way","Child care center",45,37.853021,-122.2712991],
+["Mi Mundo Preschool","1866 Alcatraz Ave","Day care center",29,37.8487948,-122.2697556],
+["Nia House Learning Center","2234 9th St","Day care center",84,37.86463274,-122.293485],
+["Sunshine Preschool (CEID)","1035 Grayson St","Day care center",45,37.85628177,-122.2887491],
+["BUSD Franklin Preschool","1460 8th St","Day care center",192,37.87613837,-122.2986312]
+];
+const FCC=[["94702","West Berkeley / Ocean View",19],["94703","South & Central Berkeley",10],["94710","West Berkeley (industrial/waterfront)",6],["94705","Claremont / Elmwood",4],["94707","Thousand Oaks / Northbrae",3],["94704","Southside / Downtown",1],["94708","Berkeley Hills",1],["94709","North Berkeley",1]];
+const HOMES=[[37.8647, -122.2855, "m", "Joyful Learners Family Daycare", ""], [37.8632, -122.2825, "m", "Ana's Daycare Berkeley", ""], [37.8635, -122.2838, "m", "Kidsland Channing", ""], [37.8785, -122.2592, "m", "The Orange House Family Child Care", ""], [37.8478, -122.277, "m", "My First Steps Daycare Berkeley", ""], [37.8918, -122.2835, "m", "Greenhouse Childcare", ""], [37.8523, -122.2825, "m", "Sunshine Daycare", ""], [37.8505, -122.2852, "m", "Kidsland Berkeley Day Care", ""], [37.8761, -122.2817, "m", "Little Ducklings Day School", ""], [37.8578, -122.2863, "m", "Lucesitas DayCare", ""], [37.8784, -122.2872, "m", "FB Preschool", ""], [37.874, -122.2964, "m", "Kidsland West Berkeley", ""], [37.8618, -122.2919, "m", "Casa Nanna Daycare", ""], [37.8609, -122.2803, "m", "Magnolia Children's School", ""], [37.8608, -122.29, "u", "KIDSLAND BERKELEY", "Phone matches the same license as Ana's Daycare Berkeley, so this location is unconfirmed."], [37.8949, -122.2808, "u", "Thousand Oaks Childcare", "690 Santa Rosa Ave"], [37.8598, -122.2837, "u", "Garden Day Small School", "1332 Parker St"], [37.8613, -122.2864, "u", "Dwight Way Wonderschool", "1218 Dwight Way"], [37.8618, -122.2942, "u", "Caterpillar Kids Daycare", "906 Channing Way"], [37.8886, -122.2784, "u", "Rising Sun Montessori Preschool", "1017 Colusa Ave"], [37.8708, -122.301, "u", "Life Long Learners Daycare", ""], [37.8656, -122.2755, "u", "Petites Merveilles", "2325 Roosevelt Ave"], [37.852, -122.2893, "u", "3 Circles Preschool", "2919 Ninth St"], [37.8531, -122.2771, "u", "Wonder Kids Family Daycare", "3010 California St"], [37.8584, -122.288, "u", "Pri and Neto's Daycare", "1112 Carleton St"], [37.8482, -122.2728, "u", "Progressive Christian Day Care Center", "1728 Alcatraz Ave"], [37.8657, -122.2738, "u", "Square.Care Montessori Berkeley", "2332 McKinley Ave"], [37.8543, -122.2724, "u", "Kaze to Hana Daycare", "2946 Harper St"], [37.868, -122.273, "u", "Little Lotus Day Care", "2218 Martin Luther King Jr Way"], [37.8755, -122.2989, "u", "Mayra's Day Care", "6th St & Jones St"], [37.8593, -122.2698, "u", "King Child Development Center", "1939 Ward St"]];
+const LABELS=[["San Pablo Ave",37.86603,-122.2911,76],["University Ave",37.86918,-122.29117,-9],["Shattuck Ave",37.86869,-122.26797,85],["Telegraph Ave",37.85991,-122.25918,-84],["Sacramento St",37.86393,-122.28122,85],["Gilman St",37.87936,-122.30144,-14],["Ashby Ave",37.85508,-122.26816,-9],["Solano Ave",37.89131,-122.28046,-3],["College Ave",37.86058,-122.25341,86],["Adeline St",37.85301,-122.26964,-73],["Fourth St",37.87017,-122.30072,74],["Dwight Way",37.86337,-122.27207,-7],["Cedar St",37.87665,-122.2831,-9],["MLK Jr Way",37.86229,-122.27203,71],["Alcatraz Ave",37.84884,-122.2708,-9],["Hopkins St",37.88156,-122.28219,-32],["I-80",37.86472,-122.30329,78],["Sixth St",37.86991,-122.29833,76],["Marin Ave",37.89031,-122.27215,-39]];
+const R_M=600*0.3048, F=4e4;
+
+document.getElementById('f1').textContent=SITES.length;
+(document.getElementById('fcc')||{}).innerHTML=FCC.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="n">${r[2]}</td><td><div class="bar" style="width:${r[2]/19*100}%"></div></td></tr>`).join('');
+
+function decode(txt){const out={};txt.trim().split('\n').forEach(line=>{const c=line.indexOf(':');const k=line.slice(0,c);const body=line.slice(c+1);let pl=0,pn=0;(out[k]=out[k]||[]);
+ body.split(' ').forEach(s=>{let i=0;const pts=[];while(i<s.length){const r=[0,0];for(let j=0;j<2;j++){let sh=0,res=0,b;do{b=s.charCodeAt(i++)-63;res|=(b&31)<<sh;sh+=5;}while(b>=32&&i<=s.length);r[j]=(res&1)?~(res>>1):(res>>1);}pl+=r[0];pn+=r[1];pts.push([pl/F,pn/F]);}if(pts.length>1&&pts.every(q=>q[0]>37.82&&q[0]<37.93&&q[1]>-122.34&&q[1]<-122.2))out[k].push(pts);});});return out;}
+
+const S=decode(document.getElementById('streets').textContent);
+const mapEl=document.getElementById('map');
+if(!window.L){mapEl.innerHTML='<p style="padding:24px">The map library didn\'t load. Reload the page to try again.</p>';}
+else{
+const map=L.map(mapEl,{zoomSnap:0.25,preferCanvas:false,attributionControl:false,minZoom:12,maxZoom:18});
+const svg=L.svg({padding:0.5});
+const bnd=(S['4']||[]);
+['2','1','0'].forEach(k=>{const w=k==='0'?2.4:k==='1'?2.2:1.2;(S[k]||[]).forEach(p=>L.polyline(p,{renderer:svg,className:'st'+k,weight:w,interactive:false,opacity:1}).addTo(map));});
+bnd.forEach(p=>L.polyline(p,{renderer:svg,className:'bnd',weight:1.6,dashArray:'6 5',interactive:false}).addTo(map));
+map.createPane('dots');map.getPane('dots').style.zIndex=450;
+const bufs=L.layerGroup().addTo(map);const gH=L.layerGroup().addTo(map),gL=L.layerGroup().addTo(map);
+SITES.forEach(s=>{
+ const pop=`<b>${s[0]}</b><br>${s[1]}<br><span style="color:var(--mute)">${s[2]} · licensed for ${s[3]} children</span>`;
+ L.circle([s[4],s[5]],{renderer:svg,radius:R_M,className:'buf',weight:1,fillOpacity:0.16,opacity:0.7}).bindPopup(pop).addTo(bufs);
+});
+SITES.forEach(s=>{L.circleMarker([s[4],s[5]],{renderer:L.svg({pane:'dots'}),radius:5,className:'dot',weight:1.5,fillOpacity:1}).bindPopup(`<b>${s[0]}</b><br>${s[1]}<br><span style="color:var(--mute)">${s[2]} · licensed for ${s[3]} children</span>`).addTo(bufs);});
+LABELS.forEach(l=>L.marker([l[1],l[2]],{interactive:false,keyboard:false,icon:L.divIcon({className:'lbl',html:`<span style="--a:${l[3]}deg">${l[0]}</span>`,iconSize:[0,0]})}).addTo(map));
+const dotR=L.svg({pane:'dots',padding:0.5});
+const gm=(lat,lon)=>`https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
+HOMES.forEach(h=>{const g=h[2]==='m'?gH:gL;const cls=h[2]==='m'?'hh':'hl';
+ const pop=`<b>${h[3]}</b>${h[4]&&h[2]==='u'&&!/^Phone/.test(h[4])?'<br>'+h[4]:''}<br><span style="color:var(--mute)">${h[2]==='m'?'Google Maps listing whose phone matches a state-licensed family child care home.':(/^Phone/.test(h[4])?h[4]:'Google Maps daycare listing with no matching state license.')}</span><br><a href="${gm(h[0],h[1])}" target="_blank" rel="noopener">Open in Google Maps</a>`;
+ L.circle([h[0],h[1]],{renderer:svg,radius:R_M,className:cls,weight:1.2,fillOpacity:h[2]==='m'?0.2:0.12,opacity:0.85,dashArray:h[2]==='m'?null:'5 4'}).bindPopup(pop).addTo(g);
+ L.circleMarker([h[0],h[1]],{renderer:dotR,radius:5,className:cls,weight:1.5,color:'#fff',fillOpacity:1}).bindPopup(pop).addTo(g);});
+[['tC',bufs],['tH',gH],['tL',gL]].forEach(([id,g])=>document.getElementById(id).addEventListener('change',e=>e.target.checked?g.addTo(map):map.removeLayer(g)));
+document.getElementById('nH').textContent=HOMES.filter(h=>h[2]==='m').length;document.getElementById('nL').textContent=HOMES.filter(h=>h[2]==='u').length;
+L.control.scale({imperial:true,metric:false,maxWidth:140}).addTo(map);
+const allB=L.latLngBounds(bnd.flat());
+map.fitBounds(allB.isValid()?allB:[[37.845,-122.32],[37.905,-122.235]],{padding:[10,10]});
+map.setMaxBounds(allB.pad(0.25));
+const lblToggle=()=>mapEl.classList.toggle('lbls-off',map.getZoom()<13.5);map.on('zoomend',lblToggle);lblToggle();
+
+// share of street length inside any buffer (sampled every ~8 m)
+const cosL=Math.cos(37.87*Math.PI/180),M=111320;
+const toP=a=>a.map(s=>[s[0]*M,s[1]*M*cosL]);let ptsS=toP(SITES.map(s=>[s[4],s[5]]));
+const cov=ks=>{let tot=0,inside=0;ks.forEach(k=>(S[k]||[]).forEach(p=>{for(let i=1;i<p.length;i++){const a=[p[i-1][0]*M,p[i-1][1]*M*cosL],b=[p[i][0]*M,p[i][1]*M*cosL];const len=Math.hypot(b[0]-a[0],b[1]-a[1]);const n=Math.max(1,Math.ceil(len/8));for(let j=0;j<n;j++){const t=(j+.5)/n,x=a[0]+(b[0]-a[0])*t,y=a[1]+(b[1]-a[1])*t;tot+=len/n;for(const q of ptsS){if((x-q[0])**2+(y-q[1])**2<=R_M*R_M){inside+=len/n;break;}}}}}));return tot?Math.round(inside/tot*100):0;};
+const pA=cov(['1']),pB=cov(['1','2']);
+const base=SITES.map(s=>[s[4],s[5]]);(document.getElementById('c1')||{}).textContent=pA+'%';ptsS=toP(base.concat(HOMES.filter(h=>h[2]==='m')));(document.getElementById('c2')||{}).textContent=cov(['1'])+'%';ptsS=toP(base.concat(HOMES));(document.getElementById('c3')||{}).textContent=cov(['1'])+'%';
+document.getElementById('f2').textContent=pA+'%';
+document.getElementById('f2l').textContent=`of main arterial length (San Pablo, University, Shattuck, etc.) is inside a buffer; ${pB}% counting collector streets too`;
+}
+}
+</script>
+</body>
+</html>
