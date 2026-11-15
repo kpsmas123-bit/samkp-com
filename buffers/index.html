@@ -26,10 +26,11 @@ body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-
 .wrap{max-width:1240px;margin:0 auto}
 h1{font:600 clamp(28px,4vw,44px)/1.08 Outfit,Inter,sans-serif;margin:0 0 10px;text-wrap:balance}
 .lede{color:var(--mute);max-width:70ch;margin:0}
-.figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px 22px;margin-top:22px}
 .fg{border-top:2px solid var(--ink);padding-top:8px}
 .fg b{display:block;font:600 clamp(26px,3.4vw,38px)/1.1 Outfit,Inter,sans-serif;white-space:nowrap}
 .fg b.red{color:var(--red)}
+.fg b.tl{color:var(--face)}
 .fg span{font-size:14px;color:var(--mute)}
 #map{height:min(78vh,760px);min-height:420px;background:var(--map);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .legend{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;color:var(--mute);margin-top:12px}
@@ -107,6 +108,7 @@ a{color:inherit}
 <div class="figs">
 <div class="fg"><b id="f1">51</b><span>center sites mapped (64 licenses)</span></div>
 <div class="fg"><b id="f2" class="red">–</b><span id="f2l">of main arterial length is inside a buffer</span></div>
+<div class="fg"><b id="f3" class="tl">–</b><span id="f3l">of the same arterial length would be inside a block face instead</span></div>
 </div>
 </div></section>
 
@@ -276,7 +278,18 @@ const cosL=Math.cos(37.87*Math.PI/180),M=111320;
 const toP=a=>a.map(s=>[s[0]*M,s[1]*M*cosL]);let ptsS=toP(SITES.map(s=>[s[4],s[5]]));
 const cov=ks=>{let tot=0,inside=0;ks.forEach(k=>(S[k]||[]).forEach(p=>{for(let i=1;i<p.length;i++){const a=[p[i-1][0]*M,p[i-1][1]*M*cosL],b=[p[i][0]*M,p[i][1]*M*cosL];const len=Math.hypot(b[0]-a[0],b[1]-a[1]);const n=Math.max(1,Math.ceil(len/8));for(let j=0;j<n;j++){const t=(j+.5)/n,x=a[0]+(b[0]-a[0])*t,y=a[1]+(b[1]-a[1])*t;tot+=len/n;for(const q of ptsS){if((x-q[0])**2+(y-q[1])**2<=R_M*R_M){inside+=len/n;break;}}}}}));return tot?Math.round(inside/tot*100):0;};
 const pA=cov(['1']),pB=cov(['1','2']);
-const base=SITES.map(s=>[s[4],s[5]]);(document.getElementById('c1')||{}).textContent=pA+'%';ptsS=toP(base.concat(HOMES.filter(h=>h[2]==='m')));(document.getElementById('c2')||{}).textContent=cov(['1'])+'%';ptsS=toP(base.concat(HOMES));(document.getElementById('c3')||{}).textContent=cov(['1'])+'%';
+const base=SITES.map(s=>[s[4],s[5]]);(document.getElementById('c1')||{}).textContent=pA+'%';ptsS=toP(base.concat(HOMES.filter(h=>h[2]==='m')));(document.getElementById('c2')||{}).textContent=cov(['1'])+'%';ptsS=toP(base.concat(HOMES));const pAll=cov(['1']);(document.getElementById('c3')||{}).textContent=pAll+'%';
+// the block-face rule, measured the same way: is this sample on a mapped block face?
+const FSEG=[];(FA['f']||[]).forEach(p=>{for(let i=1;i<p.length;i++)FSEG.push([[p[i-1][0]*M,p[i-1][1]*M*cosL],[p[i][0]*M,p[i][1]*M*cosL]]);});
+const CELL=60,TH=15,TH2=TH*TH,GI=new Map();
+FSEG.forEach((s,i)=>{const x0=Math.floor(Math.min(s[0][0],s[1][0])/CELL),x1=Math.floor(Math.max(s[0][0],s[1][0])/CELL),y0=Math.floor(Math.min(s[0][1],s[1][1])/CELL),y1=Math.floor(Math.max(s[0][1],s[1][1])/CELL);
+ for(let cx=x0;cx<=x1;cx++)for(let cy=y0;cy<=y1;cy++){const k=cx+','+cy;let a=GI.get(k);if(!a)GI.set(k,a=[]);a.push(i);}});
+const d2seg=(x,y,a,b)=>{const dx=b[0]-a[0],dy=b[1]-a[1],dd=dx*dx+dy*dy;let t=dd?((x-a[0])*dx+(y-a[1])*dy)/dd:0;t=t<0?0:t>1?1:t;const ex=x-(a[0]+t*dx),ey=y-(a[1]+t*dy);return ex*ex+ey*ey;};
+const onFace=(x,y)=>{for(let cx=Math.floor((x-TH)/CELL);cx<=Math.floor((x+TH)/CELL);cx++)for(let cy=Math.floor((y-TH)/CELL);cy<=Math.floor((y+TH)/CELL);cy++){const arr=GI.get(cx+','+cy);if(!arr)continue;for(const i of arr){const s=FSEG[i];if(d2seg(x,y,s[0],s[1])<TH2)return true;}}return false;};
+const covF=ks=>{let tot=0,inside=0;ks.forEach(k=>(S[k]||[]).forEach(p=>{for(let i=1;i<p.length;i++){const a=[p[i-1][0]*M,p[i-1][1]*M*cosL],b=[p[i][0]*M,p[i][1]*M*cosL];const len=Math.hypot(b[0]-a[0],b[1]-a[1]);const n=Math.max(1,Math.ceil(len/8));for(let j=0;j<n;j++){const t=(j+.5)/n,x=a[0]+(b[0]-a[0])*t,y=a[1]+(b[1]-a[1])*t;tot+=len/n;if(onFace(x,y))inside+=len/n;}}}));return tot?Math.round(inside/tot*1000)/10:0;};
+const pF=covF(['1']);
+document.getElementById('f3').textContent=pF+'%';
+document.getElementById('f3l').textContent=`of the same arterial length would be inside a block face instead; the 600-ft circles reach ${pAll}% over those ${SITES.length+HOMES.length} sites`;
 document.getElementById('f2').textContent=pA+'%';
 document.getElementById('f2l').textContent=`of main arterial length (San Pablo, University, Shattuck, etc.) is inside a buffer; ${pB}% counting collector streets too`;
 }
