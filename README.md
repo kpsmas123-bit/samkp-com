@@ -11,8 +11,11 @@ consulting.html    Two scroll-snap panels: Consulting (orange) + Work history (b
 resume.html        Resume
 precinct-map.html  Berkeley precinct map (embeds an external map app)
 d1/                Berkeley District 1 ranked-choice count: index.html + updates.json
+buffers/           Standalone Berkeley childcare buffer map (own styles, not in the nav)
 assets/site.css    The shared layer — every page links it. Change the brand here.
-assets/            logo.webp, logo-wordmark.webp, portrait.webp, texture.jpg, og-image.png
+assets/            logo.webp, logo-wordmark.webp, portrait.webp, texture.jpg, og-image.png,
+                   favicon.svg (every page links it), logos/ (resume stickers),
+                   work-samples/ (WebP only — export new samples as .webp, not .png)
 scripts/           build-updates.sh — polls the county, appends to d1/updates.json
 .github/           workflows/d1-updates.yml — runs that script on a schedule
 CNAME              samkp.com (custom domain)
@@ -52,6 +55,8 @@ On `consulting.html` both recipes live on one page, scoped to `.panel-consult` a
   small screens instead of pinning to the top, because it is too tall to float.
 - **Fonts:** Anton (headlines, uppercase), Lora (body serif), Poppins (nav/labels).
 - **Texture:** kraft photo on `soft-light` over the orange; SVG grain on `multiply` over the blue.
-- **Motion:** GSAP ScrollTrigger (scroll-reveal) and GSAP Flip (click-to-feature on the work
-  cards). Scroll-snap is native CSS (`scroll-snap-type: y proximity`). All motion respects
+- **Motion:** GSAP ScrollTrigger (scroll-reveal). The work cards' click-to-feature is plain
+  JS. Scroll-snap is native CSS (`scroll-snap-type: y proximity`). All motion respects
   `prefers-reduced-motion`.
+- **Phone nav:** below 640px the links run in one row at 13px and "Precinct map" shortens to
+  "Map" (the `.nav-long` span is hidden). Keep that span when editing the nav markup.

@@ -85,11 +85,16 @@ nav a:focus-visible{outline:2px solid var(--sh-color);outline-offset:3px}
 
 @media(max-width:640px){
   nav{gap:8px;padding:8px 16px;position:fixed;top:0;left:0;right:0;z-index:80;background:var(--field)}
-  nav ul{gap:4px}
-  nav a{font-size:14px;letter-spacing:.06em;min-height:44px;display:inline-flex;align-items:center;padding:0 7px}
+  /* One row on a phone. Five links at 14px ran 450px and wrapped to two rows
+     at 375, so the bar was 108px (158px with the wordmark). At 13px, with
+     "Precinct map" shortened to "Map", the row is ~320px and fits down to a
+     320px screen; nowrap keeps it from ever folding again. */
+  nav ul{gap:0;flex-wrap:nowrap;justify-content:center}
+  nav a{font-size:13px;letter-spacing:.05em;min-height:44px;display:inline-flex;align-items:center;padding:0 6px;white-space:nowrap}
+  nav .nav-long{display:none}
   /* a bar carrying the wordmark is too tall to float over the page, so it
      stays in flow on small screens; links-only bars still pin to the top. */
-  nav:has(.brand){position:static;padding:8px 14px;flex-direction:column;gap:6px}
+  nav:has(.brand){position:static;padding:8px 14px 2px;flex-direction:column;gap:2px}
   nav .brand img{height:30px}
   .site-footer{font-size:13px;padding:40px 20px 48px}
 
